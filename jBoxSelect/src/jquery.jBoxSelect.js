@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-16 11:32:44
+ * @Last Modified time: 2019-07-16 17:22:32
  */
 (function ($) {
     'use strict';
@@ -119,9 +119,9 @@
         _this.$element.find('.select-item').each(function(){
             var $thisEl=$(this);
             var elCoord = getElCoord($thisEl);
-            var isSelected=$thisEl.is(".select-item.selected-item");
+            var selected=$thisEl.attr("data-selected");
             if(isCross(selectBoxCoord,elCoord)){
-                $thisEl.is(".select-item.selected-item") && $thisEl.removeClass('selected-item').addClass("unselect-item");
+                $thisEl.is(".select-item.selected-item") && $thisEl.removeClass('selected-item selecting-item').addClass("unselect-item");
                 !$thisEl.is(".select-item.unselect-item") && $thisEl.addClass('selecting-item');
                 /*
                 if($thisEl.is(".select-item.selected-item")){
@@ -133,11 +133,13 @@
                     }
                 }*/
             }else{
-                if(isSelected && $thisEl.is(".select-item.unselect-item")){
-                    $thisEl.addClass('selecting-item');
+                console.log("selected:"+selected);
+                if($thisEl.is(".select-item.unselect-item")){
+                    $thisEl.addClass('selecting-item selected-item').removeClass("unselect-item");
                 }
                 else{
-                   $thisEl.removeClass('selecting-item');                  
+                    if(!$thisEl.is(".select-item.selected-item"))
+                        $thisEl.removeClass('selecting-item');                  
                 }
             }
         });
@@ -147,8 +149,8 @@
      * @param {object} _this 
      */
     var selectedEl=function(_this){
-        _this.$element.find('.select-item.selecting-item').removeClass('selecting-item').addClass('selected-item');
-        _this.$element.find('.select-item.unselect-item').removeClass('selecting-item selected-item unselect-item');
+        _this.$element.find('.select-item.selecting-item').removeClass('selecting-item unselecting-item').addClass('selected-item').attr("data-selected","Y");
+        _this.$element.find('.select-item.unselect-item').removeClass('selecting-item selected-item unselect-item').attr("data-selected","N");
         _this.$selectBox.hide();
     }
     /**
