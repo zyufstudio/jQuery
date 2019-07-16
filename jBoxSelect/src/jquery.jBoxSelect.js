@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-15 17:54:19
+ * @Last Modified time: 2019-07-16 11:32:44
  */
 (function ($) {
     'use strict';
@@ -49,11 +49,13 @@
             },
             "mouseup":function(e){
                 selectedEl(_this);
+                isdown=false;
             }
         });
         _this.$doc.on({
             "mouseup":function(e){
                 selectedEl(_this);
+                isdown=false;
             }
         });
     }
@@ -109,17 +111,34 @@
         return !(xNotCross || yNotCross);
     }
     /**
-     * 元素选中处理
+     * 选中元素处理
      * @param {object} _this 
      */
     var handleCrossEl=function(_this){
         var selectBoxCoord = getElCoord(_this.$selectBox);
         _this.$element.find('.select-item').each(function(){
-            var elCoord = getElCoord($(this));
+            var $thisEl=$(this);
+            var elCoord = getElCoord($thisEl);
+            var isSelected=$thisEl.is(".select-item.selected-item");
             if(isCross(selectBoxCoord,elCoord)){
-                $(this).addClass('selecting-item');
+                $thisEl.is(".select-item.selected-item") && $thisEl.removeClass('selected-item').addClass("unselect-item");
+                !$thisEl.is(".select-item.unselect-item") && $thisEl.addClass('selecting-item');
+                /*
+                if($thisEl.is(".select-item.selected-item")){
+                    $thisEl.removeClass('selected-item').addClass("unselect-item");
+                }
+                else{
+                    if(!$thisEl.is(".select-item.unselect-item")){
+                        $thisEl.addClass('selecting-item');
+                    }
+                }*/
             }else{
-               $(this).removeClass('selecting-item');
+                if(isSelected && $thisEl.is(".select-item.unselect-item")){
+                    $thisEl.addClass('selecting-item');
+                }
+                else{
+                   $thisEl.removeClass('selecting-item');                  
+                }
             }
         });
     }
@@ -129,8 +148,8 @@
      */
     var selectedEl=function(_this){
         _this.$element.find('.select-item.selecting-item').removeClass('selecting-item').addClass('selected-item');
+        _this.$element.find('.select-item.unselect-item').removeClass('selecting-item selected-item unselect-item');
         _this.$selectBox.hide();
-        isdown=false;
     }
     /**
      * 清除冒泡和捕获
