@@ -2,8 +2,12 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-16 17:50:53
+ * @Last Modified time: 2019-07-18 14:21:50
  */
+
+/** 
+ * 
+*/
 (function ($) {
     'use strict';
     var JBoxSelect = function (element, options) {
@@ -15,10 +19,13 @@
         this.options = $.extend({}, JBoxSelect.Defaults, options);
         this.init();
     }
-    JBoxSelect.Defaults = {}
+    //配置参数
+    JBoxSelect.Defaults = {
+        SelectCB:function(selectedEls,unselectedEls){},          //选择回调函数,松开鼠标左键时触发
+    }
     JBoxSelect.prototype.init=function(){
         var _this=this;
-        var options=_this.options;
+        var opts=_this.options;
         var startX=0;
         var startY=0;
         var isdown=false;
@@ -46,10 +53,6 @@
                     handleCrossEl(_this);
                     clearBubble(e);
                 }
-            },
-            "mouseup":function(e){
-                selectedEl(_this);
-                isdown=false;
             }
         });
         _this.$doc.on({
@@ -115,29 +118,26 @@
      * @param {object} _this 
      */
     var handleCrossEl=function(_this){
+        var opts=_this.options;
         var selectBoxCoord = getElCoord(_this.$selectBox);
         _this.$element.find('.select-item').each(function(){
             var $thisEl=$(this);
             var elCoord = getElCoord($thisEl);
             if(isCross(selectBoxCoord,elCoord)){
-                $thisEl.is(".select-item.selected-item") && $thisEl.removeClass('selected-item selecting-item').addClass("unselect-item");
-                !$thisEl.is(".select-item.unselect-item") && $thisEl.addClass('selecting-item');
-                /*
+                //$thisEl.is(".select-item.selected-item") && $thisEl.removeClass('selected-item selecting-item').addClass("unselecting-item");
+                //!$thisEl.is(".select-item.unselecting-item") && $thisEl.addClass('selecting-item');
                 if($thisEl.is(".select-item.selected-item")){
-                    $thisEl.removeClass('selected-item').addClass("unselect-item");
+                    $thisEl.removeClass('selected-item selecting-item').addClass("unselecting-item");
                 }
-                else{
-                    if(!$thisEl.is(".select-item.unselect-item")){
-                        $thisEl.addClass('selecting-item');
-                    }
-                }*/
+                else if(!$thisEl.is(".select-item.unselecting-item")){
+                    $thisEl.addClass('selecting-item');
+                }
             }else{
-                if($thisEl.is(".select-item.unselect-item")){
-                    $thisEl.addClass('selected-item').removeClass("unselect-item");
+                if($thisEl.is(".select-item.unselecting-item")){
+                    $thisEl.addClass('selected-item').removeClass("unselecting-item");
                 }
                 else{
-                    //if(!$thisEl.is(".select-item.selected-item"))
-                        $thisEl.removeClass('selecting-item');                  
+                    $thisEl.removeClass('selecting-item');                  
                 }
             }
         });
@@ -147,9 +147,13 @@
      * @param {object} _this 
      */
     var selectedEl=function(_this){
-        _this.$element.find('.select-item.selecting-item').removeClass('selecting-item').addClass('selected-item')
-        _this.$element.find('.select-item.unselect-item').removeClass('selecting-item selected-item unselect-item')
+        var opts=_this.options;
+        _this.$element.find('.select-item.selecting-item').removeClass('selecting-item').addClass('selected-item');
+        _this.$element.find('.select-item.unselecting-item').removeClass('selecting-item selected-item unselecting-item');
         _this.$selectBox.hide();
+        var selectedEls=_this.$element.find(".select-item.selected-item");
+        var unselectedEls=_this.$element.find(".select-item:not(.selected-item)");
+        opts.SelectCB(selectedEls,unselectedEls);
     }
     /**
      * 清除冒泡和捕获
@@ -177,7 +181,7 @@
                 var data=new JBoxSelect(this, options);
                 $this.data('boxselect',data);               
             }
-        })
+        });
     }
     var old = $.fn.JBoxSelect;
     $.fn.JBoxSelect = Plugin;
