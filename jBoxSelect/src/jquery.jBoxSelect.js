@@ -53,6 +53,10 @@
                     handleCrossEl(_this);
                     clearBubble(e);
                 }
+            },
+            "mouseup":function(e){
+                selectedEl(_this);
+                isdown=false;
             }
         });
         _this.$doc.off("mouseup").on({
