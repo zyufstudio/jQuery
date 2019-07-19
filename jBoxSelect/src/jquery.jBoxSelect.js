@@ -55,7 +55,7 @@
                 }
             }
         });
-        _this.$doc.on({
+        _this.$doc.off("mouseup").on({
             "mouseup":function(e){
                 selectedEl(_this);
                 isdown=false;
