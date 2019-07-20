@@ -51,6 +51,9 @@
         this.$body.find(".modal-backdrop").remove();
         this.$body.removeClass("modal-open");
     }
+    JDialog.prototype.destroy=function(){
+        this.currentDialog.remove();
+    }
     /**
      * 渲染对话框
      * @param {object} _this object this
@@ -273,7 +276,7 @@
                 $this.data('bsmodal',data);               
             }
             if (typeof option == 'string') {
-                var methods=["show","hide"];
+                var methods=["show","hide","destroy"];
                 if($.inArray(option,methods)<0) {
                     console.error('方法:jDialog("{0}")不存在!'.format(option));
                     return false;
