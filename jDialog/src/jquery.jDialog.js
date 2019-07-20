@@ -53,6 +53,7 @@
     }
     JDialog.prototype.destroy=function(){
         this.currentDialog.remove();
+        this.$element.removeData("bsmodal");
     }
     /**
      * 渲染对话框
