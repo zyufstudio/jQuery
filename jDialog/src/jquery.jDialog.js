@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-22 15:03:37
+ * @Last Modified time: 2019-07-22 17:40:41
  */
 (function ($) {
     'use strict';
@@ -277,7 +277,7 @@
                 $this.data('bsmodal',data);               
             }
             if (typeof option == 'string') {
-                var methods=["show","hide"];
+                var methods=["show","hide","destroy"];
                 if($.inArray(option,methods)<0) {
                     console.error('方法:jDialog("{0}")不存在!'.format(option));
                     return false;
