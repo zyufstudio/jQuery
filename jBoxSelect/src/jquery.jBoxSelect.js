@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-18 14:21:50
+ * @Last Modified time: 2019-07-22 14:26:07
  */
 
 /** 
@@ -20,9 +20,7 @@
         this.init();
     }
     //配置参数
-    JBoxSelect.Defaults = {
-        SelectCB:function(selectedEls,unselectedEls){},          //选择回调函数,松开鼠标左键时触发
-    }
+    JBoxSelect.Defaults = {}
     JBoxSelect.prototype.init=function(){
         var _this=this;
         var opts=_this.options;
