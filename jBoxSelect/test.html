@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery框选</title>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+    <script src="./src/jquery.jBoxSelect.js"></script>
+    <style>
+            .container {
+                padding: 20px;
+                margin: 100px 100px 20px;
+                border: 1px solid #ddd;
+                text-align: center;
+            }
+    
+            .select-box-container {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+    
+            .select-box-container .toggle-all-container {
+                margin-bottom: 25px;
+            }
+    
+            .select-item {
+                display: inline-block;
+                width: 100px;
+                height: 100px;
+                text-align: center;
+                line-height: 100px;
+                font-size: 12px;
+                border: 1px solid #ccc;
+                margin-right: 10px;
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+            .select-item.selected-item,
+            .select-item.selecting-item {
+                background-color: #ddd;
+            }
+        </style>
+</head>
+<body>
+    <div class="container select-box-container">
+        <div class="toggle-all-container">
+            <a href="javascript:;" class="btn btn-md btn-default toggle-all-btn">全选/取消全选</a>
+        </div>
+        <div class="select-item">file1</div>
+        <div class="select-item">file2</div>
+        <div class="select-item">file3</div>
+        <div class="select-item">file4</div>
+        <div class="select-item">file5</div>
+        <div class="select-item">file6</div>
+        <div class="select-item">file7</div>
+        <div class="select-item">file8</div>
+        <div class="select-item">file9</div>
+        <div class="select-item">file10</div>
+        <div class="select-item">file11</div>
+        <div class="select-item">file12</div>
+        <div class="select-item">file13</div>
+        <div class="select-item">file14</div>
+        <div class="select-item">file15</div>
+        <div class="select-item">file16</div>
+        <div class="select-item">file17</div>
+    </div>
+
+    <div style="margin:20px 100px;">
+        <h4>选中文件：</h4>
+        <div id="data"></div>
+    </div>
+</body>
+</html>
+<script>
+    $(function(){
+        $(".container").JBoxSelect({
+            SelectCB(s,us){
+                console.log(s);
+                console.log(us);
+                
+            }
+        });
+    })
+</script>
