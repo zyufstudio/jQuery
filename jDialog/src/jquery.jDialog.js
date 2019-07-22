@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-22 14:29:27
+ * @Last Modified time: 2019-07-22 15:03:37
  */
 (function ($) {
     'use strict';
@@ -39,7 +39,7 @@
     JDialog.prototype.show=function(){
         //对话框打开位置
         var left= ($(window).width()*0.5)-(this.currentDialog.width()*0.5); //水平居中
-        var top=($(window).height()*0.5)-(this.currentDialog.height()*0.5); //水平居中//100;
+        var top=($(window).height()*0.5)-(this.currentDialog.height()*0.5); //垂直居中;
         this.currentDialog.css({"left":left,"top":top});
         this.$body.append("<div class='JDialog-backdrop'></div>");
         this.$body.addClass("JDialog-open");
