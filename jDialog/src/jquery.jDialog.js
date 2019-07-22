@@ -30,7 +30,7 @@
         var _this=this;
         var options=_this.options;
         var id=DialogID(_this);
-        var DialogId="modal_"+id;
+        var DialogId="JDialog_"+id;
         _this.currentDialogID=DialogId;
         RenderDialog(_this);
         BindEvent(_this);
@@ -39,21 +39,17 @@
     JDialog.prototype.show=function(){
         //对话框打开位置
         var left= ($(window).width()*0.5)-(this.currentDialog.width()*0.5); //水平居中
-        var top=100;
+        var top=($(window).height()*0.5)-(this.currentDialog.height()*0.5); //水平居中//100;
         this.currentDialog.css({"left":left,"top":top});
-        this.$body.append("<div class='modal-backdrop'></div>");
-        this.$body.addClass("modal-open");
+        this.$body.append("<div class='JDialog-backdrop'></div>");
+        this.$body.addClass("JDialog-open");
         this.currentDialog.show();
         CalcModalDialogHeight(this);
     }
     JDialog.prototype.hide=function(){
         this.currentDialog.hide();
-        this.$body.find(".modal-backdrop").remove();
-        this.$body.removeClass("modal-open");
-    }
-    JDialog.prototype.destroy=function(){
-        this.currentDialog.remove();
-        this.$element.removeData("bsmodal");
+        this.$body.find(".JDialog-backdrop").remove();
+        this.$body.removeClass("JDialog-open");
     }
     /**
      * 渲染对话框
@@ -67,39 +63,39 @@
         var height=options.height;
         height=height<options.minHeight?options.minHeight:height;
         //Dialog Html
-        dialogHtml.push("<div id='{0}' class='modal' style='display:none;'>".format(_this.currentDialogID));
-        dialogHtml.push("<div class='modal-dialog' style='width:{0};height:{1}'>".format(width+"px",height+"px"));
+        dialogHtml.push("<div id='{0}' class='JDialog' style='display:none;'>".format(_this.currentDialogID));
+        dialogHtml.push("<div class='JDialog-dialog' style='width:{0};height:{1}'>".format(width+"px",height+"px"));
         //上边框拖拽
-        dialogHtml.push("<div class='modal-resizable-handle {0}'></div>".format(options.resizable?"modal-resizable-n":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-n":""));
         //右边框拖拽
-        dialogHtml.push("<div class='modal-resizable-handle {0}'></div>".format(options.resizable?"modal-resizable-e":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-e":""));
         //下边框拖拽
-        dialogHtml.push("<div class='modal-resizable-handle {0}'></div>".format(options.resizable?"modal-resizable-s":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-s":""));
         //左边框拖拽
-        dialogHtml.push("<div class='modal-resizable-handle {0}'></div>".format(options.resizable?"modal-resizable-w":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-w":""));
         //右下角拖拽
-        dialogHtml.push("<div class='modal-resizable-handle {0}'></div>".format(options.resizable?"modal-resizable-se":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-se":""));
         //左下角拖拽
-        dialogHtml.push("<div class='modal-resizable-handle {0}'></div>".format(options.resizable?"modal-resizable-sw":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-sw":""));
 
-        dialogHtml.push("<div class='modal-content'>");
+        dialogHtml.push("<div class='JDialog-content'>");
         
         //Dialog Header
-        dialogHtml.push("<div class='modal-header'>");
+        dialogHtml.push("<div class='JDialog-header'>");
         //Close btn
         dialogHtml.push("<button type='button' class='close'><span>×</span></button>");
         //Dialog Title
-        dialogHtml.push("<h4 class='modal-title'>{0}</h4>".format(options.title));
+        dialogHtml.push("<h4 class='JDialog-title'>{0}</h4>".format(options.title));
         dialogHtml.push("</div>");
 
         //Dialog Body
-        dialogHtml.push("<div class='modal-body'>");
+        dialogHtml.push("<div class='JDialog-body'>");
         dialogHtml.push(_this.$element.html());
         dialogHtml.push("</div>");
 
         //Dialog Footer    
         if(!$.isEmptyObject(options.buttons)){
-            dialogHtml.push("<div class='modal-footer'>");
+            dialogHtml.push("<div class='JDialog-footer'>");
             $.each(options.buttons,function(k,v){
                 dialogHtml.push("<button class='btn btn-default'>{0}</button>".format(k));
             });
@@ -117,11 +113,11 @@
      * @returns {number}
      */
     var DialogID=function(_this){
-        var modals=_this.$body.children(".modal");
+        var modals=_this.$body.children(".JDialog");
         var modalIDSeqs=[];
         modals.each(function(index,element){
             var $el=$(element);
-            var idSeq=parseInt($el.attr("id").replace("modal_",""));
+            var idSeq=parseInt($el.attr("id").replace("JDialog_",""));
             modalIDSeqs.push(idSeq);
         });
         var maxIDSeq=modalIDSeqs.length?modalIDSeqs.max():0;
@@ -135,7 +131,7 @@
     var Interactions=function(_this){
         var options=_this.options;
         //对话框拖拽
-        _this.currentDialog.find(".modal-header").off().mouseover(function(){
+        _this.currentDialog.find(".JDialog-header").off().mouseover(function(){
             $(this).css("cursor","move");
 		}).mousedown(function(e){
 		    var move = true; 
@@ -153,18 +149,18 @@
         //缩放
         if(options.resizable){
             //边框拖动改变大小
-            _this.currentDialog.find(".modal-dialog .modal-resizable-handle").off().mousedown(function(e){
+            _this.currentDialog.find(".JDialog-dialog .JDialog-resizable-handle").off().mousedown(function(e){
                 var $this=$(this);
                 var classList=$this.attr("class");
                 var dir=classList.split(" ")[1].split("-")[2];
                 var clickY,firstClickY,offsetY, topOffset,modalDialogHeight,clickX,offsetX,firstClickX, leftOffset,dragging,modalDialogWidth;
                 dragging = true;
-                topOffset = $this.parent(".modal-dialog").offset().top;
+                topOffset = $this.parent(".JDialog-dialog").offset().top;
                 firstClickY=e.pageY;
-                modalDialogHeight=$this.parent(".modal-dialog").outerHeight();                
-                leftOffset = $this.parent(".modal-dialog").offset().left;
+                modalDialogHeight=$this.parent(".JDialog-dialog").outerHeight();                
+                leftOffset = $this.parent(".JDialog-dialog").offset().left;
                 firstClickX=e.pageX;
-                modalDialogWidth=$this.parent(".modal-dialog").outerWidth();
+                modalDialogWidth=$this.parent(".JDialog-dialog").outerWidth();
                 _this.$doc.mousemove(function (e) { 
                     if (dragging) {
                         clickY = e.pageY;
@@ -176,29 +172,29 @@
                             case "n":
                                 var height=modalDialogHeight-offsetY;
                                 height=height<options.minHeight?options.minHeight:height;
-                                $this.parent(".modal-dialog").height(height+"px");
-                                $this.parents(".modal").css("top",topOffset+modalDialogHeight-height+"px");
+                                $this.parent(".JDialog-dialog").height(height+"px");
+                                $this.parents(".JDialog").css("top",topOffset+modalDialogHeight-height+"px");
                                 CalcModalDialogHeight(_this);
                                 break;
                             //右边框
                             case "e":
                                 var width=modalDialogWidth+offsetX;
                                 width=width<options.minWidth?options.minWidth:width;
-                                $this.parent(".modal-dialog").width(width+'px');
+                                $this.parent(".JDialog-dialog").width(width+'px');
                                 break;
                             //下边框
                             case "s":
                                 var height=modalDialogHeight+offsetY;
                                 height=height<options.minHeight?options.minHeight:height;
-                                $this.parent(".modal-dialog").height(height + 'px');
+                                $this.parent(".JDialog-dialog").height(height + 'px');
                                 CalcModalDialogHeight(_this);
                                 break;
                             //左边框
                             case "w":
                                 var width=modalDialogWidth-offsetX;
                                 width=width<options.minWidth?options.minWidth:width;
-                                $this.parent(".modal-dialog").width(width+ 'px');
-                                $this.parents(".modal").css("left",leftOffset+(modalDialogWidth-width)+"px");
+                                $this.parent(".JDialog-dialog").width(width+ 'px');
+                                $this.parents(".JDialog").css("left",leftOffset+(modalDialogWidth-width)+"px");
                                 break;
                             //右下角
                             case "se":
@@ -206,8 +202,8 @@
                                 width=width<options.minWidth?options.minWidth:width;
                                 var height=modalDialogHeight+offsetY;
                                 height=height<options.minHeight?options.minHeight:height;
-                                $this.parent(".modal-dialog").width(width + 'px');
-                                $this.parent(".modal-dialog").height(height + 'px');
+                                $this.parent(".JDialog-dialog").width(width + 'px');
+                                $this.parent(".JDialog-dialog").height(height + 'px');
                                 CalcModalDialogHeight(_this);
                                 break;
                             //左下角
@@ -216,9 +212,9 @@
                                 height=height<options.minHeight?options.minHeight:height;
                                 var width=modalDialogWidth-offsetX;
                                 width=width<options.minWidth?options.minWidth:width;
-                                $this.parent(".modal-dialog").width(width + 'px');
-                                $this.parent(".modal-dialog").height(height+ 'px');
-                                $this.parents(".modal").css("left",leftOffset+(modalDialogWidth-width)+"px");
+                                $this.parent(".JDialog-dialog").width(width + 'px');
+                                $this.parent(".JDialog-dialog").height(height+ 'px');
+                                $this.parents(".JDialog").css("left",leftOffset+(modalDialogWidth-width)+"px");
                                 CalcModalDialogHeight(_this);
                                 break;
                             default:
@@ -241,14 +237,14 @@
     var BindEvent=function(_this){
         var options=_this.options;
         //对话框关闭按钮
-        _this.currentDialog.find("div.modal-content div.modal-header button.close").off("click").on("click",function(event){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-header button.close").off("click").on("click",function(event){
             _this.hide();           
             if (options.close) {
                 typeof options.close === 'function' && options.close(event);
             }
         });
         //Footer btn
-        _this.currentDialog.find("div.modal-content div.modal-footer button").off("click").on("click",function(){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-footer button").off("click").on("click",function(){
             var $targetel=$(this); 
             options.buttons[$targetel.text()](this,event);
         });
@@ -259,13 +255,13 @@
      */
     var CalcModalDialogHeight=function(_this){
         var options=_this.options;
-        var modal_dialog_height=_this.currentDialog.find(".modal-dialog").height();
-        var modal_body_padding_height=_this.currentDialog.find(".modal-body").outerHeight()-_this.currentDialog.find(".modal-body").height();
-        var modal_header_outer_height= _this.currentDialog.find(".modal-header").outerHeight();
-        var modal_footer_outer_height =_this.currentDialog.find(".modal-footer").outerHeight();
+        var modal_dialog_height=_this.currentDialog.find(".JDialog-dialog").height();
+        var modal_body_padding_height=_this.currentDialog.find(".JDialog-body").outerHeight()-_this.currentDialog.find(".JDialog-body").height();
+        var modal_header_outer_height= _this.currentDialog.find(".JDialog-header").outerHeight();
+        var modal_footer_outer_height =_this.currentDialog.find(".JDialog-footer").outerHeight();
         //console.log("modal_dialog_height:"+modal_dialog_height+",modal_body_padding_height:"+modal_body_padding_height+",modal_header_outer_height:"+modal_header_outer_height+",modal_footer_outer_height:"+modal_footer_outer_height);
         var modal_body_height=(modal_dialog_height-modal_body_padding_height-modal_header_outer_height-modal_footer_outer_height).toString()+"px";
-        _this.currentDialog.find(".modal-body").height(modal_body_height);
+        _this.currentDialog.find(".JDialog-body").height(modal_body_height);
     }
     function Plugin(option) {
         return this.each(function () {
@@ -277,7 +273,7 @@
                 $this.data('bsmodal',data);               
             }
             if (typeof option == 'string') {
-                var methods=["show","hide","destroy"];
+                var methods=["show","hide"];
                 if($.inArray(option,methods)<0) {
                     console.error('方法:jDialog("{0}")不存在!'.format(option));
                     return false;

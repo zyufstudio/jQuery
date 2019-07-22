@@ -86,11 +86,11 @@
 }
 
 //对话框
-@modal-content-border-radius:6px;   //边框圆角
-@modal-split-line-color:#e5e5e5;//分割线颜色
+@JDialog-content-border-radius:6px;   //边框圆角
+@JDialog-split-line-color:#e5e5e5;//分割线颜色
 @border-radius:4px;
 //蒙版
-.modal-backdrop {
+.JDialog-backdrop {
     position: fixed;
     top: 0;
     right: 0;
@@ -102,10 +102,10 @@
 
 }
 //隐藏滚动条
-.modal-open {
+.JDialog-open {
     overflow: hidden;
 }  
-.modal{
+.JDialog{
     position: fixed;
     left: 50%;
     top: 50%;
@@ -113,14 +113,15 @@
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
     outline: 0;
+    font-family: arial,sans-serif;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    >.modal-dialog {
+    >.JDialog-dialog {
         position: relative;
         //边框拖拽
-        .modal-resizable-handle{
+        .JDialog-resizable-handle{
             position: absolute;
             font-size: 0.1px;
             display: block;
@@ -128,7 +129,7 @@
             touch-action: none;
             z-index: 999;
             //上边框
-            &.modal-resizable-n{
+            &.JDialog-resizable-n{
                 cursor: n-resize;
                 height: 7px;
                 width: 100%;
@@ -136,7 +137,7 @@
                 left: 0;
             }
             //右边框
-            &.modal-resizable-e{
+            &.JDialog-resizable-e{
                 cursor: e-resize;
                 width: 7px;
                 right: -5px;
@@ -144,7 +145,7 @@
                 height: 100%;
             }
             //下边框
-            &.modal-resizable-s{
+            &.JDialog-resizable-s{
                 cursor: s-resize;
                 height: 7px;
                 width: 100%;
@@ -152,7 +153,7 @@
                 left: 0;
             }
             //左边框
-            &.modal-resizable-w{
+            &.JDialog-resizable-w{
                 cursor: w-resize;
                 width: 7px;
                 left: -5px;
@@ -160,7 +161,7 @@
                 height: 100%;
             }
             //右下角
-            &.modal-resizable-se{
+            &.JDialog-resizable-se{
                 cursor: se-resize;
                 width: 16px;
                 height:16px;
@@ -171,7 +172,7 @@
                 background-repeat:no-repeat;
             }
             //左下角
-            &.modal-resizable-sw{
+            &.JDialog-resizable-sw{
                 cursor: sw-resize;
                 width: 16px;
                 height:16px;
@@ -182,22 +183,23 @@
                 background-repeat:no-repeat;
             }
         }
-        >.modal-content {
+        >.JDialog-content {
             position: relative;
             background-color: #ffffff;
             border: 1px solid rgba(0,0,0,0.2);
-            #Fun>#border-radius>.border-left-radius(@modal-content-border-radius);
-            #Fun>#border-radius>.border-right-radius(@modal-content-border-radius);
+            #Fun>#border-radius>.border-left-radius(@JDialog-content-border-radius);
+            #Fun>#border-radius>.border-right-radius(@JDialog-content-border-radius);
             background-clip: padding-box;
             outline: 0;
-            >.modal-header {
+            >.JDialog-header {
                 padding: 5px;
-                border-bottom: 1px solid @modal-split-line-color;
-                >.modal-title{
+                border-bottom: 1px solid @JDialog-split-line-color;
+                >.JDialog-title{
                     margin: 0;
                     padding-left:5px; 
                     line-height: 1.42857143;
                     text-align: left;
+                    font-size: 16px;
                 }
                 >.close{
                     float: right;
@@ -218,16 +220,15 @@
                     }
                 }
             }
-            >.modal-body {
+            >.JDialog-body {
                 position: relative;
                 padding: 10px 15px;
                 overflow: auto;
             }
-            >.modal-footer{
+            >.JDialog-footer{
                 padding: 15px;
-                height: 31px;
                 text-align: right; 
-                border-top: 1px solid @modal-split-line-color;
+                border-top: 1px solid @JDialog-split-line-color;
                 >.btn{
                     display: inline-block;
                     color: #333;

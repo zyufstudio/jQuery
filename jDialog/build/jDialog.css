@@ -4,7 +4,7 @@
  * @Last Modified by:   JohnnyLi 
  * @Last Modified time: 2019-07-01 17:25:22 
  */
-.modal-backdrop {
+.JDialog-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -14,10 +14,10 @@
   background-color: #000;
   opacity: 0.5;
 }
-.modal-open {
+.JDialog-open {
   overflow: hidden;
 }
-.modal {
+.JDialog {
   position: fixed;
   left: 50%;
   top: 50%;
@@ -25,15 +25,16 @@
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
   outline: 0;
+  font-family: arial, sans-serif;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-.modal > .modal-dialog {
+.JDialog > .JDialog-dialog {
   position: relative;
 }
-.modal > .modal-dialog .modal-resizable-handle {
+.JDialog > .JDialog-dialog .JDialog-resizable-handle {
   position: absolute;
   font-size: 0.1px;
   display: block;
@@ -41,35 +42,35 @@
   touch-action: none;
   z-index: 999;
 }
-.modal > .modal-dialog .modal-resizable-handle.modal-resizable-n {
+.JDialog > .JDialog-dialog .JDialog-resizable-handle.JDialog-resizable-n {
   cursor: n-resize;
   height: 7px;
   width: 100%;
   top: -5px;
   left: 0;
 }
-.modal > .modal-dialog .modal-resizable-handle.modal-resizable-e {
+.JDialog > .JDialog-dialog .JDialog-resizable-handle.JDialog-resizable-e {
   cursor: e-resize;
   width: 7px;
   right: -5px;
   top: 0;
   height: 100%;
 }
-.modal > .modal-dialog .modal-resizable-handle.modal-resizable-s {
+.JDialog > .JDialog-dialog .JDialog-resizable-handle.JDialog-resizable-s {
   cursor: s-resize;
   height: 7px;
   width: 100%;
   bottom: -5px;
   left: 0;
 }
-.modal > .modal-dialog .modal-resizable-handle.modal-resizable-w {
+.JDialog > .JDialog-dialog .JDialog-resizable-handle.JDialog-resizable-w {
   cursor: w-resize;
   width: 7px;
   left: -5px;
   top: 0;
   height: 100%;
 }
-.modal > .modal-dialog .modal-resizable-handle.modal-resizable-se {
+.JDialog > .JDialog-dialog .JDialog-resizable-handle.JDialog-resizable-se {
   cursor: se-resize;
   width: 16px;
   height: 16px;
@@ -79,7 +80,7 @@
   background-size: 14px 14px;
   background-repeat: no-repeat;
 }
-.modal > .modal-dialog .modal-resizable-handle.modal-resizable-sw {
+.JDialog > .JDialog-dialog .JDialog-resizable-handle.JDialog-resizable-sw {
   cursor: sw-resize;
   width: 16px;
   height: 16px;
@@ -89,7 +90,7 @@
   background-size: 14px 14px;
   background-repeat: no-repeat;
 }
-.modal > .modal-dialog > .modal-content {
+.JDialog > .JDialog-dialog > .JDialog-content {
   position: relative;
   background-color: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -100,17 +101,18 @@
   background-clip: padding-box;
   outline: 0;
 }
-.modal > .modal-dialog > .modal-content > .modal-header {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header {
   padding: 5px;
   border-bottom: 1px solid #e5e5e5;
 }
-.modal > .modal-dialog > .modal-content > .modal-header > .modal-title {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-title {
   margin: 0;
   padding-left: 5px;
   line-height: 1.42857143;
   text-align: left;
+  font-size: 16px;
 }
-.modal > .modal-dialog > .modal-content > .modal-header > .close {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .close {
   float: right;
   padding: 0;
   background: 0 0;
@@ -125,21 +127,20 @@
   opacity: 0.5;
   -webkit-appearance: none;
 }
-.modal > .modal-dialog > .modal-content > .modal-header > .close:hover {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .close:hover {
   opacity: 0.7;
 }
-.modal > .modal-dialog > .modal-content > .modal-body {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-body {
   position: relative;
   padding: 10px 15px;
   overflow: auto;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer {
   padding: 15px;
-  height: 31px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn {
   display: inline-block;
   color: #333;
   background-color: #fff;
@@ -166,55 +167,55 @@
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:focus,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.focus {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:focus,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.focus {
   color: #333;
   background-color: #e6e6e6;
   border-color: #8c8c8c;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:hover {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:hover {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:active,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.active {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:active,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.active {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:active:hover,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.active:hover,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:active:focus,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.active:focus,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:active.focus,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.active.focus {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:active:hover,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.active:hover,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:active:focus,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.active:focus,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:active.focus,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.active.focus {
   color: #333;
   background-color: #d4d4d4;
   border-color: #8c8c8c;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:active,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.active {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:active,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.active {
   background-image: none;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.disabled:hover,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default[disabled]:hover,
-fieldset[disabled] .modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:hover,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.disabled:focus,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default[disabled]:focus,
-fieldset[disabled] .modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default:focus,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.disabled.focus,
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default[disabled].focus,
-fieldset[disabled] .modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default.focus {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.disabled:hover,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default[disabled]:hover,
+fieldset[disabled] .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:hover,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.disabled:focus,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default[disabled]:focus,
+fieldset[disabled] .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:focus,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.disabled.focus,
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default[disabled].focus,
+fieldset[disabled] .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default.focus {
   background-color: #fff;
   border-color: #ccc;
 }
-.modal > .modal-dialog > .modal-content > .modal-footer > .btn.btn-default .badge {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default .badge {
   color: #fff;
   background-color: #333;
 }
