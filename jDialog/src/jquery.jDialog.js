@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-02 09:26:06
+ * @Last Modified time: 2019-07-22 14:29:27
  */
 (function ($) {
     'use strict';
@@ -50,6 +50,10 @@
         this.currentDialog.hide();
         this.$body.find(".JDialog-backdrop").remove();
         this.$body.removeClass("JDialog-open");
+    }
+    JDialog.prototype.destroy=function(){
+        this.currentDialog.remove();
+        this.$element.removeData("bsmodal");
     }
     /**
      * 渲染对话框
