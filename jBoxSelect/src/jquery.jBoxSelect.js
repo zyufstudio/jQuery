@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-22 14:26:07
+ * @Last Modified time: 2019-07-23 11:50:14
  */
 
 /** 
@@ -153,9 +153,8 @@
         _this.$element.find('.select-item.selecting-item').removeClass('selecting-item').addClass('selected-item');
         _this.$element.find('.select-item.unselecting-item').removeClass('selecting-item selected-item unselecting-item');
         _this.$selectBox.hide();
-        var selectedEls=_this.$element.find(".select-item.selected-item");
-        var unselectedEls=_this.$element.find(".select-item:not(.selected-item)");
-        opts.SelectCB(selectedEls,unselectedEls);
+        //var selectedEls=_this.$element.find(".select-item.selected-item");
+        //var unselectedEls=_this.$element.find(".select-item:not(.selected-item)");
     }
     /**
      * 清除冒泡和捕获
