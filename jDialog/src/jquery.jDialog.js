@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-22 17:40:41
+ * @Last Modified time: 2019-07-23 11:32:52
  */
 (function ($) {
     'use strict';
@@ -22,6 +22,7 @@
         height:220,
         minWidth:150,       //最小宽度
         minHeight:150,      //最小高度
+        closeOnEscape:true, //对话框有焦点时，按下ESC键是否关闭对话框
         resizable:true,     //是否允许拖拽缩放窗体大小
         buttons:{},         //按钮,注意:key值不能重复,最多支持5个按钮. e.g:{"text":function(TargetElement,TargetEvent){},...}
         close:function(event){}, //对话框关闭后(点击关闭按钮之后)的回调函数
@@ -67,7 +68,7 @@
         var height=options.height;
         height=height<options.minHeight?options.minHeight:height;
         //Dialog Html
-        dialogHtml.push("<div id='{0}' class='JDialog' style='display:none;'>".format(_this.currentDialogID));
+        dialogHtml.push("<div id='{0}' class='JDialog' tabindex='-1' style='display:none;'>".format(_this.currentDialogID));
         dialogHtml.push("<div class='JDialog-dialog' style='width:{0};height:{1}'>".format(width+"px",height+"px"));
         //上边框拖拽
         dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-n":""));
@@ -251,6 +252,15 @@
         _this.currentDialog.find("div.JDialog-content div.JDialog-footer button").off("click").on("click",function(){
             var $targetel=$(this); 
             options.buttons[$targetel.text()](this,event);
+        });
+        //ESC关闭对话框
+        _this.currentDialog.on("keydown",function(e){
+            if(options.closeOnEscape && e.keyCode==27){
+                _this.hide();           
+                if (options.close) {
+                    typeof options.close === 'function' && options.close(event);
+                }
+            }
         });
     }
     /**
