@@ -98,17 +98,23 @@
                     //alert("已关闭")
                     console.log("clo");
                 },
-                buttons:{
-                    "确定":function(obj,ev){
-                        console.log(obj);
-                        console.log(ev);
-                        $("#imglst").jDialog("hide");
+                buttons:[
+                    {
+                        text:"确定",
+                        fn:function(obj,ev){
+                            console.log(obj);
+                            console.log(ev);
+                            $("#imglst").jDialog("hide");
+                        }
                     },
-                    "取消":function(){
-                        console.log(this);
-                        console.log(event);
-                    },
-                }
+                    {
+                        text:"取消",
+                        fn:function(){
+                            console.log(this);
+                            console.log(event);
+                        }
+                    }
+                ]
             });
             $("#imglst").jDialog("show")
         })

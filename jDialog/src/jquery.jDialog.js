@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-23 11:32:52
+ * @Last Modified time: 2019-07-30 15:06:20
  */
 (function ($) {
     'use strict';
@@ -10,6 +10,7 @@
         this.$element = $(element);
         this.$body=$("html body");
         this.$doc=$(document);
+        FormatArray(JDialog.Defaults,options);
         this.options = $.extend({}, JDialog.Defaults, options);
         this.currentDialog="";
         this.currentDialogID="";
@@ -24,7 +25,21 @@
         minHeight:150,      //最小高度
         closeOnEscape:true, //对话框有焦点时，按下ESC键是否关闭对话框
         resizable:true,     //是否允许拖拽缩放窗体大小
-        buttons:{},         //按钮,注意:key值不能重复,最多支持5个按钮. e.g:{"text":function(TargetElement,TargetEvent){},...}
+        menus:[{
+            text:"munu1",   //必填。菜单显示文本
+            type:"menu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
+            item:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
+                text:"submenu1", //菜单显示文本
+                fn:function(){}        //菜单函数
+              }],
+            fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+          }
+        ],
+        buttons:[{           //按钮
+            id:"",              //如不填写id,将有程序生成id。
+            text:"btn1",        //按钮显示文本
+            fn:function(){}     //函数
+        }],        
         close:function(event){}, //对话框关闭后(点击关闭按钮之后)的回调函数
     }
     JDialog.prototype.init=function(){
@@ -33,6 +48,7 @@
         var id=DialogID(_this);
         var DialogId="JDialog_"+id;
         _this.currentDialogID=DialogId;
+        initOptions(_this);
         RenderDialog(_this);
         BindEvent(_this);
         Interactions(_this); 
@@ -93,16 +109,20 @@
         dialogHtml.push("<h4 class='JDialog-title'>{0}</h4>".format(options.title));
         dialogHtml.push("</div>");
 
+        //Dialog menu
+        dialogHtml.push("<div class='JDialog-menu'>");
+        
+        dialogHtml.push("</div>");
         //Dialog Body
         dialogHtml.push("<div class='JDialog-body'>");
         dialogHtml.push(_this.$element.html());
         dialogHtml.push("</div>");
 
         //Dialog Footer    
-        if(!$.isEmptyObject(options.buttons)){
+        if(options.buttons.length>0){
             dialogHtml.push("<div class='JDialog-footer'>");
-            $.each(options.buttons,function(k,v){
-                dialogHtml.push("<button class='btn btn-default'>{0}</button>".format(k));
+            $.each(options.buttons,function(index,item){
+                dialogHtml.push("<button class='btn btn-default' id='{1}'>{0}</button>".format(item.text,item.id));
             });
             dialogHtml.push("</div>");
         }
@@ -251,7 +271,12 @@
         //Footer btn
         _this.currentDialog.find("div.JDialog-content div.JDialog-footer button").off("click").on("click",function(){
             var $targetel=$(this); 
-            options.buttons[$targetel.text()](this,event);
+            var id=$targetel.attr("id");
+            var temp = $.grep(options.buttons, function(item, index) {
+                if(item.id==id)
+                    return true;
+            }, false);
+            options.buttons[0].fn(this,event);
         });
         //ESC关闭对话框
         _this.currentDialog.on("keydown",function(e){
@@ -295,6 +320,45 @@
                 data[option]();
             }
         })
+    }
+    /**
+     * 格式化 parameter参数中数组里面的Object格式与defaults格式一致
+     * @param {object} defaultsObject defaults
+     * @param {object} parameterObject parameter
+     */
+    var FormatArray=function(defaultsObject,parameterObject){
+        for (var key in parameterObject) {
+            if (parameterObject.hasOwnProperty(key) && $.isArray(parameterObject[key]) && defaultsObject.hasOwnProperty(key)) {
+                var newArray=[];
+                var paraArry = parameterObject[key];
+                for (var i = 0; i < paraArry.length; i++) {
+                    var paraobj = paraArry[i];
+                    var obj=$.extend(true,{},defaultsObject[key][0],paraobj);
+                    newArray.push(obj);
+                }
+                parameterObject[key]=newArray;
+            }
+            else{
+                if($.isPlainObject(parameterObject[key])){
+                    FormatArray(defaultsObject[key],parameterObject[key]);
+                }              
+            }           
+        }
+    }
+    var initOptions=function(_this){
+        var options=_this.options;
+        var d=new Date();
+        var monthDay=("0" + (d.getMonth() + 1)).slice(-2)+("0" + (d.getDate())).slice(-2);
+        var DialogID=_this.currentDialogID.replace(/^.+_/g,"");
+        if(options.buttons.length>0){
+            $.each(options.buttons,function(index,item){
+                if(item.id==""){
+                    var r=Math.ceil(Math.random()*100);
+                    var id=DialogID+monthDay+index+r;
+                    item.id=id;
+                }
+            });
+        }
     }
     var old = $.fn.jDialog;
     $.fn.jDialog = Plugin;
