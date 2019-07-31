@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-30 15:06:20
+ * @Last Modified time: 2019-07-31 09:09:00
  */
 (function ($) {
     'use strict';
@@ -276,7 +276,7 @@
                 if(item.id==id)
                     return true;
             }, false);
-            options.buttons[0].fn(this,event);
+            temp[0].fn(this,event);
         });
         //ESC关闭对话框
         _this.currentDialog.on("keydown",function(e){
