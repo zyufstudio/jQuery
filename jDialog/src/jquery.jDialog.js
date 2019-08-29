@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-31 09:09:00
+ * @Last Modified time: 2019-08-29 17:08:52
  */
 (function ($) {
     'use strict';
@@ -84,20 +84,20 @@
         var height=options.height;
         height=height<options.minHeight?options.minHeight:height;
         //Dialog Html
-        dialogHtml.push("<div id='{0}' class='JDialog' tabindex='-1' style='display:none;'>".format(_this.currentDialogID));
-        dialogHtml.push("<div class='JDialog-dialog' style='width:{0};height:{1}'>".format(width+"px",height+"px"));
+        dialogHtml.push("<div id='{0}' class='JDialog' tabindex='-1' style='display:none;'>".formatString(_this.currentDialogID));
+        dialogHtml.push("<div class='JDialog-dialog' style='width:{0};height:{1}'>".formatString(width+"px",height+"px"));
         //上边框拖拽
-        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-n":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".formatString(options.resizable?"JDialog-resizable-n":""));
         //右边框拖拽
-        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-e":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".formatString(options.resizable?"JDialog-resizable-e":""));
         //下边框拖拽
-        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-s":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".formatString(options.resizable?"JDialog-resizable-s":""));
         //左边框拖拽
-        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-w":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".formatString(options.resizable?"JDialog-resizable-w":""));
         //右下角拖拽
-        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-se":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".formatString(options.resizable?"JDialog-resizable-se":""));
         //左下角拖拽
-        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".format(options.resizable?"JDialog-resizable-sw":""));
+        dialogHtml.push("<div class='JDialog-resizable-handle {0}'></div>".formatString(options.resizable?"JDialog-resizable-sw":""));
 
         dialogHtml.push("<div class='JDialog-content'>");
         
@@ -106,7 +106,7 @@
         //Close btn
         dialogHtml.push("<button type='button' class='close'><span>×</span></button>");
         //Dialog Title
-        dialogHtml.push("<h4 class='JDialog-title'>{0}</h4>".format(options.title));
+        dialogHtml.push("<h4 class='JDialog-title'>{0}</h4>".formatString(options.title));
         dialogHtml.push("</div>");
 
         //Dialog menu
@@ -122,7 +122,7 @@
         if(options.buttons.length>0){
             dialogHtml.push("<div class='JDialog-footer'>");
             $.each(options.buttons,function(index,item){
-                dialogHtml.push("<button class='btn btn-default' id='{1}'>{0}</button>".format(item.text,item.id));
+                dialogHtml.push("<button class='btn btn-default' id='{1}'>{0}</button>".formatString(item.text,item.id));
             });
             dialogHtml.push("</div>");
         }
@@ -314,7 +314,7 @@
             if (typeof option == 'string') {
                 var methods=["show","hide","destroy"];
                 if($.inArray(option,methods)<0) {
-                    console.error('方法:jDialog("{0}")不存在!'.format(option));
+                    console.error('方法:jDialog("{0}")不存在!'.formatString(option));
                     return false;
                 }
                 data[option]();
@@ -370,11 +370,11 @@
     /**
      * 字符串模板格式化
      * @example 
-     * "abc{0}e{1}fg".format(1,2) 输出 "abc1e2fg"
+     * "abc{0}e{1}fg".formatString(1,2) 输出 "abc1e2fg"
      * @returns {string}
      */
-    if (typeof String.prototype['format'] == 'undefined') {
-        String.prototype.format =function () {
+    if (typeof String.prototype['formatString'] == 'undefined') {
+        String.prototype.formatString =function () {
             var args = arguments;
             return this.replace(/\{(\d+)\}/g, function(m, i){
                 return args[i];

@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-07-23 11:50:14
+ * @Last Modified time: 2019-08-29 17:07:46
  */
 
 /** 
@@ -194,11 +194,11 @@
     /**
      * 字符串模板格式化
      * @example 
-     * "abc{0}e{1}fg".format(1,2) 输出 "abc1e2fg"
+     * "abc{0}e{1}fg".formatString(1,2) 输出 "abc1e2fg"
      * @returns {string}
      */
-    if (typeof String.prototype['format'] == 'undefined') {
-        String.prototype.format =function () {
+    if (typeof String.prototype['formatString'] == 'undefined') {
+        String.prototype.formatString =function () {
             var args = arguments;
             return this.replace(/\{(\d+)\}/g, function(m, i){
                 return args[i];
