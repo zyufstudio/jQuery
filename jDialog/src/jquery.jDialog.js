@@ -145,7 +145,7 @@
             var idSeq=parseInt($el.attr("id").replace("JDialog_",""));
             modalIDSeqs.push(idSeq);
         });
-        var maxIDSeq=modalIDSeqs.length?modalIDSeqs.max():0;
+        var maxIDSeq=modalIDSeqs.length?ArrayMax(modalIDSeqs):0;
         var id=maxIDSeq+1
         return id;
     }
@@ -360,6 +360,20 @@
             });
         }
     }
+        /**
+     * 获取数组最大值
+     * @param {Array} array 数组
+     */
+    var ArrayMax=function(array){
+        var max = array[0];
+        var len = array.length; 
+        for (var i = 1; i < len; i++){ 
+            if (array[i] > max) { 
+                max = array[i]; 
+            } 
+        } 
+        return max;
+    }
     var old = $.fn.jDialog;
     $.fn.jDialog = Plugin;
     $.fn.jDialog.Constructor = JDialog;
@@ -379,23 +393,6 @@
             return this.replace(/\{(\d+)\}/g, function(m, i){
                 return args[i];
             });
-        }
-    }
-    /**
-     * 获取数组的最大值
-     * @example
-     * [1,3,6,5,7,2].max() 输出 7
-     */
-    if (typeof Array.prototype['max'] == 'undefined') {
-        Array.prototype.max = function() { 
-            var max = this[0];
-            var len = this.length; 
-            for (var i = 1; i < len; i++){ 
-                if (this[i] > max) { 
-                    max = this[i]; 
-                } 
-            } 
-        return max;
         }
     }
 })(jQuery);

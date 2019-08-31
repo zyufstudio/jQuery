@@ -173,6 +173,20 @@
             e.returnValue = false;
         }
     }
+    /**
+     * 获取数组最大值
+     * @param {Array} array 数组
+     */
+    var ArrayMax=function(array){
+        var max = array[0];
+        var len = array.length; 
+        for (var i = 1; i < len; i++){ 
+            if (array[i] > max) { 
+                max = array[i]; 
+            } 
+        } 
+        return max;
+    }
     function Plugin(option) {
         return this.each(function () {
             var $this = $(this);
@@ -190,36 +204,5 @@
     $.fn.JBoxSelect.noConflict = function () {
         $.fn.JBoxSelect = old;
         return this;
-    }
-    /**
-     * 字符串模板格式化
-     * @example 
-     * "abc{0}e{1}fg".formatString(1,2) 输出 "abc1e2fg"
-     * @returns {string}
-     */
-    if (typeof String.prototype['formatString'] == 'undefined') {
-        String.prototype.formatString =function () {
-            var args = arguments;
-            return this.replace(/\{(\d+)\}/g, function(m, i){
-                return args[i];
-            });
-        }
-    }
-    /**
-     * 获取数组的最大值
-     * @example
-     * [1,3,6,5,7,2].max() 输出 7
-     */
-    if (typeof Array.prototype['max'] == 'undefined') {
-        Array.prototype.max = function() { 
-            var max = this[0];
-            var len = this.length; 
-            for (var i = 1; i < len; i++){ 
-                if (this[i] > max) { 
-                    max = this[i]; 
-                } 
-            } 
-        return max;
-        }
     }
 })(jQuery);
