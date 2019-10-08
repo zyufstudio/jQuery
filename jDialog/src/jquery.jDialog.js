@@ -2,16 +2,25 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-08-29 17:08:52
+ * @Last Modified time: 2019-10-08 15:58:08
  */
 (function ($) {
     'use strict';
     var JDialog = function (element, options) {
         this.$element = $(element);
+        this.originalPosition={};
+        this.originalElement={};
         this.$body=$("html body");
         this.$doc=$(document);
         FormatArray(JDialog.Defaults,options);
         this.options = $.extend({}, JDialog.Defaults, options);
+        EmptyNotExistArray(this.options,options);
+        // for (var key in this.options) {
+        //     if (this.options.hasOwnProperty(key) && $.isArray(this.options[key]) && !options.hasOwnProperty(key)) {
+        //         //var element = this.options[key];
+        //         this.options[key]=[];
+        //     }
+        // }
         this.currentDialog="";
         this.currentDialogID="";
         this.init();
@@ -69,8 +78,17 @@
         this.$body.removeClass("JDialog-open");
     }
     JDialog.prototype.destroy=function(){
+        var next;
+        var originalPosition = this.originalPosition;
+        next = originalPosition.parent.children().eq( originalPosition.index );
+		if ( next.length && next[0] !== this.originalElement[0] ) {
+			next.before( this.originalElement );
+		} else {
+			originalPosition.parent.append( this.originalElement );
+        }
         this.currentDialog.remove();
-        this.$element.removeData("bsmodal");
+        this.$body.find(".JDialog-backdrop").remove();
+        this.$body.removeClass("JDialog-open");
     }
     /**
      * 渲染对话框
@@ -115,7 +133,7 @@
         dialogHtml.push("</div>");
         //Dialog Body
         dialogHtml.push("<div class='JDialog-body'>");
-        dialogHtml.push(_this.$element.html());
+        dialogHtml.push(_this.$element.clone().show().prop("outerHTML"));
         dialogHtml.push("</div>");
 
         //Dialog Footer    
@@ -131,7 +149,14 @@
         dialogHtml.push("</div>");
         dialogHtml.push("</div>");
         _this.$body.append(dialogHtml.join(""));
+        _this.originalPosition = {
+			parent: _this.$element.parent(),
+			index: _this.$element.parent().children().index(_this.$element)
+        };
+        _this.originalElement =_this.$element.clone();
+        _this.$element.remove();
         _this.currentDialog=$("#"+_this.currentDialogID);
+        _this.$element=_this.currentDialog.find(".JDialog-content .JDialog-body").children().eq(0);
     }
        /**
      * 生成对话框id编号
@@ -309,7 +334,7 @@
             var data= $this.data('bsmodal');
             if (!data){
                 var data=new JDialog(this, options);
-                $this.data('bsmodal',data);               
+                data.$element.data('bsmodal',data);               
             }
             if (typeof option == 'string') {
                 var methods=["show","hide","destroy"];
@@ -334,6 +359,7 @@
                 for (var i = 0; i < paraArry.length; i++) {
                     var paraobj = paraArry[i];
                     var obj=$.extend(true,{},defaultsObject[key][0],paraobj);
+                    EmptyNotExistArray(obj,paraobj);
                     newArray.push(obj);
                 }
                 parameterObject[key]=newArray;
@@ -341,6 +367,23 @@
             else{
                 if($.isPlainObject(parameterObject[key])){
                     FormatArray(defaultsObject[key],parameterObject[key]);
+                }              
+            }           
+        }
+    }
+    /**
+     * 没有提供的数组设置成[]
+     * @param {object} Object object
+     * @param {object} parameterObject parameter
+     */
+    var EmptyNotExistArray=function(object,parameterObject){
+        for (var key in object) {
+            if (object.hasOwnProperty(key) && $.isArray(object[key]) && !parameterObject.hasOwnProperty(key)) {
+                object[key]=[];
+            }
+            else{
+                if($.isPlainObject(object[key])){
+                    FormatArray(object[key],parameterObject[key]);
                 }              
             }           
         }
@@ -354,7 +397,7 @@
             $.each(options.buttons,function(index,item){
                 if(item.id==""){
                     var r=Math.ceil(Math.random()*100);
-                    var id=DialogID+monthDay+index+r;
+                    var id=DialogID+monthDay+index;
                     item.id=id;
                 }
             });
