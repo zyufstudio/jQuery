@@ -4,3 +4,5 @@ jBoxSelect/bootstrap/css/bootstrap-theme.min.css
 jBoxSelect/bootstrap/js/bootstrap.min.js
 jBoxSelect/bootstrap/js/npm.js
 .vscode/settings.json
+/jDialog/node_modules
+/jDialog/package-lock.json

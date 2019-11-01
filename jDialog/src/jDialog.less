@@ -1,8 +1,8 @@
 /*
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:25:22 
- * @Last Modified by:   JohnnyLi 
- * @Last Modified time: 2019-07-01 17:25:22 
+ * @Last Modified by: JohnnyLi
+ * @Last Modified time: 2019-11-01 16:10:54
  */
 
 #Fun{
@@ -33,56 +33,92 @@
             }
         }
     }
-    .button-variant(@color; @background; @border) {
-        color: @color;
-        background-color: @background;
-        border-color: @border;
-      
-        &:focus,
-        &.focus {
-          color: @color;
-          background-color: darken(@background, 10%);
-              border-color: darken(@border, 25%);
+    #btn{
+        .button{
+            display: inline-block;
+            color: #333;
+            background-color: #fff;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid #ccc;
+            margin-left: 7px;
+            #Fun>#border-radius>.border-left-radius(@border-radius);
+            #Fun>#border-radius>.border-right-radius(@border-radius);
         }
-        &:hover {
-          color: @color;
-          background-color: darken(@background, 10%);
-              border-color: darken(@border, 12%);
-        }
-        &:active,
-        &.active{
-          color: @color;
-          background-color: darken(@background, 10%);
-              border-color: darken(@border, 12%);
-      
-          &:hover,
-          &:focus,
-          &.focus {
+        .button-variant(@color; @background; @border) {
             color: @color;
-            background-color: darken(@background, 17%);
-                border-color: darken(@border, 25%);
-          }
-        }
-        &:active,
-        &.active {
-          background-image: none;
-        }
-        &.disabled,
-        &[disabled],
-        fieldset[disabled] & {
-          &:hover,
-          &:focus,
-          &.focus {
             background-color: @background;
-                border-color: @border;
-          }
+            border-color: @border;
+            &:focus,
+            &.focus {
+                color: @color;
+                background-color: darken(@background, 10%);
+                border-color: darken(@border, 25%);
+            }
+            &:hover {
+                color: @color;
+                background-color: darken(@background, 10%);
+                border-color: darken(@border, 12%);
+            }
+            &:active,
+            &.active{
+                color: @color;
+                background-color: darken(@background, 10%);
+                border-color: darken(@border, 12%);
+                &:hover,
+                &:focus,
+                &.focus {
+                    color: @color;
+                    background-color: darken(@background, 17%);
+                    border-color: darken(@border, 25%);
+                }
+            }
+            &:active,
+            &.active {
+                background-image: none;
+            }
+            &.disabled,
+            &[disabled],
+            fieldset[disabled] & {
+                &:hover,
+                &:focus,
+                &.focus {
+                    background-color: @background;
+                    border-color: @border;
+                }
+            }
+            .badge {
+                color: @background;
+                background-color: @color;
+            }
         }
-      
-        .badge {
-          color: @background;
-          background-color: @color;
-        }
-      }
+    }
+    //向下三角形
+    .caret{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-top: 4px solid\9;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
 }
 
 //对话框
@@ -220,6 +256,47 @@
                     }
                 }
             }
+            >.JDialog-menu{
+                padding: 3px 5px;
+                border-bottom: 1px solid #e5e5e5;
+                line-height: 0;
+                .JDialog-menu-list{
+                    display: inline-block;
+                    padding-left:5px;
+                    margin: 0;
+                    list-style: none;
+                    font-size: 14px;
+                    .JDialog-menu-item{
+                        float: left;
+                        position: relative;
+                        margin-right: 10px;
+                        .ddmenu{
+                            span:nth-child(1){
+                                padding-right: 5px;
+                            }
+                        }
+                        .caret{      
+                            #Fun>.caret();
+                            margin:0;
+                            margin-top: -2px;
+                        }
+                        .btn{
+                            #Fun>#btn>.button();
+                            //line-height: 28px;
+                            padding:6px;
+                            background: transparent;
+                            border-width: 0;
+                            margin: 0;
+                            &.btn-default{
+                                @btn-default-color:#333;
+                                @btn-default-bg:#fff; 
+                                @btn-default-border:#ccc;
+                                #Fun>#btn>.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);                      
+                            }
+                        }
+                    }
+                }
+            }
             >.JDialog-body {
                 position: relative;
                 padding: 10px 15px;
@@ -230,34 +307,12 @@
                 text-align: right; 
                 border-top: 1px solid @JDialog-split-line-color;
                 >.btn{
-                    display: inline-block;
-                    color: #333;
-                    background-color: #fff;
-                    padding: 6px 12px;
-                    margin-bottom: 0;
-                    font-size: 12px;
-                    font-weight: 400;
-                    line-height: 1.42857143;
-                    text-align: center;
-                    white-space: nowrap;
-                    vertical-align: middle;
-                    -ms-touch-action: manipulation;
-                    touch-action: manipulation;
-                    cursor: pointer;
-                    -webkit-user-select: none;
-                    -moz-user-select: none;
-                    -ms-user-select: none;
-                    user-select: none;
-                    background-image: none;
-                    border: 1px solid #ccc;
-                    margin-left: 7px;
-                    #Fun>#border-radius>.border-left-radius(@border-radius);
-                    #Fun>#border-radius>.border-right-radius(@border-radius);
+                    #Fun>#btn>.button();
                     &.btn-default{
                         @btn-default-color:#333;
                         @btn-default-bg:#fff; 
                         @btn-default-border:#ccc;
-                        #Fun>.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);                      
+                        #Fun>#btn>.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);                      
                     }
                 }
             }

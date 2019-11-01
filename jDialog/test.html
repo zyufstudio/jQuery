@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/jqueryui/1.11.1/jquery-ui.min.css">
-    <link rel="stylesheet" href="./build/jDialog.css">
+    <link rel="stylesheet" href="./dist/jDialog.min.css">
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.bootcss.com/jqueryui/1.11.1/jquery-ui.min.js"></script>
-    <script src="./src/jquery.jDialog.js"></script>
+    <script src="./dist/jquery.jDialog.js"></script>
     <style>
     .imglst{
         width: 100%;height: 100%;
@@ -124,14 +124,38 @@
         $("#dialog2").click(function(){
             $("#dia2").jDialog({
                 title:"对话框2！！！",
-                width:100,
-                height:100,
+                width:700,
+                height:300,
                 closeOnEscape:false,
                 menus:[{
-                    text:"菜单一",   //必填。菜单显示文本
-                    type:"menu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
-                    fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
-                }],
+                        text:"菜单一",   //必填。菜单显示文本
+                        type:"nmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
+                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                    },
+                    {
+                        text:"菜单二",   //必填。菜单显示文本
+                        type:"nmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
+                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                    },
+                    {
+                        text:"菜单三",   //必填。菜单显示文本
+                        type:"ddmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
+                        subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
+                            text:"子菜单一", //菜单显示文本
+                            fn:function(){}        //菜单函数
+                        }],
+                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                    },
+                    {
+                        text:"菜单四",   //必填。菜单显示文本
+                        type:"sddmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
+                        subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
+                            text:"子菜单一", //菜单显示文本
+                            fn:function(){}        //菜单函数
+                        }],
+                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                    }
+                ],
                 buttons:[
                     {
                         text:"销毁",
