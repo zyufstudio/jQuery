@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-04 15:12:13
+ * @Last Modified time: 2019-11-04 16:19:28
  */
 (function ($) {
     'use strict';
@@ -125,6 +125,7 @@
             //dialogHtml.push("<div>");
             dialogHtml.push("<ul class='JDialog-menu-list'>");
             for (var index = 0; index < options.menus.length; index++) {
+                var subMenuHtml=[];
                 var menuObj = options.menus[index];
                 switch (menuObj.type) {
                     case "nmenu":
@@ -132,7 +133,6 @@
                         break;
                     case "ddmenu":
                         if(menuObj.subMenus.length>0){
-                            var subMenuHtml=[];
                             subMenuHtml.push("<ul class='JDialog-submenu-list'>");
                             for (var subindex = 0; subindex < menuObj.subMenus.length; subindex++) {
                                 var subMenuObj=menuObj.subMenus[subindex];
@@ -145,7 +145,6 @@
                         break;
                     case "sddmenu":
                         if(menuObj.subMenus.length>0){
-                            var subMenuHtml=[];
                             subMenuHtml.push("<ul class='JDialog-submenu-list'>");
                             for (var subindex = 0; subindex < menuObj.subMenus.length; subindex++) {
                                 var subMenuObj=menuObj.subMenus[subindex];
@@ -374,7 +373,7 @@
                 if(subIndex==subMenuIndex){
                     return true;
                 }
-            });
+            }, false);
             temp[0].fn(this,event);
         });
         //子菜单显示
