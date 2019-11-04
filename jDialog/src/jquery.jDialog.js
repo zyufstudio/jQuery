@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-04 16:19:28
+ * @Last Modified time: 2019-11-04 17:48:01
  */
 (function ($) {
     'use strict';
@@ -29,19 +29,19 @@
         closeOnEscape:true, //对话框有焦点时，按下ESC键是否关闭对话框
         resizable:true,     //是否允许拖拽缩放窗体大小
         menus:[{
-            text:"munu1",   //必填。菜单显示文本
-            type:"nmenu",    //必填。菜单类型。nmenu/ddmenu/sddmenu(普通菜单/下拉菜单/分裂式下拉菜单)
-            subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效
-                text:"submenu1", //菜单显示文本
-                fn:function(){}        //菜单函数
+            text:"munu1",           //必填。菜单显示文本
+            type:"nmenu",           //必填。菜单类型。nmenu/ddmenu/sddmenu(普通菜单/下拉菜单/分裂式下拉菜单)
+            subMenus:[{             //子菜单。只当type为ddmenu或sddmenu时有效
+                text:"submenu1",    //菜单显示文本
+                fn:function(){}     //菜单函数
             }],
-            fn:function(){}        //菜单函数，只当type为nmenu或sddmenu时有效且必填
+            fn:function(){}         //菜单函数，只当type为nmenu或sddmenu时有效且必填
         }],
-        buttons:[{           //按钮
-            text:"btn1",        //按钮显示文本
-            fn:function(){}     //函数
+        buttons:[{                  //按钮
+            text:"btn1",            //按钮显示文本
+            fn:function(){}         //函数
         }],        
-        close:function(event){}, //对话框关闭后(点击关闭按钮之后)的回调函数
+        close:function(event){},    //对话框关闭后(点击关闭按钮之后)的回调函数
     }
     JDialog.prototype.init=function(){
         var _this=this;

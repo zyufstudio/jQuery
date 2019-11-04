@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:25:22 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-04 11:05:04
+ * @Last Modified time: 2019-11-04 17:45:00
  */
 
 #Fun{
@@ -283,15 +283,15 @@
                         .btn{
                             #Fun>#btn>.button();
                             //line-height: 28px;
-                            padding:6px;
+                            padding:4px 6px;
                             background: transparent;
-                            border-width: 0;
                             margin: 0;
                             &.btn-default{
                                 @btn-default-color:#333;
                                 @btn-default-bg:#fff; 
                                 @btn-default-border:#ccc;
-                                #Fun>#btn>.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);                      
+                                #Fun>#btn>.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border); 
+                                border: 1px solid transparent;    
                             }
                         }
                     }
