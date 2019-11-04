@@ -130,30 +130,52 @@
                 menus:[{
                         text:"菜单一",   //必填。菜单显示文本
                         type:"nmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
-                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                        fn:function(){
+                            alert("菜单一");
+                        }        //菜单函数，只当type为menu或sddmenu时有效且必填
                     },
                     {
                         text:"菜单二",   //必填。菜单显示文本
                         type:"nmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
-                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                        fn:function(){
+                            alert("菜单二");
+                        }        //菜单函数，只当type为menu或sddmenu时有效且必填
                     },
                     {
                         text:"菜单三",   //必填。菜单显示文本
                         type:"ddmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
                         subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
                             text:"子菜单一", //菜单显示文本
-                            fn:function(){}        //菜单函数
-                        }],
-                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                            fn:function(){
+                                alert("子菜单一");
+                            }        //菜单函数
+                        },
+                        {         //子菜单。只当type为ddmenu或sddmenu时有效且必填
+                            text:"子菜单二", //菜单显示文本
+                            fn:function(){
+                                alert("子菜单二");
+                            }        //菜单函数
+                        },
+                        {         //子菜单。只当type为ddmenu或sddmenu时有效且必填
+                            text:"子菜单三", //菜单显示文本
+                            fn:function(){
+                                alert("子菜单三");
+                            }        //菜单函数
+                        }]
                     },
                     {
                         text:"菜单四",   //必填。菜单显示文本
                         type:"sddmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
                         subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
                             text:"子菜单一", //菜单显示文本
-                            fn:function(){}        //菜单函数
+                            fn:function(){
+                                //alert("子菜单一");
+                                console.log("子菜单四一");
+                            }        //菜单函数
                         }],
-                        fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
+                        fn:function(){
+                            alert("菜单四");
+                        }        //菜单函数，只当type为menu或sddmenu时有效且必填
                     }
                 ],
                 buttons:[

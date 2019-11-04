@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-01 16:05:42
+ * @Last Modified time: 2019-11-04 15:12:13
  */
 (function ($) {
     'use strict';
@@ -15,12 +15,6 @@
         FormatArray(JDialog.Defaults,options);
         this.options = $.extend({}, JDialog.Defaults, options);
         EmptyNotExistArray(this.options,options);
-        // for (var key in this.options) {
-        //     if (this.options.hasOwnProperty(key) && $.isArray(this.options[key]) && !options.hasOwnProperty(key)) {
-        //         //var element = this.options[key];
-        //         this.options[key]=[];
-        //     }
-        // }
         this.currentDialog="";
         this.currentDialogID="";
         this.init();
@@ -37,15 +31,13 @@
         menus:[{
             text:"munu1",   //必填。菜单显示文本
             type:"nmenu",    //必填。菜单类型。nmenu/ddmenu/sddmenu(普通菜单/下拉菜单/分裂式下拉菜单)
-            subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
+            subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效
                 text:"submenu1", //菜单显示文本
                 fn:function(){}        //菜单函数
-              }],
-            fn:function(){}        //菜单函数，只当type为menu或sddmenu时有效且必填
-          }
-        ],
+            }],
+            fn:function(){}        //菜单函数，只当type为nmenu或sddmenu时有效且必填
+        }],
         buttons:[{           //按钮
-            id:"",              //如不填写id,将有程序生成id。
             text:"btn1",        //按钮显示文本
             fn:function(){}     //函数
         }],        
@@ -136,13 +128,33 @@
                 var menuObj = options.menus[index];
                 switch (menuObj.type) {
                     case "nmenu":
-                        dialogHtml.push(StringFormat("<li class='JDialog-menu-item'><div class='nmenu'><a class='btn btn-default'><span>{0}</span></a></div></li>",menuObj.text));
+                        dialogHtml.push(StringFormat("<li class='JDialog-menu-item' data-index='{1}'><div class='nmenu'><a class='btn btn-default'><span>{0}</span></a></div></li>",menuObj.text,index));
                         break;
                     case "ddmenu":
-                        dialogHtml.push(StringFormat("<li class='JDialog-menu-item'><div class='ddmenu'><a class='btn btn-default'><span>{0}</span><span class='caret'></span></a></div></li>",menuObj.text));
+                        if(menuObj.subMenus.length>0){
+                            var subMenuHtml=[];
+                            subMenuHtml.push("<ul class='JDialog-submenu-list'>");
+                            for (var subindex = 0; subindex < menuObj.subMenus.length; subindex++) {
+                                var subMenuObj=menuObj.subMenus[subindex];
+                                var subMenuIndex=index.toString()+"-"+subindex.toString();
+                                subMenuHtml.push(StringFormat("<li class='JDialog-submenu-item' data-index='{1}'><a>{0}</a></li>",subMenuObj.text,subMenuIndex));
+                            }
+                            subMenuHtml.push("</ul>")                            
+                        }
+                        dialogHtml.push(StringFormat("<li class='JDialog-menu-item' data-index='{1}'><div class='ddmenu'><a class='btn btn-default'><span>{0}</span><span class='caret'></span></a></div>{2}</li>",menuObj.text,index,subMenuHtml.join("")));
                         break;
                     case "sddmenu":
-                        dialogHtml.push(StringFormat("<li class='JDialog-menu-item'><div class='sddmenu'><a class='btn btn-default'><span>{0}</span></a>|<a class='btn btn-default'><span class='caret'></span></a></div></li>",menuObj.text));
+                        if(menuObj.subMenus.length>0){
+                            var subMenuHtml=[];
+                            subMenuHtml.push("<ul class='JDialog-submenu-list'>");
+                            for (var subindex = 0; subindex < menuObj.subMenus.length; subindex++) {
+                                var subMenuObj=menuObj.subMenus[subindex];
+                                var subMenuIndex=index.toString()+"-"+subindex.toString();
+                                subMenuHtml.push(StringFormat("<li class='JDialog-submenu-item' data-index='{1}'><a>{0}</a></li>",subMenuObj.text,subMenuIndex));
+                            }
+                            subMenuHtml.push("</ul>")                            
+                        }
+                        dialogHtml.push(StringFormat("<li class='JDialog-menu-item' data-index='{1}'><div class='sddmenu'><a class='btn btn-default'><span>{0}</span></a>|<a class='btn btn-default'><span class='caret'></span></a></div>{2}</li>",menuObj.text,index,subMenuHtml.join("")));
                         break;
                 }
             }
@@ -160,7 +172,7 @@
         if(options.buttons.length>0){
             dialogHtml.push("<div class='JDialog-footer'>");
             $.each(options.buttons,function(index,item){
-                dialogHtml.push(StringFormat("<button class='btn btn-default' id='{1}'>{0}</button>",item.text,item.id));
+                dialogHtml.push(StringFormat("<button class='btn btn-default' data-index='{1}'>{0}</button>",item.text,index));
             });
             dialogHtml.push("</div>");
         }
@@ -316,9 +328,9 @@
         //Footer btn
         _this.currentDialog.find("div.JDialog-content div.JDialog-footer button").off("click").on("click",function(){
             var $targetel=$(this); 
-            var id=$targetel.attr("id");
+            var dataIndex=$targetel.attr("data-index");
             var temp = $.grep(options.buttons, function(item, index) {
-                if(item.id==id)
+                if(index==dataIndex)
                     return true;
             }, false);
             temp[0].fn(this,event);
@@ -331,6 +343,78 @@
                     typeof options.close === 'function' && options.close(event);
                 }
             }
+        });
+        var to;
+        //菜单点击
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").off("click").on("click",function(){
+            var $targetel=$(this); 
+            if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
+                return;
+            }
+            var dataIndex=$targetel.parents("li.JDialog-menu-item").attr("data-index");
+            var temp = $.grep(options.menus, function(item, index) {
+                if(index==dataIndex)
+                    return true;
+            }, false);
+            temp[0].fn(this,event);
+        });
+        //子菜单点击
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list li.JDialog-submenu-item a").off("click").on("click",function(){
+            var $targetel=$(this); 
+            _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hide();
+            var dataIndex=$targetel.parents("li.JDialog-submenu-item").attr("data-index").split("-");
+            var menuIndex=dataIndex[0];
+            var subMenuIndex=dataIndex[1];
+            var temp = $.grep(options.menus, function(item, index) {
+                if(index==menuIndex){
+                    return true;
+                }
+            }, false);
+            var temp=$.grep(temp[0].subMenus, function(item, subIndex) {
+                if(subIndex==subMenuIndex){
+                    return true;
+                }
+            });
+            temp[0].fn(this,event);
+        });
+        //子菜单显示
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").hover(function(){
+            var $targetel=$(this); 
+            _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hide();
+            if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
+                var menuItem=$targetel.parents("li.JDialog-menu-item");
+                var subMenuList=menuItem.find("ul.JDialog-submenu-list");
+                var subMenuItems=subMenuList.find("li.JDialog-submenu-item");
+                if(subMenuItems.length>0){
+                    to && (clearTimeout(to), to = !1);
+                    subMenuList.show();
+                }
+            }
+        },function(){
+            var $targetel=$(this); 
+            if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
+                var menuItem=$targetel.parents("li.JDialog-menu-item");
+                var subMenuList=menuItem.find("ul.JDialog-submenu-list");
+                var subMenuItems=subMenuList.find("li.JDialog-submenu-item");
+                if(subMenuItems.length>0){
+                    to && (clearTimeout(to), to = !1);
+                    to = setTimeout(function () {
+                        subMenuList.hide();
+                    }, 300)
+                }
+            }
+        });
+        //子菜单保持显示
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hover(function(){
+            var $targetel=$(this); 
+            to && (clearTimeout(to), to = !1);
+            $targetel.show();         
+        },function(){
+            var $targetel=$(this); 
+            to && (clearTimeout(to), to = !1);
+            to = setTimeout(function () {
+                $targetel.hide();
+            }, 300)
         });
     }
     /**
@@ -346,7 +430,7 @@
         var modal_footer_outer_height =_this.currentDialog.find(".JDialog-footer").outerHeight();
         //console.log("modal_dialog_height:"+modal_dialog_height+",modal_body_padding_height:"+modal_body_padding_height+",modal_header_outer_height:"+modal_header_outer_height+",modal_footer_outer_height:"+modal_footer_outer_height);
         var modal_body_height=(modal_dialog_height-modal_body_padding_height-modal_header_outer_height-modal_menu_outer_height-modal_footer_outer_height).toString()+"px";
-        _this.currentDialog.find(".JDialog-body").height(modal_body_height);
+        _this.currentDialog.find(".JDialog-body").height(modal_body_height); 
     }
     function Plugin(option) {
         return this.each(function () {
@@ -411,20 +495,20 @@
     }
     var initOptions=function(_this){
         var options=_this.options;
-        var d=new Date();
-        var monthDay=("0" + (d.getMonth() + 1)).slice(-2)+("0" + (d.getDate())).slice(-2);
-        var DialogID=_this.currentDialogID.replace(/^.+_/g,"");
-        if(options.buttons.length>0){
-            $.each(options.buttons,function(index,item){
-                if(item.id==""){
-                    var r=Math.ceil(Math.random()*100);
-                    var id=DialogID+monthDay+index;
-                    item.id=id;
-                }
-            });
-        }
+        // var d=new Date();
+        // var monthDay=("0" + (d.getMonth() + 1)).slice(-2)+("0" + (d.getDate())).slice(-2);
+        // var DialogID=_this.currentDialogID.replace(/^.+_/g,"");
+        // if(options.buttons.length>0){
+        //     $.each(options.buttons,function(index,item){
+        //         if(item.id==""){
+        //             var r=Math.ceil(Math.random()*100);
+        //             var id=DialogID+monthDay+index;
+        //             item.id=id;
+        //         }
+        //     });
+        // }
     }
-        /**
+    /**
      * 获取数组最大值
      * @param {Array} array 数组
      */
