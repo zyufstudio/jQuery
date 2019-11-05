@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-04 17:48:01
+ * @Last Modified time: 2019-11-05 16:55:40
  */
 (function ($) {
     'use strict';
@@ -487,7 +487,7 @@
             }
             else{
                 if($.isPlainObject(object[key])){
-                    FormatArray(object[key],parameterObject[key]);
+                    EmptyNotExistArray(object[key],parameterObject[key]);
                 }              
             }           
         }
