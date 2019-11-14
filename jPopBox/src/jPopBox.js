@@ -18,12 +18,11 @@
 	$.JPopBox = function(elm, options) {
 		this.$elm = $(elm);
 		this.opts = $.extend({}, $.fn.jPopBox.defaults, options);
-        var idNameHtml = (('' != this.opts.idName) ? ('id='+this.opts.idName) : '');
         var title="";
         if(this.opts.title!=""){
             title='<div class="tip-title">'+this.opts.title+'</div>';
         }
-        this.$tip = $(['<div ', idNameHtml,' class="',this.opts.className,'">',
+        this.$tip = $(['<div class="',this.opts.className,'">',
                 title,
 				'<div class="tip-inner tip-bg-image"></div>',
 				'<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left" style="visibility:inherit"></div>',
@@ -143,8 +142,6 @@
 		reset: function() {
 			this.$tip.queue([]).detach().css('visibility', 'hidden').data('active', false);
 			this.$inner.find('*').jPopBox('hide');
-			if (this.opts.fade)
-				this.$tip.css('opacity', this.opacity);
 			this.$arrow[0].className = 'tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left';
 			this.asyncAnimating = false;
 		},
@@ -211,28 +208,11 @@
 				return;
 
 			this.$tip.stop();
-			if ((this.opts.slide && this.pos.arrow || this.opts.fade) && (hide && this.opts.hideAniDuration || !hide && this.opts.showAniDuration)) {
-				var from = {}, to = {};
-				// this.pos.arrow is only undefined when alignX == alignY == 'center' and we don't need to slide in that rare case
-				if (this.opts.slide && this.pos.arrow) {
-					var prop, arr;
-					if (this.pos.arrow == 'bottom' || this.pos.arrow == 'top') {
-						prop = 'top';
-						arr = 'bottom';
-					} else {
-						prop = 'left';
-						arr = 'right';
-					}
-					var val = parseInt(this.$tip.css(prop));
-					from[prop] = val + (hide ? 0 : (this.pos.arrow == arr ? -this.opts.slideOffset : this.opts.slideOffset));
-					to[prop] = val + (hide ? (this.pos.arrow == arr ? this.opts.slideOffset : -this.opts.slideOffset) : 0) + 'px';
-				}
-				if (this.opts.fade) {
-					from.opacity = hide ? this.$tip.css('opacity') : 0;
-					to.opacity = hide ? 0 : this.opacity;
-				}
-				this.$tip.css(from).animate(to, this.opts[hide ? 'hideAniDuration' : 'showAniDuration']);
-			}
+            var from = {}, to = {};
+            from.opacity = hide ? this.$tip.css('opacity') : 0;
+			to.opacity = hide ? 0 : this.opacity;
+            this.$tip.css(from).animate(to, this.opts[hide ? 'hideAniDuration' : 'showAniDuration']);
+
 			hide ? this.$tip.queue($.proxy(this.reset, this)) : this.$tip.css('visibility', 'inherit');
 			if (active) {
 				var title = this.$elm.data('title.jPopBox');
@@ -409,11 +389,10 @@
 			$(['<style id="jPopBox-css-',opts.className,'" type="text/css">',
 				'div.',opts.className,'{visibility:hidden;position:absolute;top:0;left:0;}',
 				'div.',opts.className,' table.tip-table, div.',opts.className,' table.tip-table td{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;vertical-align:middle;}',
-				'div.',opts.className,' td.tip-bg-image span{display:block;font:1px/1px sans-serif;height:',opts.bgImageFrameSize,'px;width:',opts.bgImageFrameSize,'px;overflow:hidden;}',
+				'div.',opts.className,' td.tip-bg-image span{display:block;font:1px/1px sans-serif;overflow:hidden;}',
 				'div.',opts.className,' td.tip-right{background-position:100% 0;}',
 				'div.',opts.className,' td.tip-bottom{background-position:100% 100%;}',
 				'div.',opts.className,' td.tip-left{background-position:0 100%;}',
-				'div.',opts.className,' div.tip-inner{background-position:-',opts.bgImageFrameSize,'px -',opts.bgImageFrameSize,'px;}',
 				'div.',opts.className,' div.tip-arrow{visibility:hidden;position:absolute;font:1px/1px sans-serif;}',
 			'</style>'].join('')).appendTo('head');
     
@@ -426,8 +405,6 @@
 	$.fn.jPopBox.defaults = {
 		content: 		'[title]',	// content to display ('[title]', 'string', element, function(updateCallback){...}, jQuery)
 		className:		'tip-yellow',	// class for the tips
-		idName:			'',		// id for the tip
-		bgImageFrameSize:	10,		// size in pixels for the background-image (if set in CSS) frame around the inner content of the tip
 		showTimeout:		500,		// timeout before showing the tip (in milliseconds 1000 == 1 second)
 		hideTimeout:		100,		// timeout before hiding the tip
 		timeOnScreen:		0,		// timeout before automatically hiding the tip after showing it (set to > 0 in order to activate)
@@ -437,8 +414,6 @@
 		offsetY:		0,  		// offset Y pixels from the default position - doesn't matter if alignY:'center'
 		allowTipHover:		true,		// allow hovering the tip without hiding it onmouseout of the target - matters only if showOn:'hover'
 		followCursor:		false,		// if the tip should follow the cursor - matters only if showOn:'hover' and alignTo:'cursor'
-		fade: 			true,		// use fade animation
-		slide: 			true,		// use slide animation
 		slideOffset: 		8,		// slide animation offset
 		showAniDuration: 	300,		// show animation duration - set to 0 if you don't want show animation
 		hideAniDuration: 	300,		// hide animation duration - set to 0 if you don't want hide animation
