@@ -336,7 +336,7 @@
 					t: $win.scrollTop(),
 					w: $win.width(),
 					h: $win.height()
-				}, xL, xC, xR, yT, yC, yB,arrowOuterWH,placement,isAuto=false;
+				}, xL, xC, xR, yT, yC, yB,arrowOuterWH,placement,isAuto=false,keepInViewport=true;
 			if (this.opts.alignTo == 'cursor') {
 				xL = xC = xR = this.eventX;
 				yT = yC = yB = this.eventY;
@@ -348,12 +348,12 @@
 						w: this.$elm.outerWidth(),
 						h: this.$elm.outerHeight()
 					};
-				xL = elm.l;	// left edge
+				xL = elm.l;	// left
 				xC = xL + Math.floor(elm.w / 2);				// h center
-				xR = xL + elm.w;	    // right edge
-				yT = elm.t;	// top edge
+				xR = xL + elm.w;	    // right
+				yT = elm.t;	// top
 				yC = yT + Math.floor(elm.h / 2);				// v center
-				yB = yT +elm.h;	// bottom edge
+				yB = yT +elm.h;	// bottom
             }
             placement=this.opts.placement;
             var autoReg=/\s?auto?\s?/i;
@@ -364,7 +364,7 @@
                 case "top":
                 case "bottom":
                     pos.l = xC - Math.floor(this.tipOuterW / 2);
-                    if (this.opts.keepInViewport) {
+                    if (keepInViewport) {
                         if (pos.l + this.tipOuterW > win.l + win.w)
                             pos.l = win.l + win.w - this.tipOuterW;
                         else if (pos.l < win.l)
@@ -397,7 +397,6 @@
                 case "top":
                     arrowOuterWH=this.setArrowAndGetWH(placement);
                     pos.t = yT - this.tipOuterH - this.opts.offsetY-arrowOuterWH.H;
-                    // 'left' and 'right' need priority for 'target'
                     if (isAuto && pos.t < win.t) {
                         arrowOuterWH=this.setArrowAndGetWH("bottom");
                         pos.t = yB + this.opts.offsetY+arrowOuterWH.H;
@@ -406,7 +405,6 @@
                 case "bottom":
                     arrowOuterWH=this.setArrowAndGetWH(placement);
                     pos.t = yB+ this.opts.offsetY +arrowOuterWH.H;
-                    // 'left' and 'right' need priority for 'target'
                     if (isAuto && pos.t + this.tipOuterH > win.t + win.h) {
                         arrowOuterWH=this.setArrowAndGetWH("top");
                         pos.t = yT - this.tipOuterH - this.opts.offsetY-arrowOuterWH.H;
@@ -415,11 +413,13 @@
 				case "right":
                 case "left":
                     pos.t = yC - Math.floor(this.tipOuterH / 2);
-                    if (this.opts.keepInViewport) {
-                        if (pos.t + this.tipOuterH > win.t + win.h)
-                            pos.t = win.t + win.h - this.tipOuterH;
+                    if (keepInViewport) {
+                        if (pos.t + this.tipOuterH > win.t + win.h){
+                            pos.t = win.t + win.h - this.tipOuterH;   
+                            //this.$arrow.css("top",yC - Math.floor(this.tipOuterH / 2) );                  
+                        }
                         else if (pos.t < win.t)
-                            pos.t = win.t;
+                            pos.t = win.t; 
                     }
                     break;
 				case 'center':
@@ -431,7 +431,7 @@
         },
         setArrowAndGetWH:function(placement){
             var arrowOuteWH={};
-            this.$arrow[0].className = 'tip-arrow tip-arrow-' + placement;
+            this.$arrow.attr("class", "tip-arrow tip-arrow-" + placement);
             W = this.$arrow.outerWidth();
             H = this.$arrow.outerHeight();
             arrowOuteWH.W=W;
@@ -527,7 +527,6 @@
 							// ('bottom', 'center', 'top', 'inner-bottom', 'inner-top') - 'inner-*' matter if alignTo:'target'
 		offsetX:		0,		// offset X pixels from the default position - doesn't matter if alignX:'center'
 		offsetY:		0,//21,		// offset Y pixels from the default position - doesn't matter if alignY:'center'
-		keepInViewport:		true,		// reposition the tooltip if needed to make sure it always appears inside the viewport
 		allowTipHover:		true,		// allow hovering the tip without hiding it onmouseout of the target - matters only if showOn:'hover'
 		followCursor:		false,		// if the tip should follow the cursor - matters only if showOn:'hover' and alignTo:'cursor'
 		fade: 			true,		// use fade animation

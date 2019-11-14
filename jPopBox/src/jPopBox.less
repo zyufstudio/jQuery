@@ -44,6 +44,8 @@
     .tip-arrow{
         @arrowBGColor:rgba(0,0,0,.25);  //指向箭头背景色
         @arrowFGColor:#fff;             //指向箭头前景色
+        @arrowPosition:-11px;
+        @arrowAfterPosition:-10px;
         &,
         &:after{
             position: absolute;
@@ -55,53 +57,52 @@
             border-width: 10px;
             content: "";
         }
-        //alignY: "top"
         &.tip-arrow-top {
             left: 50%;
-            margin-left: -11px;
+            margin-left: @arrowPosition;
             border-bottom-width: 0;
             border-top-color:@arrowBGColor;
-            bottom: -11px;
+            bottom: @arrowPosition;
             &:after {
                 content: " ";
                 bottom: 1px;
-                margin-left: -10px;
+                margin-left: @arrowAfterPosition;
                 border-bottom-width: 0;
                 border-top-color: @arrowFGColor;
             }
         }
         &.tip-arrow-right {
             top: 50%;
-            left: -11px;
-            margin-top: -11px;
+            left: @arrowPosition;
+            margin-top: @arrowPosition;
             border-left-width: 0;
             border-right-color:@arrowBGColor;
             &:after {
               content: " ";
               left: 1px;
-              bottom: -10px;
+              bottom: @arrowAfterPosition;
               border-left-width: 0;
               border-right-color: @arrowFGColor;
             }
           }
         &.tip-arrow-bottom {
             left: 50%;
-            margin-left: -11px;
+            margin-left: @arrowPosition;
             border-top-width: 0;
             border-bottom-color:@arrowBGColor;
-            top: -11px;
+            top: @arrowPosition;
             &:after {
                 content: " ";
                 top: 1px;
-                margin-left: -10px;
+                margin-left: @arrowAfterPosition;
                 border-top-width: 0;
                 border-bottom-color: @arrowFGColor;
             }
         }
         &.tip-arrow-left{
             top: 50%;
-            right: -11px;
-            margin-top: -11px;
+            right: @arrowPosition;
+            margin-top: @arrowPosition;
             border-right-width: 0;
             border-left-color: @arrowBGColor;
             &:after {
@@ -109,7 +110,7 @@
                 right: 1px;
                 border-right-width: 0;
                 border-left-color:@arrowFGColor;
-                bottom: -10px;
+                bottom: @arrowAfterPosition;
             }
         }
     }
