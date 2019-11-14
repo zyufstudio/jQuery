@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JPopBoxTest</title>
+    <link rel="stylesheet" href="./dist/jPopBox.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="./dist/jPopBox.js"></script>
+</head>
+<body>
+    <div style="margin-left: 300px;margin-top: 100px">
+        <button id="ttck">上弹出框</button>
+    </div>
+    <div style="margin-left: 300px;margin-top: 150px">
+        <button id="btck">下弹出框</button>
+    </div>
+    <div style="margin-left: 300px;margin-top: 170px">
+            <button id="ltck">左弹出框</button>
+        </div>
+        <div style="margin-left: 300px;margin-top: 175px">
+            <button id="rtck">右弹出框</button>
+        </div>
+</body>
+</html>
+<script>
+$(function(){
+    $('#ttck').jPopBox({
+        className: 'tip-white',
+        alignTo: 'target',
+        placement:"auto top",
+        showOn: 'none',
+        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+    });
+    $('#ttck').click(function(){
+        $('#ttck').jPopBox('show');
+    });
+    $('#btck').jPopBox({
+        title:"titlebottom",
+        className: 'tip-white',
+        alignTo: 'target',
+        placement:"bottom",
+        showOn: 'none',
+        content:"底部的 Popover 中的一些内容"
+    });
+    $('#btck').click(function(){
+        $('#btck').jPopBox('show');
+    });
+    $('#ltck').jPopBox({
+        title:"Popover title",
+        className: 'tip-white',
+        alignTo: 'target',
+        placement:"left",
+        showOn: 'none',
+        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+    });
+    $('#ltck').click(function(){
+        $('#ltck').jPopBox('show');
+    });
+    $('#rtck').jPopBox({
+        className: 'tip-white',
+        alignTo: 'target',
+        placement:"right",
+        showOn: 'none',
+        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+    });
+    $('#rtck').click(function(){
+        $('#rtck').jPopBox('show');
+    });
+});
+</script>
