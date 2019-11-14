@@ -26,7 +26,7 @@
         this.$tip = $(['<div ', idNameHtml,' class="',this.opts.className,'">',
                 title,
 				'<div class="tip-inner tip-bg-image"></div>',
-				'<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left"></div>',
+				'<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left" style="visibility:inherit"></div>',
 			'</div>'].join('')).appendTo(document.body);
 		this.$arrow = this.$tip.find('div.tip-arrow');
         this.$inner = this.$tip.find('div.tip-inner');
@@ -191,66 +191,8 @@
 
 			// save default opacity
 			if (this.opacity === undefined)
-				this.opacity = this.$tip.css('opacity');
-
-			// check for images - this code is here (i.e. executed each time we show the tip and not on init) due to some browser inconsistencies
-			var bgImage = this.$tip.css('background-image').match(reBgImage),
-				arrow = true;//this.$arrow.css('background-image').match(reBgImage);
-
-			if (bgImage) {
-				var bgImagePNG = rePNG.test(bgImage[1]);
-				// fallback to background-color/padding/border in IE6 if a PNG is used
-				if (IE6 && bgImagePNG) {
-					this.$tip.css('background-image', 'none');
-					this.$inner.css({margin: 0, border: 0, padding: 0});
-					bgImage = bgImagePNG = false;
-				} else {
-					this.$tip.prepend('<table class="tip-table" border="0" cellpadding="0" cellspacing="0"><tr><td class="tip-top tip-bg-image" colspan="2"><span></span></td><td class="tip-right tip-bg-image" rowspan="2"><span></span></td></tr><tr><td class="tip-left tip-bg-image" rowspan="2"><span></span></td><td></td></tr><tr><td class="tip-bottom tip-bg-image" colspan="2"><span></span></td></tr></table>')
-						.css({border: 0, padding: 0, 'background-image': 'none', 'background-color': 'transparent'})
-						.find('.tip-bg-image').css('background-image', 'url("' + bgImage[1] +'")').end()
-						.find('td').eq(3).append(this.$inner);
-				}
-				// disable fade effect in IE due to Alpha filter + translucent PNG issue
-				if (bgImagePNG && IElt9)
-					this.opts.fade = false;
-			}
-			// IE arrow fixes
-			if (arrow && IElt9) {
-				// disable arrow in IE6 if using a PNG
-				if (IE6 && rePNG.test(arrow[1])) {
-					arrow = false;
-					this.$arrow.css('background-image', 'none');
-				}
-				// disable fade effect in IE due to Alpha filter + translucent PNG issue
-				this.opts.fade = false;
-			}
-
-			var $table = this.$tip.find('> table.tip-table');
-			if (IE6) {
-				// fix min/max-width in IE6
-				this.$tip[0].style.width = '';
-				$table.width('auto').find('td').eq(3).width('auto');
-				var tipW = this.$tip.width(),
-					minW = parseInt(this.$tip.css('min-width')),
-					maxW = parseInt(this.$tip.css('max-width'));
-				if (!isNaN(minW) && tipW < minW)
-					tipW = minW;
-				else if (!isNaN(maxW) && tipW > maxW)
-					tipW = maxW;
-				this.$tip.add($table).width(tipW).eq(0).find('td').eq(3).width('100%');
-			} else if ($table[0]) {
-				// fix the table width if we are using a background image
-				// IE9, FF4 use float numbers for width/height so use getComputedStyle for them to avoid text wrapping
-				// for details look at: http://vadikom.com/dailies/offsetwidth-offsetheight-useless-in-ie9-firefox4/
-				$table.width('auto').find('td').eq(3).width('auto').end().end().width(document.defaultView && document.defaultView.getComputedStyle && parseFloat(document.defaultView.getComputedStyle(this.$tip[0], null).width) || this.$tip.width()).find('td').eq(3).width('100%');
-			}
-
-			// position and show the arrow image
-			if (arrow) {
-				this.$arrow.css('visibility', 'inherit');
-			}
-			this.tipOuterW = this.$tip.outerWidth();
-            this.tipOuterH = this.$tip.outerHeight();
+                this.opacity = this.$tip.css('opacity');
+                
             this.calcPos();
             
 			if (async && this.opts.refreshAniDuration) {
@@ -329,6 +271,8 @@
 			this.eventY = e.pageY;
 		},
 		calcPos: function() {
+            this.tipOuterW = this.$tip.outerWidth();
+            this.tipOuterH = this.$tip.outerHeight();
 			var pos = {l: 0, t: 0, arrow: ''},
 				$win = $(window),
 				win = {
@@ -415,8 +359,7 @@
                     pos.t = yC - Math.floor(this.tipOuterH / 2);
                     if (keepInViewport) {
                         if (pos.t + this.tipOuterH > win.t + win.h){
-                            pos.t = win.t + win.h - this.tipOuterH;   
-                            //this.$arrow.css("top",yC - Math.floor(this.tipOuterH / 2) );                  
+                            pos.t = win.t + win.h - this.tipOuterH;                
                         }
                         else if (pos.t < win.t)
                             pos.t = win.t; 
@@ -473,37 +416,7 @@
 				'div.',opts.className,' div.tip-inner{background-position:-',opts.bgImageFrameSize,'px -',opts.bgImageFrameSize,'px;}',
 				'div.',opts.className,' div.tip-arrow{visibility:hidden;position:absolute;font:1px/1px sans-serif;}',
 			'</style>'].join('')).appendTo('head');
-        
-		// check if we need to hook live events
-		if (opts.liveEvents && opts.showOn != 'none') {
-			var handler,
-				deadOpts = $.extend({}, opts, { liveEvents: false });
-			switch (opts.showOn) {
-				case 'hover':
-					handler = function() {
-						var $this = $(this);
-						if (!$this.data('jPopBox'))
-							$this.jPopBox(deadOpts).jPopBox('mouseenter');
-					};
-					// support 1.4.2+ & 1.9+
-					this.live ?
-						this.live('mouseenter.jPopBox', handler) :
-						$(document).delegate(this.selector, 'mouseenter.jPopBox', handler);
-					break;
-				case 'focus':
-					handler = function() {
-						var $this = $(this);
-						if (!$this.data('jPopBox'))
-							$this.jPopBox(deadOpts).jPopBox('showDelayed');
-					};
-					this.live ?
-						this.live('focus.jPopBox', handler) :
-						$(document).delegate(this.selector, 'focus.jPopBox', handler);
-					break;
-			}
-			return this;
-		}
-
+    
 		return this.each(function() {
 			new $.JPopBox(this, opts);
 		});
@@ -519,14 +432,9 @@
 		hideTimeout:		100,		// timeout before hiding the tip
 		timeOnScreen:		0,		// timeout before automatically hiding the tip after showing it (set to > 0 in order to activate)
 		showOn:			'hover',	// handler for showing the tip ('hover', 'focus', 'none') - use 'none' to trigger it manually
-		liveEvents:		false,		// use live events
 		alignTo:		'cursor',	// align/position the tip relative to ('cursor', 'target')
-		alignX:			'right',	// horizontal alignment for the tip relative to the mouse cursor or the target element
-							// ('right', 'center', 'left', 'inner-left', 'inner-right') - 'inner-*' matter if alignTo:'target'
-		alignY:			'top',		// vertical alignment for the tip relative to the mouse cursor or the target element
-							// ('bottom', 'center', 'top', 'inner-bottom', 'inner-top') - 'inner-*' matter if alignTo:'target'
-		offsetX:		0,		// offset X pixels from the default position - doesn't matter if alignX:'center'
-		offsetY:		0,//21,		// offset Y pixels from the default position - doesn't matter if alignY:'center'
+		offsetX:		0,		    // offset X pixels from the default position - doesn't matter if alignX:'center'
+		offsetY:		0,  		// offset Y pixels from the default position - doesn't matter if alignY:'center'
 		allowTipHover:		true,		// allow hovering the tip without hiding it onmouseout of the target - matters only if showOn:'hover'
 		followCursor:		false,		// if the tip should follow the cursor - matters only if showOn:'hover' and alignTo:'cursor'
 		fade: 			true,		// use fade animation
@@ -535,7 +443,7 @@
 		showAniDuration: 	300,		// show animation duration - set to 0 if you don't want show animation
 		hideAniDuration: 	300,		// hide animation duration - set to 0 if you don't want hide animation
         refreshAniDuration:	200,		// refresh animation duration - set to 0 if you don't want animation when updating the tooltip asynchronously
-        title:'',                       //show title
+        title:'',                       //标题
         placement:'top'                 //如何定位弹出框
 	};
 
