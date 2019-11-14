@@ -59,13 +59,9 @@
         },
 		init: function() {
 			tips.push(this);
-
-			// save the original title and a reference to the JPopBox object
 			var title = this.$elm.attr('title');
 			this.$elm.data('title.jPopBox', title !== undefined ? title : null)
 				.data('jPopBox', this);
-
-			// hook element events
 			if (this.opts.trigger != 'none') {
 				this.$elm.bind({
 					'mouseenter.jPopBox': $.proxy(this.mouseenter, this),
@@ -90,19 +86,15 @@
 		mouseenter: function(e) {
 			if (this.disabled)
 				return true;
-
 			this.updateCursorPos(e);
-
 			this.$elm.attr('title', '');
 			if (this.opts.trigger == 'focus')
 				return true;
-
 			this.showDelayed();
 		},
 		mouseleave: function(e) {
 			if (this.disabled || this.asyncAnimating && (this.$tip[0] === e.relatedTarget || jQuery.contains(this.$tip[0], e.relatedTarget)))
 				return true;
-
 			if (!this.$tip.data('active')) {
 				var title = this.$elm.data('title.jPopBox');
 				if (title !== null)
@@ -110,15 +102,12 @@
 			}
 			if (this.opts.trigger == 'focus')
 				return true;
-
 			this.hideDelayed();
 		},
 		mousemove: function(e) {
 			if (this.disabled)
 				return true;
-
 			this.updateCursorPos(e);
-
 			if (this.opts.isFollowCursor && this.$tip.data('active')) {
 				this.calcPos();
 				this.$tip.css({left: this.pos.l, top: this.pos.t});
@@ -129,14 +118,10 @@
 		show: function() {
 			if (this.disabled || this.$tip.data('active'))
 				return;
-
 			this.reset();
 			this.update();
-
-			// don't proceed if we didn't get any content in update() (e.g. the element has an empty title attribute)
 			if (!this.content)
 				return;
-
 			this.display();
 		},
 		showDelayed: function() {
@@ -178,7 +163,7 @@
 					content.call(this.$elm[0], function(newContent) {
 						self.update(newContent);
 					}) :
-					content == '[title]' ? this.$elm.data('title.jPopBox') : content;
+					content == "" ? this.$elm.data('title.jPopBox') : content;
 			if (this.content !== newContent) {
 				this.$inner.empty().append(newContent);
 				this.content = newContent;
@@ -188,21 +173,13 @@
 		refresh: function(async) {
 			if (this.disabled)
 				return;
-
 			if (async) {
 				if (!this.$tip.data('active'))
 					return;
-				// save current position as we will need to animate
-				var currPos = {left: this.$tip.css('left'), top: this.$tip.css('top')};
 			}
-
-			// reset position to avoid text wrapping, etc.
 			this.$tip.css({left: 0, top: 0}).appendTo(document.body);
-
-			// save default opacity
 			if (this.opacity === undefined)
-                this.opacity = this.$tip.css('opacity');
-                
+                this.opacity = this.$tip.css('opacity');             
             this.calcPos();
             this.$tip.css({left: this.pos.l, top: this.pos.t});
 		},
@@ -276,12 +253,12 @@
 						w: this.$elm.outerWidth(),
 						h: this.$elm.outerHeight()
 					};
-				xL = elm.l;	// left
-				xC = xL + Math.floor(elm.w / 2);				// h center
-				xR = xL + elm.w;	    // right
-				yT = elm.t;	// top
-				yC = yT + Math.floor(elm.h / 2);				// v center
-				yB = yT +elm.h;	// bottom
+				xL = elm.l;	        // left
+				xC = xL + Math.floor(elm.w / 2);    // h center
+				xR = xL + elm.w;    // right
+				yT = elm.t;	        // top
+				yC = yT + Math.floor(elm.h / 2);    // v center
+				yB = yT +elm.h;	    // bottom
             }
             placement=this.opts.placement;
             var autoReg=/\s?auto?\s?/i;
@@ -372,7 +349,6 @@
 			var args = arguments,
 				method = options;
 			Array.prototype.shift.call(args);
-			// unhook live events if 'destroy' is called
 			if (method == 'destroy') {
 				this.die ?
 					this.die('mouseenter.jPopBox').die('focus.jPopBox') :
@@ -386,9 +362,6 @@
 		}
 
 		var opts = $.extend({}, $.fn.jPopBox.defaults, options);
-
-        // generate CSS for this tip class if not already generated
-        
 		if (!$('#jPopBox-css-' + opts.className)[0])
 			$(['<style id="jPopBox-css-',opts.className,'" type="text/css">',
 				'div.',opts.className,'{visibility:hidden;position:absolute;top:0;left:0;}',
@@ -409,14 +382,13 @@
 	$.fn.jPopBox.defaults = {
         title:'',                   // 标题
 		content:'',	                // 弹出框内容 ('string', element, function(updateCallback){...})
-		className:'tip-yellow',	    // class名称
+		className:'tip-white',	    // class名称
         delay:100,                  // 延迟显示和隐藏弹出框的毫秒数,对 trigger:none 手动触发类型不适用。如果提供的是一个数字，那么延迟将会应用于显示和隐藏。如果提供的是一个对象{ show: 500, hide: 100 }，那么延迟将会分别应用于显示和隐藏
-		trigger:'hover',	            // 如何触发弹出框 ('hover', 'focus', 'none'),none为手动触发
+		trigger:'hover',	        // 如何触发弹出框 ('hover', 'focus', 'none'),none为手动触发
 		alignTo:'cursor',	        // 弹出框位置对齐('cursor', 'target')
         offset:0,                   // 方向偏移量，如果提供的是一个数字，那么偏移量将会应用于X轴和Y轴。如果提供的是一个对象{ X:200, Y: 100 }，那么偏移量将会分别应用于X轴和Y轴
 		isTipHover:true,		    // allow hovering the tip without hiding it onmouseout of the target - matters only if trigger:'hover'
 		isFollowCursor:false,		// 弹出框是否跟随鼠标，只对 trigger:'hover' 并且 alignTo:'cursor' 生效
         placement:'top'             // 如何定位弹出框
 	};
-
 })(jQuery);
