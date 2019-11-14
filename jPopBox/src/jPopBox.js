@@ -17,7 +17,7 @@
 
 	$.JPopBox = function(elm, options) {
 		this.$elm = $(elm);
-		this.opts = $.extend({}, $.fn.jPopBox.defaults, options);
+		this.opts = this.getOptions(options);
         var title="";
         if(this.opts.title!=""){
             title='<div class="tip-title">'+this.opts.title+'</div>';
@@ -29,7 +29,7 @@
 			'</div>'].join('')).appendTo(document.body);
 		this.$arrow = this.$tip.find('div.tip-arrow');
         this.$inner = this.$tip.find('div.tip-inner');
-		this.disabled = false;
+        this.disabled = false;
 		this.content = null;
 		this.init();
 	};
@@ -41,6 +41,22 @@
 	};
 
 	$.JPopBox.prototype = {
+        getOptions:function(options){
+            options = $.extend({}, $.fn.jPopBox.defaults, options);
+            if (options.delay>-1 && typeof options.delay == 'number') {
+                options.delay = {
+                    show: options.delay,
+                    hide: options.delay
+                }
+            }
+            if (options.offset>-1 && typeof options.offset == 'number') {
+                options.offset = {
+                    X: options.offset,
+                    Y: options.offset
+                }
+            }
+            return options
+        },
 		init: function() {
 			tips.push(this);
 
@@ -50,16 +66,16 @@
 				.data('jPopBox', this);
 
 			// hook element events
-			if (this.opts.showOn != 'none') {
+			if (this.opts.trigger != 'none') {
 				this.$elm.bind({
 					'mouseenter.jPopBox': $.proxy(this.mouseenter, this),
 					'mouseleave.jPopBox': $.proxy(this.mouseleave, this)
 				});
-				switch (this.opts.showOn) {
+				switch (this.opts.trigger) {
 					case 'hover':
 						if (this.opts.alignTo == 'cursor')
 							this.$elm.bind('mousemove.jPopBox', $.proxy(this.mousemove, this));
-						if (this.opts.allowTipHover)
+						if (this.opts.isTipHover)
 							this.$tip.hover($.proxy(this.clearTimeouts, this), $.proxy(this.mouseleave, this));
 						break;
 					case 'focus':
@@ -78,7 +94,7 @@
 			this.updateCursorPos(e);
 
 			this.$elm.attr('title', '');
-			if (this.opts.showOn == 'focus')
+			if (this.opts.trigger == 'focus')
 				return true;
 
 			this.showDelayed();
@@ -92,7 +108,7 @@
 				if (title !== null)
 					this.$elm.attr('title', title);
 			}
-			if (this.opts.showOn == 'focus')
+			if (this.opts.trigger == 'focus')
 				return true;
 
 			this.hideDelayed();
@@ -103,7 +119,7 @@
 
 			this.updateCursorPos(e);
 
-			if (this.opts.followCursor && this.$tip.data('active')) {
+			if (this.opts.isFollowCursor && this.$tip.data('active')) {
 				this.calcPos();
 				this.$tip.css({left: this.pos.l, top: this.pos.t});
 				if (this.pos.arrow)
@@ -122,22 +138,19 @@
 				return;
 
 			this.display();
-			if (this.opts.timeOnScreen)
-				this.hideDelayed(this.opts.timeOnScreen);
 		},
-		showDelayed: function(timeout) {
+		showDelayed: function() {
 			this.clearTimeouts();
-			this.showTimeout = setTimeout($.proxy(this.show, this), typeof timeout == 'number' ? timeout : this.opts.showTimeout);
+			this.showTimeout = setTimeout($.proxy(this.show, this), this.opts.delay.show);
 		},
 		hide: function() {
 			if (this.disabled || !this.$tip.data('active'))
 				return;
-
 			this.display(true);
 		},
-		hideDelayed: function(timeout) {
+		hideDelayed: function() {
 			this.clearTimeouts();
-			this.hideTimeout = setTimeout($.proxy(this.hide, this), typeof timeout == 'number' ? timeout : this.opts.hideTimeout);
+			this.hideTimeout = setTimeout($.proxy(this.hide, this),this.opts.delay.hide);
 		},
 		reset: function() {
 			this.$tip.queue([]).detach().css('visibility', 'hidden').data('active', false);
@@ -191,16 +204,7 @@
                 this.opacity = this.$tip.css('opacity');
                 
             this.calcPos();
-            
-			if (async && this.opts.refreshAniDuration) {
-				this.asyncAnimating = true;
-				var self = this;
-                this.$tip.css(currPos).animate({left: this.pos.l, top: this.pos.t}, this.opts.refreshAniDuration, function() { self.asyncAnimating = false; });
-                //this.$tip.css(currPos).animate({left: 100, top: 100}, this.opts.refreshAniDuration, function() { self.asyncAnimating = false; });
-			} else {
-                this.$tip.css({left: this.pos.l, top: this.pos.t});
-                //this.$tip.css({left: 100, top: 100});
-			}
+            this.$tip.css({left: this.pos.l, top: this.pos.t});
 		},
 		display: function(hide) {
 			var active = this.$tip.data('active');
@@ -211,7 +215,7 @@
             var from = {}, to = {};
             from.opacity = hide ? this.$tip.css('opacity') : 0;
 			to.opacity = hide ? 0 : this.opacity;
-            this.$tip.css(from).animate(to, this.opts[hide ? 'hideAniDuration' : 'showAniDuration']);
+            this.$tip.css(from).animate(to, 300);
 
 			hide ? this.$tip.queue($.proxy(this.reset, this)) : this.$tip.css('visibility', 'inherit');
 			if (active) {
@@ -297,18 +301,18 @@
                     break;
                 case "right":
                     arrowOuterWH=this.setArrowAndGetWH(placement);
-					pos.l = xR + this.opts.offsetX+arrowOuterWH.W;
+					pos.l = xR + this.opts.offset.X+arrowOuterWH.W;
                     if (isAuto && pos.l + this.tipOuterW > win.l + win.w){
                         arrowOuterWH=this.setArrowAndGetWH("left");  
-                        pos.l =xL - this.tipOuterW - this.opts.offsetX-arrowOuterWH.W;
+                        pos.l =xL - this.tipOuterW - this.opts.offset.X-arrowOuterWH.W;
                     }              
                     break;
                 case "left":
                     arrowOuterWH=this.setArrowAndGetWH(placement);
-                    pos.l = xL - this.tipOuterW- this.opts.offsetX-arrowOuterWH.W;
+                    pos.l = xL - this.tipOuterW- this.opts.offset.X-arrowOuterWH.W;
                     if (isAuto && pos.l < win.l){
                         arrowOuterWH=this.setArrowAndGetWH("right");
-                        pos.l =xR + this.opts.offsetX+arrowOuterWH.W;
+                        pos.l =xR + this.opts.offset.X+arrowOuterWH.W;
                     }
                     break;
 				case 'center':
@@ -320,18 +324,18 @@
             switch (placement) {
                 case "top":
                     arrowOuterWH=this.setArrowAndGetWH(placement);
-                    pos.t = yT - this.tipOuterH - this.opts.offsetY-arrowOuterWH.H;
+                    pos.t = yT - this.tipOuterH - this.opts.offset.Y-arrowOuterWH.H;
                     if (isAuto && pos.t < win.t) {
                         arrowOuterWH=this.setArrowAndGetWH("bottom");
-                        pos.t = yB + this.opts.offsetY+arrowOuterWH.H;
+                        pos.t = yB + this.opts.offset.Y+arrowOuterWH.H;
                     }
                     break;
                 case "bottom":
                     arrowOuterWH=this.setArrowAndGetWH(placement);
-                    pos.t = yB+ this.opts.offsetY +arrowOuterWH.H;
+                    pos.t = yB+ this.opts.offset.Y +arrowOuterWH.H;
                     if (isAuto && pos.t + this.tipOuterH > win.t + win.h) {
                         arrowOuterWH=this.setArrowAndGetWH("top");
-                        pos.t = yT - this.tipOuterH - this.opts.offsetY-arrowOuterWH.H;
+                        pos.t = yT - this.tipOuterH - this.opts.offset.Y-arrowOuterWH.H;
                     }
                     break;
 				case "right":
@@ -403,23 +407,16 @@
 
 	// default settings
 	$.fn.jPopBox.defaults = {
-		content: 		'[title]',	// content to display ('[title]', 'string', element, function(updateCallback){...}, jQuery)
-		className:		'tip-yellow',	// class for the tips
-		showTimeout:		500,		// timeout before showing the tip (in milliseconds 1000 == 1 second)
-		hideTimeout:		100,		// timeout before hiding the tip
-		timeOnScreen:		0,		// timeout before automatically hiding the tip after showing it (set to > 0 in order to activate)
-		showOn:			'hover',	// handler for showing the tip ('hover', 'focus', 'none') - use 'none' to trigger it manually
-		alignTo:		'cursor',	// align/position the tip relative to ('cursor', 'target')
-		offsetX:		0,		    // offset X pixels from the default position - doesn't matter if alignX:'center'
-		offsetY:		0,  		// offset Y pixels from the default position - doesn't matter if alignY:'center'
-		allowTipHover:		true,		// allow hovering the tip without hiding it onmouseout of the target - matters only if showOn:'hover'
-		followCursor:		false,		// if the tip should follow the cursor - matters only if showOn:'hover' and alignTo:'cursor'
-		slideOffset: 		8,		// slide animation offset
-		showAniDuration: 	300,		// show animation duration - set to 0 if you don't want show animation
-		hideAniDuration: 	300,		// hide animation duration - set to 0 if you don't want hide animation
-        refreshAniDuration:	200,		// refresh animation duration - set to 0 if you don't want animation when updating the tooltip asynchronously
-        title:'',                       //标题
-        placement:'top'                 //如何定位弹出框
+        title:'',                   // 标题
+		content:'',	                // 弹出框内容 ('string', element, function(updateCallback){...})
+		className:'tip-yellow',	    // class名称
+        delay:100,                  // 延迟显示和隐藏弹出框的毫秒数,对 trigger:none 手动触发类型不适用。如果提供的是一个数字，那么延迟将会应用于显示和隐藏。如果提供的是一个对象{ show: 500, hide: 100 }，那么延迟将会分别应用于显示和隐藏
+		trigger:'hover',	            // 如何触发弹出框 ('hover', 'focus', 'none'),none为手动触发
+		alignTo:'cursor',	        // 弹出框位置对齐('cursor', 'target')
+        offset:0,                   // 方向偏移量，如果提供的是一个数字，那么偏移量将会应用于X轴和Y轴。如果提供的是一个对象{ X:200, Y: 100 }，那么偏移量将会分别应用于X轴和Y轴
+		isTipHover:true,		    // allow hovering the tip without hiding it onmouseout of the target - matters only if trigger:'hover'
+		isFollowCursor:false,		// 弹出框是否跟随鼠标，只对 trigger:'hover' 并且 alignTo:'cursor' 生效
+        placement:'top'             // 如何定位弹出框
 	};
 
 })(jQuery);
