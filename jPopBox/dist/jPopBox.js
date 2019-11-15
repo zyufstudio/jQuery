@@ -55,26 +55,34 @@
 			tips.push(this);
 			this.$elm.data('jPopBox', this);
 			if (this.opts.trigger != 'none') {
-				this.$elm.bind({
+				this.opts.trigger!="click" && this.$elm.on({
 					'mouseenter.jPopBox': $.proxy(this.mouseenter, this),
 					'mouseleave.jPopBox': $.proxy(this.mouseleave, this)
 				});
 				switch (this.opts.trigger) {
                     case 'click':
+                        this.$elm.on('click.jPopBox', $.proxy(this.toggle, this));
                         break;
                     case 'hover':
                         if (this.opts.isTipHover)
 							this.$tip.hover($.proxy(this.clearTimeouts, this), $.proxy(this.mouseleave, this));
 						break;
 					case 'focus':
-						this.$elm.bind({
+						this.$elm.on({
 							'focus.jPopBox': $.proxy(this.showDelayed, this),
 							'blur.jPopBox': $.proxy(this.hideDelayed, this)
 						});
 						break;
 				}
 			}
-		},
+        },
+        toggle:function(){
+            var active=this.$tip.data('active');
+            if(!active)
+                this.showDelayed();
+            else 
+                this.hideDelayed();
+        },
 		mouseenter: function(e) {
 			if (this.disabled)
 				return true;
@@ -193,7 +201,7 @@
 			this.$tip.remove();
 			delete this.$tip;
 			this.content = null;
-			this.$elm.unbind('.jPopBox').removeData('jPopBox');
+			this.$elm.off('.jPopBox').removeData('jPopBox');
 			tips.splice($.inArray(this, tips), 1);
 		},
 		clearTimeouts: function() {
