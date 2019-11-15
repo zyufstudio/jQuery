@@ -9,7 +9,7 @@
 
 	$.JPopBox = function(elm, options) {
 		this.$elm = $(elm);
-		this.opts = this.getOptions(options);
+        this.opts = this.getOptions(options);
         var popBoxHtml=[];
         popBoxHtml.push('<div class="'+this.opts.className+'">');
         if(this.opts.title!=""){
@@ -60,11 +60,9 @@
 					'mouseleave.jPopBox': $.proxy(this.mouseleave, this)
 				});
 				switch (this.opts.trigger) {
+                    case 'click':
+                        break;
 					case 'hover':
-						if (this.opts.alignTo == 'cursor')
-							this.$elm.bind('mousemove.jPopBox', $.proxy(this.mousemove, this));
-						if (this.opts.isTipHover)
-							this.$tip.hover($.proxy(this.clearTimeouts, this), $.proxy(this.mouseleave, this));
 						break;
 					case 'focus':
 						this.$elm.bind({
@@ -221,24 +219,19 @@
 					w: $win.width(),
 					h: $win.height()
 				}, xL, xC, xR, yT, yC, yB,arrowOuterWH,placement,isAuto=false,keepInViewport=true;
-			if (this.opts.alignTo == 'cursor') {
-				xL = xC = xR = this.eventX;
-				yT = yC = yB = this.eventY;
-			} else { // this.opts.alignTo == 'target'
-				var elmOffset = this.$elm.offset(),
-					elm = {
-						l: elmOffset.left,
-						t: elmOffset.top,
-						w: this.$elm.outerWidth(),
-						h: this.$elm.outerHeight()
-					};
-				xL = elm.l;	        // left
-				xC = xL + Math.floor(elm.w / 2);    // h center
-				xR = xL + elm.w;    // right
-				yT = elm.t;	        // top
-				yC = yT + Math.floor(elm.h / 2);    // v center
-				yB = yT +elm.h;	    // bottom
-            }
+            var elmOffset = this.$elm.offset(),
+                elm = {
+                    l: elmOffset.left,
+                    t: elmOffset.top,
+                    w: this.$elm.outerWidth(),
+                    h: this.$elm.outerHeight()
+                };
+            xL = elm.l;	        // left
+            xC = xL + Math.floor(elm.w / 2);    // h center
+            xR = xL + elm.w;    // right
+            yT = elm.t;	        // top
+            yC = yT + Math.floor(elm.h / 2);    // v center
+            yB = yT +elm.h;	    // bottom
             placement=this.opts.placement;
             var autoReg=/\s?auto?\s?/i;
             isAuto=autoReg.test(placement);
@@ -325,7 +318,6 @@
             return arrowOuteWH;
         }
 	};
-
 	$.fn.jPopBox = function(options) {
 		if (typeof options == 'string') {
 			var args = arguments,
@@ -362,11 +354,8 @@
         className:'tip-white',	    // class名称
         placement:'top',             // 如何定位弹出框
         delay:100,                  // 延迟显示和隐藏弹出框的毫秒数,对 trigger:none 手动触发类型不适用。如果提供的是一个数字，那么延迟将会应用于显示和隐藏。如果提供的是一个对象{ show: 500, hide: 100 }，那么延迟将会分别应用于显示和隐藏
-		trigger:'hover',	        // 如何触发弹出框 ('hover', 'focus', 'none'),none为手动触发
-        alignTo:'cursor',	        // 弹出框位置对齐('cursor', 'target')
+		trigger:'hover',	        // 如何触发弹出框 ('click',hover', 'focus', 'none'),none为手动触发
         offset:0,                   // 方向偏移量，值为负数时，将会反向偏移。如果提供的是一个数字，那么偏移量将会应用于X轴和Y轴。如果提供的是一个对象{ X:200, Y: 100 }，那么偏移量将会分别应用于X轴和Y轴
-		isTipHover:true,		    // allow hovering the tip without hiding it onmouseout of the target - matters only if trigger:'hover'
-		isFollowCursor:false,		// 弹出框是否跟随鼠标，只对 trigger:'hover' 并且 alignTo:'cursor' 生效
         isShowArrow:true            //是否显示指向箭头
 	};
 })(jQuery);
