@@ -18,11 +18,11 @@
         if(this.opts.isShowArrow){
             popBoxHtml.push('<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left" style="visibility:inherit"></div>');
         }
-        popBoxHtml.push('<div class="tip-inner"></div>'),
+        popBoxHtml.push('<div class="tip-content"></div>'),
         popBoxHtml.push('</div>');
         this.$tip = $(popBoxHtml.join('')).appendTo(document.body);
 		this.$arrow = this.$tip.find('div.tip-arrow');
-        this.$inner = this.$tip.find('div.tip-inner');
+        this.$inner = this.$tip.find('div.tip-content');
         this.disabled = false;
 		this.content = null;
 		this.init();
@@ -62,7 +62,9 @@
 				switch (this.opts.trigger) {
                     case 'click':
                         break;
-					case 'hover':
+                    case 'hover':
+                        if (this.opts.isTipHover)
+							this.$tip.hover($.proxy(this.clearTimeouts, this), $.proxy(this.mouseleave, this));
 						break;
 					case 'focus':
 						this.$elm.bind({
@@ -352,10 +354,11 @@
         title:'',                   // 标题
 		content:'',	                // 弹出框内容 ('string', element, function(updateCallback){...})
         className:'tip-white',	    // class名称
-        placement:'top',             // 如何定位弹出框
+        placement:'top',            // 如何定位弹出框
         delay:100,                  // 延迟显示和隐藏弹出框的毫秒数,对 trigger:none 手动触发类型不适用。如果提供的是一个数字，那么延迟将会应用于显示和隐藏。如果提供的是一个对象{ show: 500, hide: 100 }，那么延迟将会分别应用于显示和隐藏
 		trigger:'hover',	        // 如何触发弹出框 ('click',hover', 'focus', 'none'),none为手动触发
         offset:0,                   // 方向偏移量，值为负数时，将会反向偏移。如果提供的是一个数字，那么偏移量将会应用于X轴和Y轴。如果提供的是一个对象{ X:200, Y: 100 }，那么偏移量将会分别应用于X轴和Y轴
-        isShowArrow:true            //是否显示指向箭头
+        isShowArrow:true,           // 是否显示指向箭头
+        isTipHover:true             // 是否允许在弹出框上移动，而不自动隐藏。只对trigger:hover有效。
 	};
 })(jQuery);
