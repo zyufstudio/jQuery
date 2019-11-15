@@ -1,13 +1,5 @@
 (function($) {
-
-	var tips = [],
-		reBgImage = /^url\(["']?([^"'\)]*)["']?\);?$/i,
-		rePNG = /\.png$/i,
-		IE = !!window.createPopup,
- 		IE6 = IE && typeof document.documentElement.currentStyle.minWidth == 'undefined',
-		IElt9 = IE && !document.defaultView;
-
-	// make sure the tips' position is updated on resize
+	var tips = [];
 	function handleWindowResize() {
 		$.each(tips, function() {
 			this.refresh(true);
@@ -18,15 +10,17 @@
 	$.JPopBox = function(elm, options) {
 		this.$elm = $(elm);
 		this.opts = this.getOptions(options);
-        var title="";
+        var popBoxHtml=[];
+        popBoxHtml.push('<div class="'+this.opts.className+'">');
         if(this.opts.title!=""){
-            title='<div class="tip-title">'+this.opts.title+'</div>';
+            popBoxHtml.push('<div class="tip-title">'+this.opts.title+'</div>');
         }
-        this.$tip = $(['<div class="',this.opts.className,'">',
-                title,
-				'<div class="tip-inner tip-bg-image"></div>',
-				'<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left" style="visibility:inherit"></div>',
-			'</div>'].join('')).appendTo(document.body);
+        if(this.opts.isShowArrow){
+            popBoxHtml.push('<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left" style="visibility:inherit"></div>');
+        }
+        popBoxHtml.push('<div class="tip-inner"></div>'),
+        popBoxHtml.push('</div>');
+        this.$tip = $(popBoxHtml.join('')).appendTo(document.body);
 		this.$arrow = this.$tip.find('div.tip-arrow');
         this.$inner = this.$tip.find('div.tip-inner');
         this.disabled = false;
@@ -43,13 +37,13 @@
 	$.JPopBox.prototype = {
         getOptions:function(options){
             options = $.extend({}, $.fn.jPopBox.defaults, options);
-            if (options.delay>-1 && typeof options.delay == 'number') {
+            if (options.delay && typeof options.delay == 'number') {
                 options.delay = {
                     show: options.delay,
                     hide: options.delay
                 }
             }
-            if (options.offset>-1 && typeof options.offset == 'number') {
+            if (typeof options.offset == 'number') {
                 options.offset = {
                     X: options.offset,
                     Y: options.offset
@@ -59,9 +53,7 @@
         },
 		init: function() {
 			tips.push(this);
-			var title = this.$elm.attr('title');
-			this.$elm.data('title.jPopBox', title !== undefined ? title : null)
-				.data('jPopBox', this);
+			this.$elm.data('jPopBox', this);
 			if (this.opts.trigger != 'none') {
 				this.$elm.bind({
 					'mouseenter.jPopBox': $.proxy(this.mouseenter, this),
@@ -95,11 +87,6 @@
 		mouseleave: function(e) {
 			if (this.disabled || this.asyncAnimating && (this.$tip[0] === e.relatedTarget || jQuery.contains(this.$tip[0], e.relatedTarget)))
 				return true;
-			if (!this.$tip.data('active')) {
-				var title = this.$elm.data('title.jPopBox');
-				if (title !== null)
-					this.$elm.attr('title', title);
-			}
 			if (this.opts.trigger == 'focus')
 				return true;
 			this.hideDelayed();
@@ -111,8 +98,6 @@
 			if (this.opts.isFollowCursor && this.$tip.data('active')) {
 				this.calcPos();
 				this.$tip.css({left: this.pos.l, top: this.pos.t});
-				if (this.pos.arrow)
-					this.$arrow[0].className = 'tip-arrow tip-arrow-' + this.opts.placement;
 			}
 		},
 		show: function() {
@@ -140,7 +125,7 @@
 		reset: function() {
 			this.$tip.queue([]).detach().css('visibility', 'hidden').data('active', false);
 			this.$inner.find('*').jPopBox('hide');
-			this.$arrow[0].className = 'tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left';
+			this.$arrow.length && (this.$arrow[0].className = 'tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left');
 			this.asyncAnimating = false;
 		},
 		update: function(content, dontOverwriteOption) {
@@ -162,8 +147,7 @@
 				newContent = typeof content == 'function' ?
 					content.call(this.$elm[0], function(newContent) {
 						self.update(newContent);
-					}) :
-					content == "" ? this.$elm.data('title.jPopBox') : content;
+					}) : content;
 			if (this.content !== newContent) {
 				this.$inner.empty().append(newContent);
 				this.content = newContent;
@@ -195,11 +179,6 @@
             this.$tip.css(from).animate(to, 300);
 
 			hide ? this.$tip.queue($.proxy(this.reset, this)) : this.$tip.css('visibility', 'inherit');
-			if (active) {
-				var title = this.$elm.data('title.jPopBox');
-				if (title !== null)
-					this.$elm.attr('title', title);
-			}
 			this.$tip.data('active', !active);
 		},
 		disable: function() {
@@ -214,7 +193,7 @@
 			this.$tip.remove();
 			delete this.$tip;
 			this.content = null;
-			this.$elm.unbind('.jPopBox').removeData('title.jPopBox').removeData('jPopBox');
+			this.$elm.unbind('.jPopBox').removeData('jPopBox');
 			tips.splice($.inArray(this, tips), 1);
 		},
 		clearTimeouts: function() {
@@ -268,7 +247,7 @@
 			switch (placement) {
                 case "top":
                 case "bottom":
-                    pos.l = xC - Math.floor(this.tipOuterW / 2);
+                    pos.l = xC - Math.floor(this.tipOuterW / 2)-this.opts.offset.X;
                     if (keepInViewport) {
                         if (pos.l + this.tipOuterW > win.l + win.w)
                             pos.l = win.l + win.w - this.tipOuterW;
@@ -317,7 +296,7 @@
                     break;
 				case "right":
                 case "left":
-                    pos.t = yC - Math.floor(this.tipOuterH / 2);
+                    pos.t = yC - Math.floor(this.tipOuterH / 2)-this.opts.offset.Y;
                     if (keepInViewport) {
                         if (pos.t + this.tipOuterH > win.t + win.h){
                             pos.t = win.t + win.h - this.tipOuterH;                
@@ -335,9 +314,12 @@
         },
         setArrowAndGetWH:function(placement){
             var arrowOuteWH={};
-            this.$arrow.attr("class", "tip-arrow tip-arrow-" + placement);
-            W = this.$arrow.outerWidth();
-            H = this.$arrow.outerHeight();
+            var W=0,H=0;
+            if(this.$arrow.length){
+                this.$arrow.attr("class", "tip-arrow tip-arrow-" + placement);
+                W = this.$arrow.outerWidth();
+                H = this.$arrow.outerHeight();
+            }
             arrowOuteWH.W=W;
             arrowOuteWH.H=H;
             return arrowOuteWH;
@@ -365,11 +347,6 @@
 		if (!$('#jPopBox-css-' + opts.className)[0])
 			$(['<style id="jPopBox-css-',opts.className,'" type="text/css">',
 				'div.',opts.className,'{visibility:hidden;position:absolute;top:0;left:0;}',
-				'div.',opts.className,' table.tip-table, div.',opts.className,' table.tip-table td{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;vertical-align:middle;}',
-				'div.',opts.className,' td.tip-bg-image span{display:block;font:1px/1px sans-serif;overflow:hidden;}',
-				'div.',opts.className,' td.tip-right{background-position:100% 0;}',
-				'div.',opts.className,' td.tip-bottom{background-position:100% 100%;}',
-				'div.',opts.className,' td.tip-left{background-position:0 100%;}',
 				'div.',opts.className,' div.tip-arrow{visibility:hidden;position:absolute;font:1px/1px sans-serif;}',
 			'</style>'].join('')).appendTo('head');
     
@@ -382,13 +359,14 @@
 	$.fn.jPopBox.defaults = {
         title:'',                   // 标题
 		content:'',	                // 弹出框内容 ('string', element, function(updateCallback){...})
-		className:'tip-white',	    // class名称
+        className:'tip-white',	    // class名称
+        placement:'top',             // 如何定位弹出框
         delay:100,                  // 延迟显示和隐藏弹出框的毫秒数,对 trigger:none 手动触发类型不适用。如果提供的是一个数字，那么延迟将会应用于显示和隐藏。如果提供的是一个对象{ show: 500, hide: 100 }，那么延迟将会分别应用于显示和隐藏
 		trigger:'hover',	        // 如何触发弹出框 ('hover', 'focus', 'none'),none为手动触发
-		alignTo:'cursor',	        // 弹出框位置对齐('cursor', 'target')
-        offset:0,                   // 方向偏移量，如果提供的是一个数字，那么偏移量将会应用于X轴和Y轴。如果提供的是一个对象{ X:200, Y: 100 }，那么偏移量将会分别应用于X轴和Y轴
+        alignTo:'cursor',	        // 弹出框位置对齐('cursor', 'target')
+        offset:0,                   // 方向偏移量，值为负数时，将会反向偏移。如果提供的是一个数字，那么偏移量将会应用于X轴和Y轴。如果提供的是一个对象{ X:200, Y: 100 }，那么偏移量将会分别应用于X轴和Y轴
 		isTipHover:true,		    // allow hovering the tip without hiding it onmouseout of the target - matters only if trigger:'hover'
 		isFollowCursor:false,		// 弹出框是否跟随鼠标，只对 trigger:'hover' 并且 alignTo:'cursor' 生效
-        placement:'top'             // 如何定位弹出框
+        isShowArrow:true            //是否显示指向箭头
 	};
 })(jQuery);

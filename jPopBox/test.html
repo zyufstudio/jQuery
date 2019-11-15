@@ -53,6 +53,8 @@ $(function(){
         alignTo: 'target',
         placement:"left",
         trigger: 'none',
+        isShowArrow:false,
+        offset:{X:0,Y:100},
         content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
     });
     $('#ltck').click(function(){
@@ -62,11 +64,12 @@ $(function(){
         className: 'tip-white',
         alignTo: 'target',
         placement:"right",
-        trigger: 'none',
+        trigger: 'hover',
+        delay:{show:100,hide:1000},
         content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
     });
-    $('#rtck').click(function(){
-        $('#rtck').jPopBox('show');
-    });
+    // $('#rtck').click(function(){
+    //     $('#rtck').jPopBox('show');
+    // });
 });
 </script>
