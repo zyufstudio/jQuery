@@ -22,6 +22,9 @@
         <div style="margin-left: 300px;margin-top: 175px">
             <button id="rtck">右弹出框</button>
         </div>
+        <div style="margin-left: 300px;margin-top: 180px">
+                <input type="text" id='ftck' value="焦点弹出框">
+            </div>
 </body>
 </html>
 <script>
@@ -68,5 +71,13 @@ $(function(){
     // $('#rtck').click(function(){
     //     $('#rtck').jPopBox('show');
     // });
+    $('#ftck').jPopBox({
+        className: 'tip-white',
+        placement:"right",
+        trigger: 'focus',
+        delay:{show:100,hide:500},
+        isTipHover:true,
+        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+    });
 });
 </script>
