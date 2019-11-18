@@ -1,0 +1,319 @@
+/*
+ * @Author: johnny 
+ * @Date: 2018-09-25 14:11:26 
+ * @Last Modified by: johnny
+ * @Last Modified time: 2018-09-26 11:55:39
+ */
+
+//JPage Size
+//Default
+@width:30px;
+@height:28px;
+@font-size:14px;
+@line-height:@height;
+//Small
+@sm-width:26px;
+@sm-height:24px;
+@sm-font-size:12px;
+@sm-line-height:@sm-height;
+//Large
+@lg-width:36px;
+@lg-height:34px;
+@lg-font-size:16px;
+@lg-line-height:@lg-height;
+
+
+//JPage Theme
+@border-radius:4px;
+@disabled-color:#777;
+@active-color:#fff;
+@bg-color:#fff;
+//Default
+@text-color:#333;
+@border-color:gray;
+@active-bg-color:@border-color;
+@btn-border-color:@border-color;
+@btn-bg-color:#fff;
+@btn-font-color:@text-color;
+//Green
+@green-text-color:#449D44;
+@green-border-color:@green-text-color;
+@green-active-bg-color:@green-text-color;
+@green-btn-border-color:@green-text-color;
+@green-btn-bg-color:@green-text-color;
+@green-btn-font-color:#fff;
+//Blue
+@blue-text-color:#289DE9;
+@blue-border-color:@blue-text-color;
+@blue-active-bg-color:@blue-text-color;
+@blue-btn-border-color:@blue-text-color;
+@blue-btn-bg-color:@blue-text-color;
+@blue-btn-font-color:#fff;
+//Red
+@red-text-color:#C9302C;
+@red-border-color:@red-text-color;
+@red-active-bg-color:@red-text-color;
+@red-btn-border-color:@red-text-color;
+@red-btn-bg-color:@red-text-color;
+@red-btn-font-color:#fff;
+
+
+#JPage{
+    .box-shadow(@shadow) {
+        -webkit-box-shadow: @shadow; 
+                box-shadow: @shadow;
+      }
+    //大小
+    .JPage-size(@width, @height, @font-size,@line-height){
+        &{
+            font-size: @font-size;
+            >.pagesBox {
+                line-height: @line-height;
+                >ul{
+                    >li{
+                        >a,
+                        >span{                       
+                            min-width: @width;
+                            height:  @height;
+                            font-size: @font-size;
+                            line-height: @line-height; 
+                        }
+                    }
+                }
+            }
+            >.pSizeBox{
+                line-height: @line-height;
+                >div{
+                    height: @height;
+                    line-height: @line-height;     
+                    >input[type=text]{
+                        @input-width:@height*0.85;
+                        @input-height:@height*0.85-2;
+                        width:@input-width;
+                        height:@input-height;
+                        line-height: @input-height;
+                    }
+                    >input[type=button],button{
+                        @btn-width:@height*1.2;
+                        @btn-height:@height*0.85;                       
+                        @btn-line-height:@btn-height*1-2;
+                        line-height:@btn-line-height;
+                        min-width:@btn-width;
+                        height:@btn-height;
+                    }
+                }
+            }
+            >.jumpBox{
+                .pSizeBox;
+            }
+        }
+    }
+    //主题
+    .JPage-theme(@text-color,@border-color,@active-bg-color,@btn-border-color,@btn-bg-color,@btn-font-color){
+        &{
+            >.pagesBox{
+                >ul{
+                    //常态
+                    >li{
+                        border: 1px solid @border-color;
+                        background-color: @bg-color;
+                        >a,
+                        >span{
+                            color: @text-color;                          
+                        }
+                    }
+                    //悬停
+                    >li {
+                      &:hover,
+                      &:focus {
+                        background-color:lighten(@border-color, 30%);
+                      }
+                    }
+                    //选中
+                    >li.active {
+                        &,
+                        &:hover,
+                        &:focus {
+                            background-color: @active-bg-color;
+                            border-color: @active-bg-color;
+                            >a,
+                            >span{
+                                color: @active-color;
+                            }           
+                        }
+                    }
+                    //禁用
+                    >li.disabled {
+                        &,
+                        &:hover,
+                        &:focus{
+                            background: none;
+                            >a,
+                            >span{
+                                cursor: auto;
+                                color: @disabled-color;
+                            }                          
+                        }                
+                    }
+                    >li.ellips{
+                        &,
+                        &:hover,
+                        &:focus{
+                            background: none;
+                            >a,
+                            >span{
+                                cursor: auto;
+                                color: @text-color;
+                            }                          
+                        }
+                    }
+                }
+            }
+            >.pSizeBox{
+                >div{
+                    border: 1px solid @border-color;
+                    border-radius:@border-radius; 
+                    >label{
+                        color: @text-color;
+                    }
+                    >input[type=text]{
+                        background-color: @bg-color;
+                        border: 1px solid @border-color;
+                        #JPage> #input-control>.input-focus(@border-color);
+                    }
+                    >input[type=button],button{
+                        border: 1px solid @btn-border-color;
+                        background-color: @btn-bg-color;
+                        color:@btn-font-color;
+                        &:hover{
+                            background-color: darken( @btn-bg-color, 10%);
+                        }
+                        &:focus,
+                        &:active{
+                          background-color: darken( @btn-bg-color, 15%);
+                        }
+                    }
+                }
+            }
+            >.jumpBox{
+                .pSizeBox;
+            }
+        }
+    }
+    #border-radius{ //边框圆角
+        .border-left-radius(@radius){
+            border-bottom-left-radius: @radius;
+            border-top-left-radius: @radius;
+        }
+        .border-right-radius(@radius){
+            border-bottom-right-radius:@radius;
+            border-top-right-radius: @radius;
+        }
+    }
+    #input-control{ //input 控制
+        .input-focus(@color: #66afe9) {
+            @color-rgba: rgba(red(@color), green(@color), blue(@color), .6);
+            &:focus {
+              border-color: @color;
+              outline: 0;
+              .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+            }
+        }
+    }
+}
+//JPage Style
+.JPage{
+    margin: 0;
+    font-family: "Marmelad", "Lucida Grande", "Arial", "Hiragino Sans GB", Georgia, sans-serif;
+    font-size: @font-size;
+    display: inline-block;
+    >.pagesBox{
+        line-height: @line-height;
+        float:left;
+        margin: 0;
+        padding: 0;
+        >ul{
+            margin: 0;
+            padding: 0;
+            //常态
+            >li{
+                position: relative;
+                float:left;
+                list-style: none;
+                margin-left: -1px;
+                >a,
+                >span{
+                    margin-left: -1px;
+                    display: block;
+                    text-decoration: none;  
+                    text-align: center;                        
+                }
+                &:first-child {
+                    margin-left: 0;
+                    #JPage>#border-radius>.border-left-radius(@border-radius);
+                }
+                &:last-child{
+                    margin-right: 0;
+                    #JPage>#border-radius>.border-right-radius(@border-radius); 
+                }
+            }
+        }
+    }
+    >.pSizeBox{
+        float:left;
+        margin: 0 0 0 10px;
+        padding: 0;
+        >div{
+            padding: 0 10px;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            >label{
+                font-weight: normal;
+            }
+            >input[type=text]{
+                padding: 0;
+                margin: 0;
+                text-align: center;
+                background-image: none; 
+                border-radius:@border-radius; 
+            }
+            >input[type=button],button{
+                text-align: center;
+                margin: 0 0 0 5px;
+                background-image: none; 
+                border-radius:@border-radius;
+            }
+        }
+    }
+    >.jumpBox{
+        .pSizeBox;
+    }
+    //JPage Size
+    //Default
+    #JPage>.JPage-size(@width,@height, @font-size,@line-height);
+    //Small
+    &.JPage-sm{
+        #JPage>.JPage-size(@sm-width,@sm-height, @sm-font-size,@sm-line-height);
+    }
+    //Large
+    &.JPage-lg{
+        #JPage>.JPage-size(@lg-width,@lg-height, @lg-font-size,@lg-line-height);
+    }
+    //JPage Theme
+    //Default
+    #JPage>.JPage-theme(@text-color,@border-color,@active-bg-color,@btn-border-color,@btn-bg-color,@btn-font-color);
+    //Green
+    &.JPage-theme-green{
+        #JPage>.JPage-theme(@green-text-color,@green-border-color,@green-active-bg-color,@green-btn-border-color,@green-btn-bg-color,@green-btn-font-color);
+    }
+    //Blue
+    &.JPage-theme-blue{
+        #JPage>.JPage-theme(@blue-text-color,@blue-border-color,@blue-active-bg-color,@blue-btn-border-color,@blue-btn-bg-color,@blue-btn-font-color);
+    }
+    //Red
+    &.JPage-theme-red{
+        #JPage>.JPage-theme(@red-text-color,@red-border-color,@red-active-bg-color,@red-btn-border-color,@red-btn-bg-color,@red-btn-font-color);
+    }
+}
+

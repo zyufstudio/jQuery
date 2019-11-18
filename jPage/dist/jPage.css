@@ -1,0 +1,774 @@
+/*
+ * @Author: johnny 
+ * @Date: 2018-09-25 14:11:26 
+ * @Last Modified by: johnny
+ * @Last Modified time: 2018-09-26 11:55:39
+ */
+.JPage {
+  margin: 0;
+  font-family: "Marmelad", "Lucida Grande", "Arial", "Hiragino Sans GB", Georgia, sans-serif;
+  display: inline-block;
+  font-size: 14px;
+}
+.JPage > .pagesBox {
+  line-height: 28px;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+.JPage > .pagesBox > ul {
+  margin: 0;
+  padding: 0;
+}
+.JPage > .pagesBox > ul > li {
+  position: relative;
+  float: left;
+  list-style: none;
+  margin-left: -1px;
+}
+.JPage > .pagesBox > ul > li > a,
+.JPage > .pagesBox > ul > li > span {
+  margin-left: -1px;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+}
+.JPage > .pagesBox > ul > li:first-child {
+  margin-left: 0;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.JPage > .pagesBox > ul > li:last-child {
+  margin-right: 0;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.JPage > .pSizeBox {
+  float: left;
+  margin: 0 0 0 10px;
+  padding: 0;
+}
+.JPage > .pSizeBox > div {
+  padding: 0 10px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.JPage > .pSizeBox > div > label {
+  font-weight: normal;
+}
+.JPage > .pSizeBox > div > input[type=text] {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  background-image: none;
+  border-radius: 4px;
+}
+.JPage > .pSizeBox > div > input[type=button],
+.JPage > .pSizeBox > div button {
+  text-align: center;
+  margin: 0 0 0 5px;
+  background-image: none;
+  border-radius: 4px;
+}
+.JPage > .jumpBox {
+  float: left;
+  margin: 0 0 0 10px;
+  padding: 0;
+  line-height: 28px;
+}
+.JPage > .jumpBox > div {
+  padding: 0 10px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.JPage > .jumpBox > div > label {
+  font-weight: normal;
+}
+.JPage > .jumpBox > div > input[type=text] {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  background-image: none;
+  border-radius: 4px;
+}
+.JPage > .jumpBox > div > input[type=button],
+.JPage > .jumpBox > div button {
+  text-align: center;
+  margin: 0 0 0 5px;
+  background-image: none;
+  border-radius: 4px;
+}
+.JPage > .jumpBox > div {
+  height: 28px;
+  line-height: 28px;
+}
+.JPage > .jumpBox > div > input[type=text] {
+  width: 23.8px;
+  height: 21.8px;
+  line-height: 21.8px;
+}
+.JPage > .jumpBox > div > input[type=button],
+.JPage > .jumpBox > div button {
+  line-height: 21.8px;
+  min-width: 33.6px;
+  height: 23.8px;
+}
+.JPage > .jumpBox > div {
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+.JPage > .jumpBox > div > label {
+  color: #333;
+}
+.JPage > .jumpBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid gray;
+}
+.JPage > .jumpBox > div > input[type=text]:focus {
+  border-color: gray;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(128, 128, 128, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(128, 128, 128, 0.6);
+}
+.JPage > .jumpBox > div > input[type=button],
+.JPage > .jumpBox > div button {
+  border: 1px solid gray;
+  background-color: #fff;
+  color: #333;
+}
+.JPage > .jumpBox > div > input[type=button]:hover,
+.JPage > .jumpBox > div button:hover {
+  background-color: #e6e6e6;
+}
+.JPage > .jumpBox > div > input[type=button]:focus,
+.JPage > .jumpBox > div button:focus,
+.JPage > .jumpBox > div > input[type=button]:active,
+.JPage > .jumpBox > div button:active {
+  background-color: #d9d9d9;
+}
+.JPage > .pagesBox {
+  line-height: 28px;
+}
+.JPage > .pagesBox > ul > li > a,
+.JPage > .pagesBox > ul > li > span {
+  min-width: 30px;
+  height: 28px;
+  font-size: 14px;
+  line-height: 28px;
+}
+.JPage > .pSizeBox {
+  line-height: 28px;
+}
+.JPage > .pSizeBox > div {
+  height: 28px;
+  line-height: 28px;
+}
+.JPage > .pSizeBox > div > input[type=text] {
+  width: 23.8px;
+  height: 21.8px;
+  line-height: 21.8px;
+}
+.JPage > .pSizeBox > div > input[type=button],
+.JPage > .pSizeBox > div button {
+  line-height: 21.8px;
+  min-width: 33.6px;
+  height: 23.8px;
+}
+.JPage > .jumpBox {
+  line-height: 28px;
+}
+.JPage > .jumpBox > div {
+  height: 28px;
+  line-height: 28px;
+}
+.JPage > .jumpBox > div > input[type=text] {
+  width: 23.8px;
+  height: 21.8px;
+  line-height: 21.8px;
+}
+.JPage > .jumpBox > div > input[type=button],
+.JPage > .jumpBox > div button {
+  line-height: 21.8px;
+  min-width: 33.6px;
+  height: 23.8px;
+}
+.JPage.JPage-sm {
+  font-size: 12px;
+}
+.JPage.JPage-sm > .pagesBox {
+  line-height: 24px;
+}
+.JPage.JPage-sm > .pagesBox > ul > li > a,
+.JPage.JPage-sm > .pagesBox > ul > li > span {
+  min-width: 26px;
+  height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.JPage.JPage-sm > .pSizeBox {
+  line-height: 24px;
+}
+.JPage.JPage-sm > .pSizeBox > div {
+  height: 24px;
+  line-height: 24px;
+}
+.JPage.JPage-sm > .pSizeBox > div > input[type=text] {
+  width: 20.4px;
+  height: 18.4px;
+  line-height: 18.4px;
+}
+.JPage.JPage-sm > .pSizeBox > div > input[type=button],
+.JPage.JPage-sm > .pSizeBox > div button {
+  line-height: 18.4px;
+  min-width: 28.8px;
+  height: 20.4px;
+}
+.JPage.JPage-sm > .jumpBox {
+  line-height: 24px;
+}
+.JPage.JPage-sm > .jumpBox > div {
+  height: 24px;
+  line-height: 24px;
+}
+.JPage.JPage-sm > .jumpBox > div > input[type=text] {
+  width: 20.4px;
+  height: 18.4px;
+  line-height: 18.4px;
+}
+.JPage.JPage-sm > .jumpBox > div > input[type=button],
+.JPage.JPage-sm > .jumpBox > div button {
+  line-height: 18.4px;
+  min-width: 28.8px;
+  height: 20.4px;
+}
+.JPage.JPage-lg {
+  font-size: 16px;
+}
+.JPage.JPage-lg > .pagesBox {
+  line-height: 34px;
+}
+.JPage.JPage-lg > .pagesBox > ul > li > a,
+.JPage.JPage-lg > .pagesBox > ul > li > span {
+  min-width: 36px;
+  height: 34px;
+  font-size: 16px;
+  line-height: 34px;
+}
+.JPage.JPage-lg > .pSizeBox {
+  line-height: 34px;
+}
+.JPage.JPage-lg > .pSizeBox > div {
+  height: 34px;
+  line-height: 34px;
+}
+.JPage.JPage-lg > .pSizeBox > div > input[type=text] {
+  width: 28.9px;
+  height: 26.9px;
+  line-height: 26.9px;
+}
+.JPage.JPage-lg > .pSizeBox > div > input[type=button],
+.JPage.JPage-lg > .pSizeBox > div button {
+  line-height: 26.9px;
+  min-width: 40.8px;
+  height: 28.9px;
+}
+.JPage.JPage-lg > .jumpBox {
+  line-height: 34px;
+}
+.JPage.JPage-lg > .jumpBox > div {
+  height: 34px;
+  line-height: 34px;
+}
+.JPage.JPage-lg > .jumpBox > div > input[type=text] {
+  width: 28.9px;
+  height: 26.9px;
+  line-height: 26.9px;
+}
+.JPage.JPage-lg > .jumpBox > div > input[type=button],
+.JPage.JPage-lg > .jumpBox > div button {
+  line-height: 26.9px;
+  min-width: 40.8px;
+  height: 28.9px;
+}
+.JPage > .pagesBox > ul > li {
+  border: 1px solid gray;
+  background-color: #fff;
+}
+.JPage > .pagesBox > ul > li > a,
+.JPage > .pagesBox > ul > li > span {
+  color: #333;
+}
+.JPage > .pagesBox > ul > li:hover,
+.JPage > .pagesBox > ul > li:focus {
+  background-color: #cdcdcd;
+}
+.JPage > .pagesBox > ul > li.active,
+.JPage > .pagesBox > ul > li.active:hover,
+.JPage > .pagesBox > ul > li.active:focus {
+  background-color: gray;
+  border-color: gray;
+}
+.JPage > .pagesBox > ul > li.active > a,
+.JPage > .pagesBox > ul > li.active:hover > a,
+.JPage > .pagesBox > ul > li.active:focus > a,
+.JPage > .pagesBox > ul > li.active > span,
+.JPage > .pagesBox > ul > li.active:hover > span,
+.JPage > .pagesBox > ul > li.active:focus > span {
+  color: #fff;
+}
+.JPage > .pagesBox > ul > li.disabled,
+.JPage > .pagesBox > ul > li.disabled:hover,
+.JPage > .pagesBox > ul > li.disabled:focus {
+  background: none;
+}
+.JPage > .pagesBox > ul > li.disabled > a,
+.JPage > .pagesBox > ul > li.disabled:hover > a,
+.JPage > .pagesBox > ul > li.disabled:focus > a,
+.JPage > .pagesBox > ul > li.disabled > span,
+.JPage > .pagesBox > ul > li.disabled:hover > span,
+.JPage > .pagesBox > ul > li.disabled:focus > span {
+  cursor: auto;
+  color: #777;
+}
+.JPage > .pagesBox > ul > li.ellips,
+.JPage > .pagesBox > ul > li.ellips:hover,
+.JPage > .pagesBox > ul > li.ellips:focus {
+  background: none;
+}
+.JPage > .pagesBox > ul > li.ellips > a,
+.JPage > .pagesBox > ul > li.ellips:hover > a,
+.JPage > .pagesBox > ul > li.ellips:focus > a,
+.JPage > .pagesBox > ul > li.ellips > span,
+.JPage > .pagesBox > ul > li.ellips:hover > span,
+.JPage > .pagesBox > ul > li.ellips:focus > span {
+  cursor: auto;
+  color: #333;
+}
+.JPage > .pSizeBox > div {
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+.JPage > .pSizeBox > div > label {
+  color: #333;
+}
+.JPage > .pSizeBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid gray;
+}
+.JPage > .pSizeBox > div > input[type=text]:focus {
+  border-color: gray;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(128, 128, 128, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(128, 128, 128, 0.6);
+}
+.JPage > .pSizeBox > div > input[type=button],
+.JPage > .pSizeBox > div button {
+  border: 1px solid gray;
+  background-color: #fff;
+  color: #333;
+}
+.JPage > .pSizeBox > div > input[type=button]:hover,
+.JPage > .pSizeBox > div button:hover {
+  background-color: #e6e6e6;
+}
+.JPage > .pSizeBox > div > input[type=button]:focus,
+.JPage > .pSizeBox > div button:focus,
+.JPage > .pSizeBox > div > input[type=button]:active,
+.JPage > .pSizeBox > div button:active {
+  background-color: #d9d9d9;
+}
+.JPage > .jumpBox > div {
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+.JPage > .jumpBox > div > label {
+  color: #333;
+}
+.JPage > .jumpBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid gray;
+}
+.JPage > .jumpBox > div > input[type=text]:focus {
+  border-color: gray;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(128, 128, 128, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(128, 128, 128, 0.6);
+}
+.JPage > .jumpBox > div > input[type=button],
+.JPage > .jumpBox > div button {
+  border: 1px solid gray;
+  background-color: #fff;
+  color: #333;
+}
+.JPage > .jumpBox > div > input[type=button]:hover,
+.JPage > .jumpBox > div button:hover {
+  background-color: #e6e6e6;
+}
+.JPage > .jumpBox > div > input[type=button]:focus,
+.JPage > .jumpBox > div button:focus,
+.JPage > .jumpBox > div > input[type=button]:active,
+.JPage > .jumpBox > div button:active {
+  background-color: #d9d9d9;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li {
+  border: 1px solid #449D44;
+  background-color: #fff;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li > span {
+  color: #449D44;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li:hover,
+.JPage.JPage-theme-green > .pagesBox > ul > li:focus {
+  background-color: #a3d7a3;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li.active,
+.JPage.JPage-theme-green > .pagesBox > ul > li.active:hover,
+.JPage.JPage-theme-green > .pagesBox > ul > li.active:focus {
+  background-color: #449D44;
+  border-color: #449D44;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li.active > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.active:hover > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.active:focus > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.active > span,
+.JPage.JPage-theme-green > .pagesBox > ul > li.active:hover > span,
+.JPage.JPage-theme-green > .pagesBox > ul > li.active:focus > span {
+  color: #fff;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled,
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled:hover,
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled:focus {
+  background: none;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled:hover > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled:focus > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled > span,
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled:hover > span,
+.JPage.JPage-theme-green > .pagesBox > ul > li.disabled:focus > span {
+  cursor: auto;
+  color: #777;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips,
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips:hover,
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips:focus {
+  background: none;
+}
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips:hover > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips:focus > a,
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips > span,
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips:hover > span,
+.JPage.JPage-theme-green > .pagesBox > ul > li.ellips:focus > span {
+  cursor: auto;
+  color: #449D44;
+}
+.JPage.JPage-theme-green > .pSizeBox > div {
+  border: 1px solid #449D44;
+  border-radius: 4px;
+}
+.JPage.JPage-theme-green > .pSizeBox > div > label {
+  color: #449D44;
+}
+.JPage.JPage-theme-green > .pSizeBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid #449D44;
+}
+.JPage.JPage-theme-green > .pSizeBox > div > input[type=text]:focus {
+  border-color: #449D44;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(68, 157, 68, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(68, 157, 68, 0.6);
+}
+.JPage.JPage-theme-green > .pSizeBox > div > input[type=button],
+.JPage.JPage-theme-green > .pSizeBox > div button {
+  border: 1px solid #449D44;
+  background-color: #449D44;
+  color: #fff;
+}
+.JPage.JPage-theme-green > .pSizeBox > div > input[type=button]:hover,
+.JPage.JPage-theme-green > .pSizeBox > div button:hover {
+  background-color: #357935;
+}
+.JPage.JPage-theme-green > .pSizeBox > div > input[type=button]:focus,
+.JPage.JPage-theme-green > .pSizeBox > div button:focus,
+.JPage.JPage-theme-green > .pSizeBox > div > input[type=button]:active,
+.JPage.JPage-theme-green > .pSizeBox > div button:active {
+  background-color: #2d682d;
+}
+.JPage.JPage-theme-green > .jumpBox > div {
+  border: 1px solid #449D44;
+  border-radius: 4px;
+}
+.JPage.JPage-theme-green > .jumpBox > div > label {
+  color: #449D44;
+}
+.JPage.JPage-theme-green > .jumpBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid #449D44;
+}
+.JPage.JPage-theme-green > .jumpBox > div > input[type=text]:focus {
+  border-color: #449D44;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(68, 157, 68, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(68, 157, 68, 0.6);
+}
+.JPage.JPage-theme-green > .jumpBox > div > input[type=button],
+.JPage.JPage-theme-green > .jumpBox > div button {
+  border: 1px solid #449D44;
+  background-color: #449D44;
+  color: #fff;
+}
+.JPage.JPage-theme-green > .jumpBox > div > input[type=button]:hover,
+.JPage.JPage-theme-green > .jumpBox > div button:hover {
+  background-color: #357935;
+}
+.JPage.JPage-theme-green > .jumpBox > div > input[type=button]:focus,
+.JPage.JPage-theme-green > .jumpBox > div button:focus,
+.JPage.JPage-theme-green > .jumpBox > div > input[type=button]:active,
+.JPage.JPage-theme-green > .jumpBox > div button:active {
+  background-color: #2d682d;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li {
+  border: 1px solid #289DE9;
+  background-color: #fff;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li > span {
+  color: #289DE9;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li:hover,
+.JPage.JPage-theme-blue > .pagesBox > ul > li:focus {
+  background-color: #b3dcf7;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active:hover,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active:focus {
+  background-color: #289DE9;
+  border-color: #289DE9;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active:hover > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active:focus > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active > span,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active:hover > span,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.active:focus > span {
+  color: #fff;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled:hover,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled:focus {
+  background: none;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled:hover > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled:focus > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled > span,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled:hover > span,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.disabled:focus > span {
+  cursor: auto;
+  color: #777;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips:hover,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips:focus {
+  background: none;
+}
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips:hover > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips:focus > a,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips > span,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips:hover > span,
+.JPage.JPage-theme-blue > .pagesBox > ul > li.ellips:focus > span {
+  cursor: auto;
+  color: #289DE9;
+}
+.JPage.JPage-theme-blue > .pSizeBox > div {
+  border: 1px solid #289DE9;
+  border-radius: 4px;
+}
+.JPage.JPage-theme-blue > .pSizeBox > div > label {
+  color: #289DE9;
+}
+.JPage.JPage-theme-blue > .pSizeBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid #289DE9;
+}
+.JPage.JPage-theme-blue > .pSizeBox > div > input[type=text]:focus {
+  border-color: #289DE9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(40, 157, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(40, 157, 233, 0.6);
+}
+.JPage.JPage-theme-blue > .pSizeBox > div > input[type=button],
+.JPage.JPage-theme-blue > .pSizeBox > div button {
+  border: 1px solid #289DE9;
+  background-color: #289DE9;
+  color: #fff;
+}
+.JPage.JPage-theme-blue > .pSizeBox > div > input[type=button]:hover,
+.JPage.JPage-theme-blue > .pSizeBox > div button:hover {
+  background-color: #1582c9;
+}
+.JPage.JPage-theme-blue > .pSizeBox > div > input[type=button]:focus,
+.JPage.JPage-theme-blue > .pSizeBox > div button:focus,
+.JPage.JPage-theme-blue > .pSizeBox > div > input[type=button]:active,
+.JPage.JPage-theme-blue > .pSizeBox > div button:active {
+  background-color: #1273b2;
+}
+.JPage.JPage-theme-blue > .jumpBox > div {
+  border: 1px solid #289DE9;
+  border-radius: 4px;
+}
+.JPage.JPage-theme-blue > .jumpBox > div > label {
+  color: #289DE9;
+}
+.JPage.JPage-theme-blue > .jumpBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid #289DE9;
+}
+.JPage.JPage-theme-blue > .jumpBox > div > input[type=text]:focus {
+  border-color: #289DE9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(40, 157, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(40, 157, 233, 0.6);
+}
+.JPage.JPage-theme-blue > .jumpBox > div > input[type=button],
+.JPage.JPage-theme-blue > .jumpBox > div button {
+  border: 1px solid #289DE9;
+  background-color: #289DE9;
+  color: #fff;
+}
+.JPage.JPage-theme-blue > .jumpBox > div > input[type=button]:hover,
+.JPage.JPage-theme-blue > .jumpBox > div button:hover {
+  background-color: #1582c9;
+}
+.JPage.JPage-theme-blue > .jumpBox > div > input[type=button]:focus,
+.JPage.JPage-theme-blue > .jumpBox > div button:focus,
+.JPage.JPage-theme-blue > .jumpBox > div > input[type=button]:active,
+.JPage.JPage-theme-blue > .jumpBox > div button:active {
+  background-color: #1273b2;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li {
+  border: 1px solid #C9302C;
+  background-color: #fff;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li > span {
+  color: #C9302C;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li:hover,
+.JPage.JPage-theme-red > .pagesBox > ul > li:focus {
+  background-color: #eba5a3;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li.active,
+.JPage.JPage-theme-red > .pagesBox > ul > li.active:hover,
+.JPage.JPage-theme-red > .pagesBox > ul > li.active:focus {
+  background-color: #C9302C;
+  border-color: #C9302C;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li.active > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.active:hover > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.active:focus > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.active > span,
+.JPage.JPage-theme-red > .pagesBox > ul > li.active:hover > span,
+.JPage.JPage-theme-red > .pagesBox > ul > li.active:focus > span {
+  color: #fff;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled,
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled:hover,
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled:focus {
+  background: none;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled:hover > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled:focus > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled > span,
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled:hover > span,
+.JPage.JPage-theme-red > .pagesBox > ul > li.disabled:focus > span {
+  cursor: auto;
+  color: #777;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips,
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips:hover,
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips:focus {
+  background: none;
+}
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips:hover > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips:focus > a,
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips > span,
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips:hover > span,
+.JPage.JPage-theme-red > .pagesBox > ul > li.ellips:focus > span {
+  cursor: auto;
+  color: #C9302C;
+}
+.JPage.JPage-theme-red > .pSizeBox > div {
+  border: 1px solid #C9302C;
+  border-radius: 4px;
+}
+.JPage.JPage-theme-red > .pSizeBox > div > label {
+  color: #C9302C;
+}
+.JPage.JPage-theme-red > .pSizeBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid #C9302C;
+}
+.JPage.JPage-theme-red > .pSizeBox > div > input[type=text]:focus {
+  border-color: #C9302C;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(201, 48, 44, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(201, 48, 44, 0.6);
+}
+.JPage.JPage-theme-red > .pSizeBox > div > input[type=button],
+.JPage.JPage-theme-red > .pSizeBox > div button {
+  border: 1px solid #C9302C;
+  background-color: #C9302C;
+  color: #fff;
+}
+.JPage.JPage-theme-red > .pSizeBox > div > input[type=button]:hover,
+.JPage.JPage-theme-red > .pSizeBox > div button:hover {
+  background-color: #9f2623;
+}
+.JPage.JPage-theme-red > .pSizeBox > div > input[type=button]:focus,
+.JPage.JPage-theme-red > .pSizeBox > div button:focus,
+.JPage.JPage-theme-red > .pSizeBox > div > input[type=button]:active,
+.JPage.JPage-theme-red > .pSizeBox > div button:active {
+  background-color: #8a211e;
+}
+.JPage.JPage-theme-red > .jumpBox > div {
+  border: 1px solid #C9302C;
+  border-radius: 4px;
+}
+.JPage.JPage-theme-red > .jumpBox > div > label {
+  color: #C9302C;
+}
+.JPage.JPage-theme-red > .jumpBox > div > input[type=text] {
+  background-color: #fff;
+  border: 1px solid #C9302C;
+}
+.JPage.JPage-theme-red > .jumpBox > div > input[type=text]:focus {
+  border-color: #C9302C;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(201, 48, 44, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(201, 48, 44, 0.6);
+}
+.JPage.JPage-theme-red > .jumpBox > div > input[type=button],
+.JPage.JPage-theme-red > .jumpBox > div button {
+  border: 1px solid #C9302C;
+  background-color: #C9302C;
+  color: #fff;
+}
+.JPage.JPage-theme-red > .jumpBox > div > input[type=button]:hover,
+.JPage.JPage-theme-red > .jumpBox > div button:hover {
+  background-color: #9f2623;
+}
+.JPage.JPage-theme-red > .jumpBox > div > input[type=button]:focus,
+.JPage.JPage-theme-red > .jumpBox > div button:focus,
+.JPage.JPage-theme-red > .jumpBox > div > input[type=button]:active,
+.JPage.JPage-theme-red > .jumpBox > div button:active {
+  background-color: #8a211e;
+}
