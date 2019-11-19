@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-05 16:55:40
+ * @Last Modified time: 2019-11-19 10:33:46
  */
 (function ($) {
     'use strict';
@@ -28,6 +28,7 @@
         minHeight:150,      //最小高度
         closeOnEscape:true, //对话框有焦点时，按下ESC键是否关闭对话框
         resizable:true,     //是否允许拖拽缩放窗体大小
+        autoOpen:true,      //对话框在初始化时自动打开。如果为 false时，对话框将会继续隐藏直到调用show()方法
         menus:[{
             text:"munu1",           //必填。菜单显示文本
             type:"nmenu",           //必填。菜单类型。nmenu/ddmenu/sddmenu(普通菜单/下拉菜单/分裂式下拉菜单)
@@ -435,19 +436,15 @@
         return this.each(function () {
             var $this = $(this);
             var options = typeof option == 'object' && option;
-            var data= $this.data('bsmodal');
+            var data= $this.data('jDialog');
             if (!data){
                 var data=new JDialog(this, options);
-                data.$element.data('bsmodal',data);               
+                data.$element.data('jDialog',data);             
             }
-            if (typeof option == 'string') {
-                var methods=["show","hide","destroy"];
-                if($.inArray(option,methods)<0) {
-                    console.error(StringFormat('方法:jDialog("{0}")不存在!',option));
-                    return false;
-                }
+            if (typeof option == 'string' && data && data[option])
                 data[option]();
-            }
+            else if(data.options.autoOpen)
+                data.show();  
         })
     }
     /**
