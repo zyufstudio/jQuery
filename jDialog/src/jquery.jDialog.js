@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-19 10:33:46
+ * @Last Modified time: 2019-11-19 10:54:18
  */
 (function ($) {
     'use strict';
@@ -63,6 +63,7 @@
         this.$body.append("<div class='JDialog-backdrop'></div>");
         this.$body.addClass("JDialog-open");
         this.currentDialog.show();
+        this.currentDialog.focus();
         CalcModalDialogHeight(this);
     }
     JDialog.prototype.hide=function(){
