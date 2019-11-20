@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:25:22 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-06 11:24:21
+ * @Last Modified time: 2019-11-20 14:48:51
  */
 #Fun #btn .button {
   display: inline-block;
@@ -335,8 +335,43 @@ fieldset[disabled] .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-menu
   padding: 10px 15px;
   overflow: auto;
 }
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-statusbar {
+  padding: 3px 5px;
+  border-top: 1px solid #e5e5e5;
+  line-height: 0;
+  text-align: left;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-statusbar .JDialog-left-statusbar {
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-statusbar .JDialog-right-statusbar {
+  float: right;
+  padding: 0;
+  margin: 0;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-statusbar .JDialog-statusbar-list {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+  line-height: 17px;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-statusbar .JDialog-statusbar-list .JDialog-statusbar-item {
+  display: inline-block;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-statusbar .JDialog-statusbar-list .JDialog-statusbar-item:not(:last-child) {
+  padding-right: 15px;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-statusbar .JDialog-statusbar-list .JDialog-statusbar-item span {
+  display: inline-block;
+}
 .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer {
-  padding: 15px;
+  padding: 10px 15px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }

@@ -185,6 +185,27 @@
                         }        //菜单函数，只当type为menu或sddmenu时有效且必填
                     }
                 ],
+                statusBar:[{
+                    halign:"left",
+                    text:"左状态栏1"
+                },
+                {
+                    halign:"left",
+                    text:"左状态栏2:{0}"
+                },
+                {
+                    halign:"right",
+                    text:"右状态栏1:{0}{1}"
+                },
+                {
+                    halign:"right",
+                    text:"右状态栏2:{0}"
+                },
+                {
+                    halign:"right",
+                    text:"成功下载2:{0}"
+                }
+            ],
                 buttons:[
                     {
                         text:"销毁",
@@ -192,6 +213,18 @@
                             console.log(obj);
                             console.log(ev);
                             $("#dia2").jDialog("destroy");
+                        }
+                    },
+                    {
+                        text:"更新状态栏",
+                        fn:function(){
+                            var s=[
+                                {index:0,text:["一"]},
+                                {index:1,text:["二"]},
+                                {index:2,text:["三","三一"]},
+                                {index:3,text:["四"]}
+                            ]
+                            $("#dia2").jDialog("updateStatusBar",s);
                         }
                     }
                 ]

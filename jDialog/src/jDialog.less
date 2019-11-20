@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:25:22 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-06 11:24:21
+ * @Last Modified time: 2019-11-20 14:48:51
  */
 
 #Fun{
@@ -347,8 +347,43 @@
                 padding: 10px 15px;
                 overflow: auto;
             }
+            >.JDialog-statusbar{
+                padding: 3px 5px;
+                border-top: 1px solid #e5e5e5;
+                line-height: 0;
+                text-align: left;
+                .JDialog-left-statusbar{
+                    float: left;
+                    padding: 0;
+                    margin: 0; 
+                }
+                .JDialog-right-statusbar{
+                    float: right;
+                    padding: 0;
+                    margin: 0;
+                }
+                .JDialog-statusbar-list{
+                    display: inline-block;
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: #333;
+                    line-height: 17px;
+                    .JDialog-statusbar-item{
+                        display: inline-block;
+                        &:not(:last-child){
+                            padding-right: 15px;
+                        }                     
+                        span{
+                            display: inline-block;
+                        }
+                    }
+                }
+            }
             >.JDialog-footer{
-                padding: 15px;
+                padding: 10px 15px;
                 text-align: right; 
                 border-top: 1px solid @JDialog-split-line-color;
                 >.btn{

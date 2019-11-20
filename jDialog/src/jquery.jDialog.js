@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-19 10:54:18
+ * @Last Modified time: 2019-11-20 14:51:14
  */
 (function ($) {
     'use strict';
@@ -38,6 +38,11 @@
             }],
             fn:function(){}         //菜单函数，只当type为nmenu或sddmenu时有效且必填
         }],
+        statusBar:[{                //状态栏
+            index:0,                //索引位置标识，将有程序获取数组的索引值生成位置标识
+            halign:"left",          //水平对齐，left/right
+            text:""                 //显示文本，使用方法updateStatusBar()更新文本，文本格式为"ab{0}c12{1}3"格式时，优先替换大括号{1,2,3,...}中的内容
+        }],           
         buttons:[{                  //按钮
             text:"btn1",            //按钮显示文本
             fn:function(){}         //函数
@@ -83,6 +88,33 @@
         this.currentDialog.remove();
         this.$body.find(".JDialog-backdrop").remove();
         this.$body.removeClass("JDialog-open");
+    }
+    //更新状态栏数据
+    JDialog.prototype.updateStatusBar=function(otherParams){    //otherParams参数格式[{index:0,text:[]}],index为状态栏的索引位置，text为更新的值，text优先更新大括号{0,1,2,3,...}中的内容
+        console.log(otherParams);
+        var _this=this;
+        var statusBar=_this.options.statusBar;
+        var $statusbarElms=$("div.JDialog-statusbar ul.JDialog-statusbar-list li.JDialog-statusbar-item");
+        $.each(otherParams,function(index,ParaItem){
+            $statusbarElms.each(function(index,elmItem){
+                var $elm=$(elmItem);
+                if($elm.is("[data-index='"+ParaItem.index+"']")){
+                    var originText=$elm.attr("data-origintext");
+                    var text=ParaItem.text.join(",");
+                    if(/\{(\d+)\}/g.test(originText)){
+                        var text=originText.replace(/\{(\d+)\}/g, function(m, i){
+                            i=parseInt(i);
+                            return ParaItem.text[i];
+                        });
+                    }
+                    $elm.find("span").eq(0).text(text);
+                    var currentStatusbar=$.grep(statusBar,function(statusBarItem,index){
+                        return statusBarItem.index==ParaItem.index;
+                    });
+                    currentStatusbar[0].text=text;
+                }
+            });         
+        });
     }
     /**
      * 渲染对话框
@@ -168,7 +200,37 @@
         dialogHtml.push("<div class='JDialog-body'>");
         dialogHtml.push(_this.$element.clone().show().prop("outerHTML"));
         dialogHtml.push("</div>");
+        //Dialog Status Bar
+        if(options.statusBar.length>0){
+            dialogHtml.push("<div class='JDialog-statusbar'>");
 
+            var leftStatusbar=$.grep(options.statusBar,function(item,index){
+                return item.halign=="left";
+            });
+            var rightStatusbar=$.grep(options.statusBar,function(item,index){
+                return item.halign=="right";
+            });
+            //rightStatusbar.reverse();
+            //var statusbar=leftStatusbar.concat(rightStatusbar);
+            if(leftStatusbar.length>0){
+                dialogHtml.push("<div class='JDialog-left-statusbar'><ul class='JDialog-statusbar-list'>");
+                $.each(leftStatusbar,function(index,item){
+                    var text=item.text.replace(/\{(\d+)\}/g,"");
+                    dialogHtml.push(StringFormat("<li class='JDialog-statusbar-item' data-index='{2}' data-origintext='{0}'><span>{1}</span></li>",item.text,text,item.index));
+                });
+                dialogHtml.push("</ul></div>");
+            }
+            if(rightStatusbar.length>0){
+                dialogHtml.push("<div class='JDialog-right-statusbar'><ul class='JDialog-statusbar-list'>");
+                $.each(rightStatusbar,function(index,item){
+                    var text=item.text.replace(/\{(\d+)\}/g,"");
+                    dialogHtml.push(StringFormat("<li class='JDialog-statusbar-item' data-index='{2}' data-origintext='{0}'><span>{1}</span></li>",item.text,text,item.index));
+                });
+                dialogHtml.push("</ul></div>");
+            }
+            dialogHtml.push("<div style='clear:both;'></div>");
+            dialogHtml.push("</div>");
+        }
         //Dialog Footer    
         if(options.buttons.length>0){
             dialogHtml.push("<div class='JDialog-footer'>");
@@ -428,12 +490,13 @@
         var modal_body_padding_height=_this.currentDialog.find(".JDialog-body").outerHeight()-_this.currentDialog.find(".JDialog-body").height();
         var modal_header_outer_height= _this.currentDialog.find(".JDialog-header").outerHeight();
         var modal_menu_outer_height= _this.currentDialog.find(".JDialog-menu").outerHeight();
+        var modal_statusbar_outer_height= _this.currentDialog.find(".JDialog-statusbar").outerHeight();
         var modal_footer_outer_height =_this.currentDialog.find(".JDialog-footer").outerHeight();
         //console.log("modal_dialog_height:"+modal_dialog_height+",modal_body_padding_height:"+modal_body_padding_height+",modal_header_outer_height:"+modal_header_outer_height+",modal_footer_outer_height:"+modal_footer_outer_height);
-        var modal_body_height=(modal_dialog_height-modal_body_padding_height-modal_header_outer_height-modal_menu_outer_height-modal_footer_outer_height).toString()+"px";
+        var modal_body_height=(modal_dialog_height-modal_body_padding_height-modal_header_outer_height-modal_menu_outer_height-modal_statusbar_outer_height-modal_footer_outer_height).toString()+"px";
         _this.currentDialog.find(".JDialog-body").height(modal_body_height); 
     }
-    function Plugin(option) {
+    function Plugin(option,otherParams) {
         return this.each(function () {
             var $this = $(this);
             var options = typeof option == 'object' && option;
@@ -443,7 +506,7 @@
                 data.$element.data('jDialog',data);             
             }
             if (typeof option == 'string' && data && data[option])
-                data[option]();
+                data[option](otherParams);
             else if(data.options.autoOpen)
                 data.show();  
         })
@@ -492,18 +555,12 @@
     }
     var initOptions=function(_this){
         var options=_this.options;
-        // var d=new Date();
-        // var monthDay=("0" + (d.getMonth() + 1)).slice(-2)+("0" + (d.getDate())).slice(-2);
-        // var DialogID=_this.currentDialogID.replace(/^.+_/g,"");
-        // if(options.buttons.length>0){
-        //     $.each(options.buttons,function(index,item){
-        //         if(item.id==""){
-        //             var r=Math.ceil(Math.random()*100);
-        //             var id=DialogID+monthDay+index;
-        //             item.id=id;
-        //         }
-        //     });
-        // }
+
+        if(options.statusBar.length>0){
+            $.each(options.statusBar,function(index,item){
+                item.index=index;
+            });
+        }
     }
     /**
      * 获取数组最大值
