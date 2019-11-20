@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-18 17:12:50
+ * @Last Modified time: 2019-11-20 17:40:23
  */
 
 /** 
@@ -20,7 +20,9 @@
         this.init();
     }
     //配置参数
-    JBoxSelect.Defaults = {}
+    JBoxSelect.Defaults = {
+        selectedFn:function(selectedElm){} //选中项回调函数，当选中每一项时触发该函数,selectedElm:当前选中的元素
+    }
     JBoxSelect.prototype.init=function(){
         var _this=this;
         var opts=_this.options;
@@ -33,7 +35,7 @@
         _this.$selectBox=$selectbox;
         
         _this.$element.on({
-            "mousedown":function(e){
+            "mousedown.JBoxSelect":function(e){
                 isdown=true;
                 startX = e.pageX;
                 startY = e.pageY;
@@ -43,7 +45,7 @@
                 });
                 clearBubble(e);
             },
-            "mousemove":function(e){
+            "mousemove.JBoxSelect":function(e){
                 if(isdown&&e.which===1){
                     var x = e.pageX;
                     var y = e.pageY;
@@ -52,13 +54,13 @@
                     clearBubble(e);
                 }
             },
-            "mouseup":function(e){
+            "mouseup.JBoxSelect":function(e){
                 selectedEl(_this);
                 isdown=false;
             }
         });
-        _this.$doc.off("mouseup").on({
-            "mouseup":function(e){
+        _this.$doc.off("mouseup.JBoxSelect").on({
+            "mouseup.JBoxSelect":function(e){
                 selectedEl(_this);
                 isdown=false;
             }
@@ -138,10 +140,12 @@
                 }
                 else if(!$thisEl.is(".select-item.unselecting-item")){
                     $thisEl.addClass('selecting-item');
+                    typeof opts.selectedFn=="function" && opts.selectedFn($thisEl[0]);
                 }
             }else{
                 if($thisEl.is(".select-item.unselecting-item")){
                     $thisEl.addClass('selected-item').removeClass("unselecting-item");
+                    typeof opts.selectedFn=="function" && opts.selectedFn($thisEl[0]);
                 }
                 else{
                     $thisEl.removeClass('selecting-item');                  
@@ -196,10 +200,10 @@
         return this.each(function () {
             var $this = $(this);
             var options = typeof option == 'object' && option;
-            var data= $this.data('boxselect');
+            var data= $this.data('JBoxSelect');
             if (!data){
                 data=new JBoxSelect(this, options);
-                $this.data('boxselect',data);               
+                $this.data('JBoxSelect',data);               
             }
         });
     }

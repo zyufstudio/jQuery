@@ -75,10 +75,8 @@
 <script>
     $(function(){
         $(".container").JBoxSelect({
-            SelectCB(s,us){
-                console.log(s);
-                console.log(us);
-                
+            selectedFn:function(selectedElm){
+                console.log(selectedElm);
             }
         });
     })
