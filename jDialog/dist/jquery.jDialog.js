@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-21 10:08:45
+ * @Last Modified time: 2019-11-21 10:14:39
  */
 (function ($) {
     'use strict';
@@ -450,8 +450,8 @@
             temp[0].fn(this,event);
         });
         //子菜单显示
-        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").on({
-            "mouseenter.JDialog":function(){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").off(".show.JDialog").on({
+            "mouseenter.show.JDialog":function(){
                 var $targetel=$(this); 
                 _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hide();
                 if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
@@ -464,7 +464,7 @@
                     }
                 }
             },
-            "mouseleave.JDialog":function(){
+            "mouseleave.show.JDialog":function(){
                 var $targetel=$(this); 
                 if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
                     var menuItem=$targetel.parents("li.JDialog-menu-item");
@@ -480,13 +480,13 @@
             }
         });
         //子菜单保持显示
-        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").on({
-            "mouseenter.JDialog":function(){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").off(".show.JDialog").on({
+            "mouseenter.show.JDialog":function(){
                 var $targetel=$(this); 
                 to && (clearTimeout(to), to = !1);
                 $targetel.show();         
             },
-            "mouseleave.JDialog":function(){
+            "mouseleave.show.JDialog":function(){
                 var $targetel=$(this); 
                 to && (clearTimeout(to), to = !1);
                 to = setTimeout(function () {
