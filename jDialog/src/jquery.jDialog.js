@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-20 14:51:14
+ * @Last Modified time: 2019-11-21 10:08:45
  */
 (function ($) {
     'use strict';
@@ -276,25 +276,31 @@
     var Interactions=function(_this){
         var options=_this.options;
         //对话框拖拽
-        _this.currentDialog.find(".JDialog-header").off().mouseover(function(){
-            $(this).css("cursor","move");
-		}).mousedown(function(e){
-		    var move = true; 
-		    var x = e.pageX - $(this).parent().offset().left;
-            var y = e.pageY - $(this).parent().offset().top; 
-		    _this.$doc.mousemove(function (e) { 
-		        if (move) { 
-			        _this.currentDialog.offset({left:e.pageX - x, top:e.pageY - y}); 	
-		        } 
-		    }).mouseup(function(){
-                move = false;
-                _this.$doc.off("mousemove mouseup");
-            });
+        _this.currentDialog.find(".JDialog-header").off(".JDialog").on({
+            "mouseover.JDialog":function(){
+                $(this).css("cursor","move");
+            },
+            "mousedown.JDialog":function(e){
+                var move = true; 
+                var x = e.pageX - $(this).parent().offset().left;
+                var y = e.pageY - $(this).parent().offset().top; 
+                _this.$doc.on({
+                    "mousemove.JDialog":function(e){
+                        if (move) { 
+                            _this.currentDialog.offset({left:e.pageX - x, top:e.pageY - y}); 	
+                        } 
+                    },
+                    "mouseup.JDialog":function(){
+                        move = false;
+                            _this.$doc.off(".JDialog");
+                    }
+                });                      
+            }
         });
         //缩放
         if(options.resizable){
             //边框拖动改变大小
-            _this.currentDialog.find(".JDialog-dialog .JDialog-resizable-handle").off().mousedown(function(e){
+            _this.currentDialog.find(".JDialog-dialog .JDialog-resizable-handle").off(".JDialog").on("mousedown.JDialog",function(e){
                 var $this=$(this);
                 var classList=$this.attr("class");
                 var dir=classList.split(" ")[1].split("-")[2];
@@ -306,71 +312,74 @@
                 leftOffset = $this.parent(".JDialog-dialog").offset().left;
                 firstClickX=e.pageX;
                 modalDialogWidth=$this.parent(".JDialog-dialog").outerWidth();
-                _this.$doc.mousemove(function (e) { 
-                    if (dragging) {
-                        clickY = e.pageY;
-                        clickX = e.pageX;
-                        offsetX=clickX-firstClickX;
-                        offsetY=clickY-firstClickY;
-                        switch (dir) {
-                            //上边框
-                            case "n":
-                                var height=modalDialogHeight-offsetY;
-                                height=height<options.minHeight?options.minHeight:height;
-                                $this.parent(".JDialog-dialog").height(height+"px");
-                                $this.parents(".JDialog").css("top",topOffset+modalDialogHeight-height+"px");
-                                CalcModalDialogHeight(_this);
-                                break;
-                            //右边框
-                            case "e":
-                                var width=modalDialogWidth+offsetX;
-                                width=width<options.minWidth?options.minWidth:width;
-                                $this.parent(".JDialog-dialog").width(width+'px');
-                                break;
-                            //下边框
-                            case "s":
-                                var height=modalDialogHeight+offsetY;
-                                height=height<options.minHeight?options.minHeight:height;
-                                $this.parent(".JDialog-dialog").height(height + 'px');
-                                CalcModalDialogHeight(_this);
-                                break;
-                            //左边框
-                            case "w":
-                                var width=modalDialogWidth-offsetX;
-                                width=width<options.minWidth?options.minWidth:width;
-                                $this.parent(".JDialog-dialog").width(width+ 'px');
-                                $this.parents(".JDialog").css("left",leftOffset+(modalDialogWidth-width)+"px");
-                                break;
-                            //右下角
-                            case "se":
-                                var width=modalDialogWidth+offsetX;
-                                width=width<options.minWidth?options.minWidth:width;
-                                var height=modalDialogHeight+offsetY;
-                                height=height<options.minHeight?options.minHeight:height;
-                                $this.parent(".JDialog-dialog").width(width + 'px');
-                                $this.parent(".JDialog-dialog").height(height + 'px');
-                                CalcModalDialogHeight(_this);
-                                break;
-                            //左下角
-                            case "sw":
-                                var height=modalDialogHeight+offsetY;
-                                height=height<options.minHeight?options.minHeight:height;
-                                var width=modalDialogWidth-offsetX;
-                                width=width<options.minWidth?options.minWidth:width;
-                                $this.parent(".JDialog-dialog").width(width + 'px');
-                                $this.parent(".JDialog-dialog").height(height+ 'px');
-                                $this.parents(".JDialog").css("left",leftOffset+(modalDialogWidth-width)+"px");
-                                CalcModalDialogHeight(_this);
-                                break;
-                            default:
-                                break;
+                _this.$doc.on({
+                    "mousemove.JDialog":function (e) { 
+                        if (dragging) {
+                            clickY = e.pageY;
+                            clickX = e.pageX;
+                            offsetX=clickX-firstClickX;
+                            offsetY=clickY-firstClickY;
+                            switch (dir) {
+                                //上边框
+                                case "n":
+                                    var height=modalDialogHeight-offsetY;
+                                    height=height<options.minHeight?options.minHeight:height;
+                                    $this.parent(".JDialog-dialog").height(height+"px");
+                                    $this.parents(".JDialog").css("top",topOffset+modalDialogHeight-height+"px");
+                                    CalcModalDialogHeight(_this);
+                                    break;
+                                //右边框
+                                case "e":
+                                    var width=modalDialogWidth+offsetX;
+                                    width=width<options.minWidth?options.minWidth:width;
+                                    $this.parent(".JDialog-dialog").width(width+'px');
+                                    break;
+                                //下边框
+                                case "s":
+                                    var height=modalDialogHeight+offsetY;
+                                    height=height<options.minHeight?options.minHeight:height;
+                                    $this.parent(".JDialog-dialog").height(height + 'px');
+                                    CalcModalDialogHeight(_this);
+                                    break;
+                                //左边框
+                                case "w":
+                                    var width=modalDialogWidth-offsetX;
+                                    width=width<options.minWidth?options.minWidth:width;
+                                    $this.parent(".JDialog-dialog").width(width+ 'px');
+                                    $this.parents(".JDialog").css("left",leftOffset+(modalDialogWidth-width)+"px");
+                                    break;
+                                //右下角
+                                case "se":
+                                    var width=modalDialogWidth+offsetX;
+                                    width=width<options.minWidth?options.minWidth:width;
+                                    var height=modalDialogHeight+offsetY;
+                                    height=height<options.minHeight?options.minHeight:height;
+                                    $this.parent(".JDialog-dialog").width(width + 'px');
+                                    $this.parent(".JDialog-dialog").height(height + 'px');
+                                    CalcModalDialogHeight(_this);
+                                    break;
+                                //左下角
+                                case "sw":
+                                    var height=modalDialogHeight+offsetY;
+                                    height=height<options.minHeight?options.minHeight:height;
+                                    var width=modalDialogWidth-offsetX;
+                                    width=width<options.minWidth?options.minWidth:width;
+                                    $this.parent(".JDialog-dialog").width(width + 'px');
+                                    $this.parent(".JDialog-dialog").height(height+ 'px');
+                                    $this.parents(".JDialog").css("left",leftOffset+(modalDialogWidth-width)+"px");
+                                    CalcModalDialogHeight(_this);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
+                    },
+                    "mouseup.JDialog":function(e){
+                        dragging = false;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        _this.$doc.off(".JDialog");
                     }
-		        }).mouseup(function(e){
-                    dragging = false;
-                    e.preventDefault();
-                    e.stopPropagation();
-                    _this.$doc.off("mousemove mouseup");
                 });
             });
         }
@@ -382,14 +391,14 @@
     var BindEvent=function(_this){
         var options=_this.options;
         //对话框关闭按钮
-        _this.currentDialog.find("div.JDialog-content div.JDialog-header button.close").off("click").on("click",function(event){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-header button.close").off(".JDialog").on("click.JDialog",function(event){
             _this.hide();           
             if (options.close) {
                 typeof options.close === 'function' && options.close(event);
             }
         });
         //Footer btn
-        _this.currentDialog.find("div.JDialog-content div.JDialog-footer button").off("click").on("click",function(){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-footer button").off(".JDialog").on("click.JDialog",function(){
             var $targetel=$(this); 
             var dataIndex=$targetel.attr("data-index");
             var temp = $.grep(options.buttons, function(item, index) {
@@ -399,7 +408,7 @@
             temp[0].fn(this,event);
         });
         //ESC关闭对话框
-        _this.currentDialog.on("keydown",function(e){
+        _this.currentDialog.off(".JDialog").on("keydown.JDialog",function(e){
             if(options.closeOnEscape && e.keyCode==27){
                 _this.hide();           
                 if (options.close) {
@@ -409,7 +418,7 @@
         });
         var to;
         //菜单点击
-        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").off("click").on("click",function(){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").off("click.JDialog").on("click.JDialog",function(){
             var $targetel=$(this); 
             if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
                 return;
@@ -422,7 +431,7 @@
             temp[0].fn(this,event);
         });
         //子菜单点击
-        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list li.JDialog-submenu-item a").off("click").on("click",function(){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list li.JDialog-submenu-item a").off("click.JDialog").on("click.JDialog",function(){
             var $targetel=$(this); 
             _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hide();
             var dataIndex=$targetel.parents("li.JDialog-submenu-item").attr("data-index").split("-");
@@ -441,43 +450,49 @@
             temp[0].fn(this,event);
         });
         //子菜单显示
-        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").hover(function(){
-            var $targetel=$(this); 
-            _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hide();
-            if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
-                var menuItem=$targetel.parents("li.JDialog-menu-item");
-                var subMenuList=menuItem.find("ul.JDialog-submenu-list");
-                var subMenuItems=subMenuList.find("li.JDialog-submenu-item");
-                if(subMenuItems.length>0){
-                    to && (clearTimeout(to), to = !1);
-                    subMenuList.show();
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu a.btn").on({
+            "mouseenter.JDialog":function(){
+                var $targetel=$(this); 
+                _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hide();
+                if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
+                    var menuItem=$targetel.parents("li.JDialog-menu-item");
+                    var subMenuList=menuItem.find("ul.JDialog-submenu-list");
+                    var subMenuItems=subMenuList.find("li.JDialog-submenu-item");
+                    if(subMenuItems.length>0){
+                        to && (clearTimeout(to), to = !1);
+                        subMenuList.show();
+                    }
                 }
-            }
-        },function(){
-            var $targetel=$(this); 
-            if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
-                var menuItem=$targetel.parents("li.JDialog-menu-item");
-                var subMenuList=menuItem.find("ul.JDialog-submenu-list");
-                var subMenuItems=subMenuList.find("li.JDialog-submenu-item");
-                if(subMenuItems.length>0){
-                    to && (clearTimeout(to), to = !1);
-                    to = setTimeout(function () {
-                        subMenuList.hide();
-                    }, 300)
+            },
+            "mouseleave.JDialog":function(){
+                var $targetel=$(this); 
+                if($targetel.parents().is(".ddmenu") || ($targetel.parents().is(".sddmenu") && $targetel.children().is(".caret"))) {
+                    var menuItem=$targetel.parents("li.JDialog-menu-item");
+                    var subMenuList=menuItem.find("ul.JDialog-submenu-list");
+                    var subMenuItems=subMenuList.find("li.JDialog-submenu-item");
+                    if(subMenuItems.length>0){
+                        to && (clearTimeout(to), to = !1);
+                        to = setTimeout(function () {
+                            subMenuList.hide();
+                        }, 300)
+                    }
                 }
             }
         });
         //子菜单保持显示
-        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").hover(function(){
-            var $targetel=$(this); 
-            to && (clearTimeout(to), to = !1);
-            $targetel.show();         
-        },function(){
-            var $targetel=$(this); 
-            to && (clearTimeout(to), to = !1);
-            to = setTimeout(function () {
-                $targetel.hide();
-            }, 300)
+        _this.currentDialog.find("div.JDialog-content div.JDialog-menu ul.JDialog-submenu-list").on({
+            "mouseenter.JDialog":function(){
+                var $targetel=$(this); 
+                to && (clearTimeout(to), to = !1);
+                $targetel.show();         
+            },
+            "mouseleave.JDialog":function(){
+                var $targetel=$(this); 
+                to && (clearTimeout(to), to = !1);
+                to = setTimeout(function () {
+                    $targetel.hide();
+                }, 300)
+            }
         });
     }
     /**
