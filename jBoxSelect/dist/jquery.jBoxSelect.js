@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-20 17:40:23
+ * @Last Modified time: 2019-11-22 11:26:29
  */
 
 /** 
@@ -21,7 +21,8 @@
     }
     //配置参数
     JBoxSelect.Defaults = {
-        selectedFn:function(selectedElm){} //选中项回调函数，当选中每一项时触发该函数,selectedElm:当前选中的元素
+        selectedFn:function(selectedElm){},     //选中项回调函数，当选中每一项时触发该函数,selectedElm:当前选中的元素
+        unselectFn:function(unselectedElm){}    //非选择项回调函数，已选中的项再次选择时触发该函数，unselectedElm:当前非选中的元素
     }
     JBoxSelect.prototype.init=function(){
         var _this=this;
@@ -137,6 +138,7 @@
                 //!$thisEl.is(".select-item.unselecting-item") && $thisEl.addClass('selecting-item');
                 if($thisEl.is(".select-item.selected-item")){
                     $thisEl.removeClass('selected-item selecting-item').addClass("unselecting-item");
+                    typeof opts.unselectFn=="function" && opts.unselectFn($thisEl[0]);
                 }
                 else if(!$thisEl.is(".select-item.unselecting-item")){
                     $thisEl.addClass('selecting-item');

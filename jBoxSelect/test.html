@@ -76,7 +76,10 @@
     $(function(){
         $(".container").JBoxSelect({
             selectedFn:function(selectedElm){
-                console.log(selectedElm);
+                console.log("selected"+selectedElm);
+            },
+            unselectFn:function(unselectElm){
+                console.log("unselect"+unselectElm);
             }
         });
     })
