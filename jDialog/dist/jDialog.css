@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:25:22 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-20 14:48:51
+ * @Last Modified time: 2019-11-22 10:39:38
  */
 #Fun #btn .button {
   display: inline-block;
@@ -401,6 +401,7 @@ fieldset[disabled] .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-menu
   border-top-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
+  margin: 0 0 0 7px;
 }
 .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default {
   color: #333;
