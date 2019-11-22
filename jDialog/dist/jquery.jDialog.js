@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-21 10:14:39
+ * @Last Modified time: 2019-11-22 16:03:02
  */
 (function ($) {
     'use strict';
@@ -39,9 +39,16 @@
             fn:function(){}         //菜单函数，只当type为nmenu或sddmenu时有效且必填
         }],
         statusBar:[{                //状态栏
-            index:0,                //索引位置标识，将有程序获取数组的索引值生成位置标识
-            halign:"left",          //水平对齐，left/right
-            text:""                 //显示文本，使用方法updateStatusBar()更新文本，文本格式为"ab{0}c12{1}3"格式时，优先替换大括号{1,2,3,...}中的内容
+            halign:"left",          //水平对齐，left/right。
+            /** 
+             * 显示文本，使用方法updateStatusBar()更新文本内容
+             * 格式:("abc123" | "abc123{0}" | "abc123{0=initval}{1}{...}")
+             * 当文本格式为"abc123{0}"或"abc123{0=initval}{1}"时，updateStatusBar()将会优先替换大括号{0}{1}{...}中的内容，其中大括号{0=initval}等号后面的值将作为初始值。
+            */
+            text:"",                 
+            index:0,                //程序生成，索引位置标识，获取数组的索引值生成位置标识。
+            initValue:"",           //程序生成，初始值，根据显示文本text格式设置初始值。"abc123"格式初始值为"abc123","abc123{0}"格式初始值为"abc123","abc123{0=initval}"格式初始值为"abc123initval"。
+            initText:"",            //程序生成，初始文本，去除大括号{0=initval}等号后面的内容后的值                                    
         }],           
         buttons:[{                  //按钮
             text:"btn1",            //按钮显示文本
@@ -91,7 +98,6 @@
     }
     //更新状态栏数据
     JDialog.prototype.updateStatusBar=function(otherParams){    //otherParams参数格式[{index:0,text:[]}],index为状态栏的索引位置，text为更新的值，text优先更新大括号{0,1,2,3,...}中的内容
-        console.log(otherParams);
         var _this=this;
         var statusBar=_this.options.statusBar;
         var $statusbarElms=$("div.JDialog-statusbar ul.JDialog-statusbar-list li.JDialog-statusbar-item");
@@ -215,16 +221,14 @@
             if(leftStatusbar.length>0){
                 dialogHtml.push("<div class='JDialog-left-statusbar'><ul class='JDialog-statusbar-list'>");
                 $.each(leftStatusbar,function(index,item){
-                    var text=item.text.replace(/\{(\d+)\}/g,"");
-                    dialogHtml.push(StringFormat("<li class='JDialog-statusbar-item' data-index='{2}' data-origintext='{0}'><span>{1}</span></li>",item.text,text,item.index));
+                    dialogHtml.push(StringFormat("<li class='JDialog-statusbar-item' data-index='{2}' data-origintext='{0}'><span>{1}</span></li>",item.initText,item.initValue,item.index));
                 });
                 dialogHtml.push("</ul></div>");
             }
             if(rightStatusbar.length>0){
                 dialogHtml.push("<div class='JDialog-right-statusbar'><ul class='JDialog-statusbar-list'>");
                 $.each(rightStatusbar,function(index,item){
-                    var text=item.text.replace(/\{(\d+)\}/g,"");
-                    dialogHtml.push(StringFormat("<li class='JDialog-statusbar-item' data-index='{2}' data-origintext='{0}'><span>{1}</span></li>",item.text,text,item.index));
+                    dialogHtml.push(StringFormat("<li class='JDialog-statusbar-item' data-index='{2}' data-origintext='{0}'><span>{1}</span></li>",item.initText,item.initValue,item.index));
                 });
                 dialogHtml.push("</ul></div>");
             }
@@ -570,10 +574,24 @@
     }
     var initOptions=function(_this){
         var options=_this.options;
-
         if(options.statusBar.length>0){
             $.each(options.statusBar,function(index,item){
+                var initValue="",initText="";
+                var reg=/\{(\d+)(=([\u4e00-\u9fa5_a-zA-Z0-9]+))?\}/g;
+                if(reg.test(item.text)){
+                    initValue=item.text.replace(reg, function(matchText,placeholder,initVal,initValStr){
+                        return typeof initValStr=="undefined"?"":initValStr;
+                    });
+                    initText=item.text.replace(reg, function(matchText,placeholder,initVal,initValStr){
+                        return "{"+placeholder+"}";
+                    });
+                }
+                else{
+                    initValue=initText=item.text;
+                }
                 item.index=index;
+                item.initValue=initValue;
+                item.initText=initText;
             });
         }
     }

@@ -128,84 +128,84 @@
                 height:300,
                 closeOnEscape:false,
                 menus:[{
-                        text:"菜单一",   //必填。菜单显示文本
-                        type:"nmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
+                        text:"菜单一",   
+                        type:"nmenu", 
                         fn:function(){
                             alert("菜单一");
-                        }        //菜单函数，只当type为menu或sddmenu时有效且必填
+                        }        
                     },
                     {
-                        text:"菜单二",   //必填。菜单显示文本
-                        type:"nmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
+                        text:"菜单二",   
+                        type:"nmenu",    
                         fn:function(){
                             alert("菜单二");
-                        }        //菜单函数，只当type为menu或sddmenu时有效且必填
+                        }        
                     },
                     {
-                        text:"菜单三",   //必填。菜单显示文本
-                        type:"ddmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
-                        subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
-                            text:"子菜单一", //菜单显示文本
+                        text:"菜单三",   
+                        type:"ddmenu",   
+                        subMenus:[{         
+                            text:"子菜单一", 
                             fn:function(){
                                 alert("子菜单一");
-                            }        //菜单函数
+                            }        
                         },
-                        {         //子菜单。只当type为ddmenu或sddmenu时有效且必填
-                            text:"子菜单二", //菜单显示文本
+                        {         
+                            text:"子菜单二", 
                             fn:function(){
                                 alert("子菜单二");
-                            }        //菜单函数
+                            }        
                         },
-                        {         //子菜单。只当type为ddmenu或sddmenu时有效且必填
-                            text:"子菜单三", //菜单显示文本
+                        {         
+                            text:"子菜单三", 
                             fn:function(){
                                 alert("子菜单三");
-                            }        //菜单函数
+                            }        
                         }]
                     },
                     {
-                        text:"菜单四",   //必填。菜单显示文本
-                        type:"sddmenu",    //必填。菜单类型。menu/ddmenu/sddmenu(常规菜单/下拉菜单/分裂式下拉菜单)
-                        subMenus:[{         //子菜单。只当type为ddmenu或sddmenu时有效且必填
-                            text:"子菜单一", //菜单显示文本
+                        text:"菜单四",   
+                        type:"sddmenu",   
+                        subMenus:[{         
+                            text:"子菜单一", 
                             fn:function(){
                                 //alert("子菜单一");
                                 console.log("子菜单四一");
-                            }        //菜单函数
+                            }        
                         },
                         {
-                            text:"子菜单四二", //菜单显示文本
+                            text:"子菜单四二", 
                             fn:function(){
                                 //alert("子菜单一");
                                 console.log("子菜单四二");
-                            }        //菜单函数
+                            }        
                         }],
                         fn:function(){
                             alert("菜单四");
-                        }        //菜单函数，只当type为menu或sddmenu时有效且必填
+                        }        
                     }
                 ],
                 statusBar:[{
-                    halign:"left",
-                    text:"左状态栏1"
-                },
-                {
-                    halign:"left",
-                    text:"左状态栏2:{0}"
-                },
-                {
-                    halign:"right",
-                    text:"右状态栏1:{0}{1}"
-                },
-                {
-                    halign:"right",
-                    text:"右状态栏2:{0}"
-                },
-                {
-                    halign:"right",
-                    text:"成功下载2:{0}"
-                }
-            ],
+                        halign:"left",
+                        text:"左状态栏1"
+                    },
+                    {
+                        halign:"left",
+                        text:"左状态栏2:{0}"
+                    },
+                    {
+                        halign:"right",
+                        text:"右状态栏1:{0}{1}"
+                    },
+                    {
+                        halign:"right",
+                        text:"右状态栏2:{0=初始值1},{1=初始值2}"
+                    },
+                    {
+                        halign:"right",
+                        text:"右状态栏3:{0}right{1=初始值1}"
+                    }
+                ],
                 buttons:[
                     {
                         text:"销毁",
@@ -222,7 +222,7 @@
                                 {index:0,text:["一"]},
                                 {index:1,text:["二"]},
                                 {index:2,text:["三","三一"]},
-                                {index:3,text:["四"]}
+                                {index:3,text:["四","四一"]}
                             ]
                             $("#dia2").jDialog("updateStatusBar",s);
                         }
