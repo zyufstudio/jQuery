@@ -109,6 +109,8 @@
 			}
 		},
 		show: function() {
+			var e = $.Event('show.jPopBox');
+			this.$elm.trigger(e);
 			if (this.disabled || this.$tip.data('active'))
 				return;
 			this.reset();
@@ -116,6 +118,8 @@
 			if (!this.content)
 				return;
 			this.display();
+			var e = $.Event('shown.jPopBox');
+			this.$elm.trigger(e);
 		},
 		showDelayed: function() {
 			this.clearTimeouts();

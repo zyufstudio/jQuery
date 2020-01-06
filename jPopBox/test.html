@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="./dist/jPopBox.js"></script>
 </head>
+
 <body>
     <div style="margin-left: 300px;margin-top: 100px">
         <button id="ttck">上弹出框</button>
@@ -17,67 +19,104 @@
         <button id="btck">下弹出框</button>
     </div>
     <div style="margin-left: 300px;margin-top: 170px">
-            <button id="ltck">左弹出框</button>
-        </div>
-        <div style="margin-left: 300px;margin-top: 175px">
-            <button id="rtck">右弹出框</button>
-        </div>
-        <div style="margin-left: 300px;margin-top: 180px">
-                <input type="text" id='ftck' value="焦点弹出框">
-            </div>
+        <button id="ltck">左弹出框</button>
+    </div>
+    <div style="margin-left: 300px;margin-top: 175px">
+        <button id="rtck">右弹出框</button>
+    </div>
+    <div style="margin-left: 300px;margin-top: 180px">
+        <input type="text" id='ftck' value="焦点弹出框">
+    </div>
+
+    <div id="panel">
+        <table>
+            <tr>
+                <td>col12</td>
+                <td>col12</td>
+                <td>col12</td>
+                <td>col12</td>
+                <td>col12</td>
+                <td>col12</td>
+            </tr>
+            <tr>
+                <td>col13</td>
+                <td>col13</td>
+                <td>col13</td>
+                <td>col13</td>
+                <td>col13</td>
+                <td>col13</td>
+            </tr>
+        </table>
+    </div>
 </body>
+
 </html>
 <script>
-$(function(){
-    $('#ttck').jPopBox({
-        className: 'tip-white',
-        placement:"auto top",
-        trigger: 'click',
-        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+    $(function () {
+        $('#ttck').jPopBox({
+            className: 'tip-white',
+            placement: "auto top",
+            trigger: 'click',
+            content: $("#panel")
+        });
+        $('#ttck').on("show.jPopBox",function(){
+            console.log("showjpb");
+        });
+        $('#ttck').on("shown.jPopBox",function(){
+            console.log("shownnnjpb");
+        });
+        // $('#ttck').click(function(){
+        //     $('#ttck').jPopBox('show');
+        // });
+        $('#btck').jPopBox({
+            title: "titlebottom",
+            className: 'tip-white',
+            placement: "bottom",
+            trigger: 'none',
+            content: "底部的 Popover 中的一些内容"
+        });
+        $('#btck').click(function () {
+            $('#btck').jPopBox('show');
+        });
+        $('#ltck').jPopBox({
+            title: "Popover title",
+            className: 'tip-white',
+            placement: "left",
+            trigger: 'none',
+            isShowArrow: false,
+            offset: {
+                X: 0,
+                Y: 100
+            },
+            content: "<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+        });
+        $('#ltck').click(function () {
+            $('#ltck').jPopBox('show');
+        });
+        $('#rtck').jPopBox({
+            className: 'tip-white',
+            placement: "right",
+            trigger: 'hover',
+            delay: {
+                show: 100,
+                hide: 500
+            },
+            isTipHover: true,
+            content: "<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+        });
+        // $('#rtck').click(function(){
+        //     $('#rtck').jPopBox('show');
+        // });
+        $('#ftck').jPopBox({
+            className: 'tip-white',
+            placement: "right",
+            trigger: 'focus',
+            delay: {
+                show: 100,
+                hide: 500
+            },
+            isTipHover: true,
+            content: "<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
+        });
     });
-    // $('#ttck').click(function(){
-    //     $('#ttck').jPopBox('show');
-    // });
-    $('#btck').jPopBox({
-        title:"titlebottom",
-        className: 'tip-white',
-        placement:"bottom",
-        trigger: 'none',
-        content:"底部的 Popover 中的一些内容"
-    });
-    $('#btck').click(function(){
-        $('#btck').jPopBox('show');
-    });
-    $('#ltck').jPopBox({
-        title:"Popover title",
-        className: 'tip-white',
-        placement:"left",
-        trigger: 'none',
-        isShowArrow:false,
-        offset:{X:0,Y:100},
-        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
-    });
-    $('#ltck').click(function(){
-        $('#ltck').jPopBox('show');
-    });
-    $('#rtck').jPopBox({
-        className: 'tip-white',
-        placement:"right",
-        trigger: 'hover',
-        delay:{show:100,hide:500},
-        isTipHover:true,
-        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
-    });
-    // $('#rtck').click(function(){
-    //     $('#rtck').jPopBox('show');
-    // });
-    $('#ftck').jPopBox({
-        className: 'tip-white',
-        placement:"right",
-        trigger: 'focus',
-        delay:{show:100,hide:500},
-        isTipHover:true,
-        content:"<table><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr><tr><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td><td>col1</td></tr></table>"
-    });
-});
 </script>
