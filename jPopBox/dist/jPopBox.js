@@ -13,16 +13,16 @@
         var popBoxHtml=[];
         popBoxHtml.push('<div class="'+this.opts.className+'">');
         if(this.opts.title!=""){
-            popBoxHtml.push('<div class="tip-title">'+this.opts.title+'</div>');
+            popBoxHtml.push('<div class="JPopBox-tip-title">'+this.opts.title+'</div>');
         }
         if(this.opts.isShowArrow){
-            popBoxHtml.push('<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left" style="visibility:inherit"></div>');
+            popBoxHtml.push('<div class="JPopBox-tip-arrow JPopBox-tip-arrow-top JPopBox-tip-arrow-right JPopBox-tip-arrow-bottom JPopBox-tip-arrow-left" style="visibility:inherit"></div>');
         }
-        popBoxHtml.push('<div class="tip-content"></div>'),
+        popBoxHtml.push('<div class="JPopBox-tip-content"></div>'),
         popBoxHtml.push('</div>');
         this.$tip = $(popBoxHtml.join('')).appendTo(document.body);
-		this.$arrow = this.$tip.find('div.tip-arrow');
-        this.$inner = this.$tip.find('div.tip-content');
+		this.$arrow = this.$tip.find('div.JPopBox-tip-arrow');
+        this.$inner = this.$tip.find('div.JPopBox-tip-content');
         this.disabled = false;
 		this.content = null;
 		this.init();
@@ -137,7 +137,7 @@
 		reset: function() {
 			this.$tip.queue([]).detach().css('visibility', 'hidden').data('active', false);
 			this.$inner.find('*').jPopBox('hide');
-			this.$arrow.length && (this.$arrow[0].className = 'tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left');
+			this.$arrow.length && (this.$arrow[0].className = 'JPopBox-tip-arrow JPopBox-tip-arrow-top JPopBox-tip-arrow-right JPopBox-tip-arrow-bottom JPopBox-tip-arrow-left');
 			this.asyncAnimating = false;
 		},
 		update: function(content, dontOverwriteOption) {
@@ -323,7 +323,7 @@
             var arrowOuteWH={};
             var W=0,H=0;
             if(this.$arrow.length){
-                this.$arrow.attr("class", "tip-arrow tip-arrow-" + placement);
+                this.$arrow.attr("class", "JPopBox-tip-arrow JPopBox-tip-arrow-" + placement);
                 W = this.$arrow.outerWidth();
                 H = this.$arrow.outerHeight();
             }
@@ -353,7 +353,7 @@
 		if (!$('#jPopBox-css-' + opts.className)[0])
 			$(['<style id="jPopBox-css-',opts.className,'" type="text/css">',
 				'div.',opts.className,'{visibility:hidden;position:absolute;top:0;left:0;}',
-				'div.',opts.className,' div.tip-arrow{visibility:hidden;position:absolute;font:1px/1px sans-serif;}',
+				'div.',opts.className,' div.JPopBox-tip-arrow{visibility:hidden;position:absolute;font:1px/1px sans-serif;}',
 			'</style>'].join('')).appendTo('head');
     
 		return this.each(function() {
@@ -365,7 +365,7 @@
 	$.fn.jPopBox.defaults = {
         title:'',                   // 标题
 		content:'',	                // 弹出框内容 ('string', element, function(updateCallback){...})
-        className:'tip-white',	    // class名称
+        className:'JPopBox-tip-white',	    // class名称
         placement:'top',            // 如何定位弹出框 (top|bottom|left|right|auto)。当指定为 auto 时，会动态调整弹出框。例如，如果 placement 是 "auto left"，弹出框将会尽可能显示在左边，在情况不允许的情况下它才会显示在右边
         delay:100,                  // 延迟显示和隐藏弹出框的毫秒数,对 trigger:none 手动触发类型不适用。如果提供的是一个数字，那么延迟将会应用于显示和隐藏。如果提供的是一个对象{ show: 500, hide: 100 }，那么延迟将会分别应用于显示和隐藏
 		trigger:'hover',	        // 如何触发弹出框 ('click',hover', 'focus', 'none'),none为手动触发
