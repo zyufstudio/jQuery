@@ -2,7 +2,7 @@
  * @Author: johnny 
  * @Date: 2018-09-25 14:16:17 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-11-15 17:01:14
+ * @Last Modified time: 2020-01-08 16:15:23
  */
 
 /**
@@ -170,6 +170,18 @@
         this.getPageIndex = function () {
             return opts.pageIndex;
         };
+        /**
+         * 刷新分页
+         * @param {number} pageIndex 页码
+         * @param {number} pageSize 每页显示的条数
+         * @param {number} totalData 数据总条数
+         */
+        this.refresh=function(pageIndex,pageSize,totalData){
+            self.setPageIndex(pageIndex);
+            self.setPageSize(pageSize);
+            self.setTotalData(totalData);
+            self.init();
+        }
         //开始页码和结束页码，控制生成页码的数量
         var getPages=function(){
             var startPage = 1;
