@@ -109,8 +109,7 @@
 			}
 		},
 		show: function() {
-			var e = $.Event('show.jPopBox');
-			this.$elm.trigger(e);
+			this.$elm.trigger($.Event('show.jPopBox'));
 			if (this.disabled || this.$tip.data('active'))
 				return;
 			this.reset();
@@ -118,17 +117,18 @@
 			if (!this.content)
 				return;
 			this.display();
-			var e = $.Event('shown.jPopBox');
-			this.$elm.trigger(e);
+			this.$elm.trigger($.Event('shown.jPopBox'));
 		},
 		showDelayed: function() {
 			this.clearTimeouts();
 			this.showTimeout = setTimeout($.proxy(this.show, this), this.opts.delay.show);
 		},
 		hide: function() {
+			this.$elm.trigger($.Event('hide.jPopBox'));
 			if (this.disabled || !this.$tip.data('active'))
 				return;
 			this.display(true);
+			this.$elm.trigger($.Event('hidden.jPopBox'));
 		},
 		hideDelayed: function() {
 			this.clearTimeouts();
