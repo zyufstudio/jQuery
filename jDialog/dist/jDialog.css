@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:25:22 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-12-04 11:55:25
+ * @Last Modified time: 2020-02-27 09:50:46
  */
 #Fun #btn .button {
   display: inline-block;
@@ -143,15 +143,31 @@
   padding: 5px;
   border-bottom: 1px solid #e5e5e5;
 }
-.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-title {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-left-header {
+  float: left;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-left-header > .JDialog-title {
   margin: 0;
   padding-left: 5px;
   line-height: 1.42857143;
   text-align: left;
   font-size: 16px;
 }
-.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .close {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header {
   float: right;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item {
+  display: inline-block;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item:not(:last-child) {
+  padding-right: 10px;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item button {
   padding: 0;
   background: 0 0;
   border: 0;
@@ -165,8 +181,23 @@
   opacity: 0.5;
   -webkit-appearance: none;
 }
-.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .close:hover {
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item button:focus {
+  outline: none;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item button:hover {
   opacity: 0.7;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item > .JDialog-scaling {
+  width: 14px;
+  height: 14px;
+  background-size: 14px 14px;
+  background-repeat: no-repeat;
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item > .JDialog-scaling.JDialog-maximize {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAqklEQVRoQ+3ZMQ6DMBQEUbj/oZMOkVSgJwxGQ79r/5lP5XWZ/Fsnv//yugE+kxjZwP8baIBBBg8ZeNr/sd+OBhi0KT/HZOAO6vszM5ABJNAKIUCOZ4ARYkEGECDHM8AIsSADCJDjGWCEWJABBMjxDDBCLMgAAuR4BhghFmQAAXI8A4wQCzKAADmeAUaIBacN4HmXxg+9kV16Ayx/7wAIZnz8aW/BpwlMP8AXzX9OMf3/bOMAAAAASUVORK5CYII=");
+}
+.JDialog > .JDialog-dialog > .JDialog-content > .JDialog-header > .JDialog-right-header .JDialog-header-buttons > .JDialog-header-button-item > .JDialog-scaling.JDialog-restore {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAwCAYAAABT9ym6AAAA9UlEQVRoQ+2aYQ6CMAyFy8nUkyknE0+mmaGm1skWMqCBb38IGel4fe+tC6WT/+M5MRdtauiOBmSIRsH4PufxWs3IRUSigbmKyA0ggSS2b0bUNDbhd3OTPLL18B7NMhK9ZiRT9y6TANlSWrMYieCHlDTr0dlAIhQ/61uAwEjDHQFpaTKjnHRhBEYaGtyGQlpIC2lNZwCP4BE8gkfeGSh+fODQ2NgrbL9sv40lpeGQFtJCWget7A+H+5TrIdodImpl18ZnjsdPVxcgCxk9hfV1ZDeM+NbbVw71Fw4vrQUTXR261OgpAqleacUHc40egKxIwM9SRUZeitrlRsqA6vIAAAAASUVORK5CYII=");
 }
 .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-menu {
   padding: 3px 5px;
@@ -250,6 +281,7 @@
   color: #333;
   background-color: #e6e6e6;
   border-color: #8c8c8c;
+  outline: none;
 }
 .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-menu .JDialog-menu-list .JDialog-menu-item .btn.btn-default:hover {
   color: #333;
@@ -414,6 +446,7 @@ fieldset[disabled] .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-menu
   color: #333;
   background-color: #e6e6e6;
   border-color: #8c8c8c;
+  outline: none;
 }
 .JDialog > .JDialog-dialog > .JDialog-content > .JDialog-footer > .btn.btn-default:hover {
   color: #333;

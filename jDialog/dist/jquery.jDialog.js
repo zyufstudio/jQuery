@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2020-01-03 17:07:29
+ * @Last Modified time: 2020-02-28 11:59:05
  */
 (function ($) {
     'use strict';
@@ -28,6 +28,7 @@
         minHeight:150,      //最小高度
         closeOnEscape:true, //对话框有焦点时，按下ESC键是否关闭对话框
         resizable:true,     //是否允许拖拽缩放窗体大小
+        draggable:true,     //是否允许拖拽改变位置
         autoOpen:true,      //对话框在初始化时自动打开。如果为 false时，对话框将会继续隐藏直到调用show()方法
         menus:[{
             text:"munu1",           //必填。菜单显示文本
@@ -154,10 +155,21 @@
         
         //Dialog Header
         dialogHtml.push("<div class='JDialog-header'>");
-        //Close btn
-        dialogHtml.push("<button type='button' class='close'><span>×</span></button>");
+        dialogHtml.push("<div class='JDialog-left-header'>");
         //Dialog Title
         dialogHtml.push(StringFormat("<h4 class='JDialog-title'>{0}</h4>",options.title));
+        dialogHtml.push("</div>");
+
+        dialogHtml.push("<div class='JDialog-right-header'>");
+        dialogHtml.push("<ul class='JDialog-header-buttons'>");
+        //Scale btn
+        dialogHtml.push("<li class='JDialog-header-button-item'><button type='button' class='JDialog-scaling JDialog-maximize'></button></li>");
+        //Close btn
+        dialogHtml.push("<li class='JDialog-header-button-item'><button type='button' class='close'><span>×</span></button></li>");
+        dialogHtml.push("</ul>")
+        dialogHtml.push("</div>");
+        
+        dialogHtml.push("<div style='clear:both;'></div>");
         dialogHtml.push("</div>");
 
         //Dialog menu
@@ -281,29 +293,36 @@
     var Interactions=function(_this){
         var options=_this.options;
         //对话框拖拽
-        _this.currentDialog.find(".JDialog-header").off(".JDialog").on({
-            "mouseover.JDialog":function(){
-                $(this).css("cursor","move");
-            },
-            "mousedown.JDialog":function(e){
-                var move = true; 
-                var x = e.pageX - $(this).parent().offset().left;
-                var y = e.pageY - $(this).parent().offset().top; 
-                _this.$doc.on({
-                    "mousemove.JDialog":function(e){
-                        if (move) { 
-                            _this.currentDialog.offset({left:e.pageX - x, top:e.pageY - y}); 	
-                        } 
-                    },
-                    "mouseup.JDialog":function(){
-                        move = false;
-                            _this.$doc.off(".JDialog");
-                    }
-                });                      
-            }
-        });
+        if(options.draggable){
+            _this.currentDialog.find(".JDialog-header").off(".JDialog").on({
+                "mouseover.JDialog":function(){
+                    $(this).css("cursor","move");
+                },
+                "mousedown.JDialog":function(e){
+                    var move = true; 
+                    var x = e.pageX - $(this).parent().offset().left;
+                    var y = e.pageY - $(this).parent().offset().top; 
+                    _this.$doc.on({
+                        "mousemove.JDialog":function(e){
+                            if (move) { 
+                                _this.currentDialog.offset({left:e.pageX - x, top:e.pageY - y}); 	
+                            } 
+                        },
+                        "mouseup.JDialog":function(){
+                            move = false;
+                                _this.$doc.off(".JDialog");
+                        }
+                    });                      
+                }
+            });
+        }
+        else{
+            _this.$doc.off(".JDialog");
+            _this.currentDialog.find(".JDialog-header").off(".JDialog").css("cursor","default");
+        }
         //缩放
         if(options.resizable){
+            _this.currentDialog.find(".JDialog-dialog .JDialog-resizable-handle").show();
             //边框拖动改变大小
             _this.currentDialog.find(".JDialog-dialog .JDialog-resizable-handle").off(".JDialog").on("mousedown.JDialog",function(e){
                 var $this=$(this);
@@ -388,6 +407,10 @@
                 });
             });
         }
+        else{
+            _this.$doc.off(".JDialog");
+            _this.currentDialog.find(".JDialog-dialog .JDialog-resizable-handle").hide().off(".JDialog");
+        }
     }
     /**
      * 事件绑定
@@ -395,11 +418,46 @@
      */
     var BindEvent=function(_this){
         var options=_this.options;
+        var initOptionsResizable=options.resizable;
+        var initOptionsDraggable=options.draggable;
         //对话框关闭按钮
-        _this.currentDialog.find("div.JDialog-content div.JDialog-header button.close").off(".JDialog").on("click.JDialog",function(event){
+        _this.currentDialog.find("div.JDialog-content div.JDialog-header ul.JDialog-header-buttons button.close").off(".JDialog").on("click.JDialog",function(event){
             _this.hide();           
             if (options.close) {
                 typeof options.close === 'function' && options.close(event);
+            }
+        });
+        //对话框缩放按钮
+        _this.currentDialog.find("div.JDialog-content div.JDialog-header ul.JDialog-header-buttons button.JDialog-scaling").off(".JDialog").on("click.JDialog",function(event){
+            var $JDialog_scaling=$(this);
+            var options=_this.options;
+            //最大化
+            if($JDialog_scaling.hasClass("JDialog-maximize")){
+                var $win=$(window);
+                $JDialog_scaling.removeClass("JDialog-maximize").addClass("JDialog-restore");
+                if(initOptionsResizable)
+                    options.resizable=false;
+                if(initOptionsDraggable)
+                    options.draggable=false;
+                var area=DialogRecord(_this);
+                $JDialog_scaling.attr("data-area",area);
+                _this.currentDialog.offset({left:0, top:0}); 
+                _this.currentDialog.children(".JDialog-dialog").width($win.width()).height($win.height()-3);
+                CalcModalDialogHeight(_this);
+                Interactions(_this);
+            }
+            //还原
+            else if($JDialog_scaling.hasClass("JDialog-restore")){
+                $JDialog_scaling.removeClass("JDialog-restore").addClass("JDialog-maximize");
+                if(initOptionsResizable)
+                    options.resizable=true;
+                if(initOptionsDraggable)
+                    options.draggable=true;
+                var area=$JDialog_scaling.attr("data-area").split(',');
+                _this.currentDialog.offset({left:area[3], top:area[2]}); 
+                _this.currentDialog.children(".JDialog-dialog").width(area[0]).height(area[1]);
+                CalcModalDialogHeight(_this);
+                Interactions(_this);
             }
         });
         //Footer btn
@@ -515,6 +573,20 @@
         //console.log("modal_dialog_height:"+modal_dialog_height+",modal_body_padding_height:"+modal_body_padding_height+",modal_header_outer_height:"+modal_header_outer_height+",modal_footer_outer_height:"+modal_footer_outer_height);
         var modal_body_height=(modal_dialog_height-modal_body_padding_height-modal_header_outer_height-modal_menu_outer_height-modal_statusbar_outer_height-modal_footer_outer_height).toString()+"px";
         _this.currentDialog.find(".JDialog-body").height(modal_body_height); 
+    }
+    /**
+     * 记录当前对话框的宽度，高度，位置。
+     * @param {*} _this
+     */
+    var DialogRecord=function(_this){
+        var $JDialog_dialog=_this.currentDialog.find(".JDialog-dialog");
+        var top,left,width,height;
+        height=$JDialog_dialog.height();
+        width=$JDialog_dialog.width();
+        top=$JDialog_dialog.offset().top;;
+        left=$JDialog_dialog.offset().left;
+        var area=[width,height,top,left];
+        return area;
     }
     function Plugin(option,otherParams) {
         return this.each(function () {

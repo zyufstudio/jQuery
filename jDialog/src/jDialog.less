@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:25:22 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2019-12-04 11:55:25
+ * @Last Modified time: 2020-02-27 09:50:46
  */
 
 #Fun{
@@ -68,6 +68,7 @@
                 color: @color;
                 background-color: darken(@background, 10%);
                 border-color: darken(@border, 25%);
+                outline:none;
             }
             &:hover {
                 color: @color;
@@ -230,31 +231,65 @@
             >.JDialog-header {
                 padding: 5px;
                 border-bottom: 1px solid @JDialog-split-line-color;
-                >.JDialog-title{
-                    margin: 0;
-                    padding-left:5px; 
-                    line-height: 1.42857143;
-                    text-align: left;
-                    font-size: 16px;
-                }
-                >.close{
-                    float: right;
-                    padding: 0;
-                    background: 0 0;
-                    border: 0;
-                    cursor: pointer;
-                    font-size: 21px;
-                    font-weight: 700;
-                    line-height: 1;
-                    color: #000;
-                    text-shadow: 0 1px 0 #fff;
-                    filter: alpha(opacity=20);
-                    opacity: 0.5;
-                    -webkit-appearance: none;
-                    &:hover{
-                        opacity: 0.7;
+                >.JDialog-left-header{
+                    float: left;
+                    >.JDialog-title{
+                        margin: 0;
+                        padding-left:5px; 
+                        line-height: 1.42857143;
+                        text-align: left;
+                        font-size: 16px;
                     }
                 }
+                >.JDialog-right-header{
+                    float: right;
+                    .JDialog-header-buttons{
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;
+                        >.JDialog-header-button-item{
+                            display: inline-block;
+                            &:not(:last-child){
+                                padding-right: 10px;
+                            }
+                            button{
+                                padding: 0;
+                                background: 0 0;
+                                border: 0;
+                                cursor: pointer;
+                                font-size: 21px;
+                                font-weight: 700;
+                                line-height: 1;
+                                color: #000;
+                                text-shadow: 0 1px 0 #fff;
+                                filter: alpha(opacity=20);
+                                opacity: 0.5;
+                                -webkit-appearance: none;
+                                &:focus{
+                                    outline:none;
+                                }
+                                &:hover{
+                                    opacity: 0.7;
+                                }
+                            }
+                            >.JDialog-scaling{
+                                width: 14px;
+                                height: 14px;
+                                background-size: 14px 14px;
+                                background-repeat:no-repeat;
+                                &.JDialog-maximize{
+                                    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAqklEQVRoQ+3ZMQ6DMBQEUbj/oZMOkVSgJwxGQ79r/5lP5XWZ/Fsnv//yugE+kxjZwP8baIBBBg8ZeNr/sd+OBhi0KT/HZOAO6vszM5ABJNAKIUCOZ4ARYkEGECDHM8AIsSADCJDjGWCEWJABBMjxDDBCLMgAAuR4BhghFmQAAXI8A4wQCzKAADmeAUaIBacN4HmXxg+9kV16Ayx/7wAIZnz8aW/BpwlMP8AXzX9OMf3/bOMAAAAASUVORK5CYII=");
+                                }
+                                &.JDialog-restore{
+                                    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAwCAYAAABT9ym6AAAA9UlEQVRoQ+2aYQ6CMAyFy8nUkyknE0+mmaGm1skWMqCBb38IGel4fe+tC6WT/+M5MRdtauiOBmSIRsH4PufxWs3IRUSigbmKyA0ggSS2b0bUNDbhd3OTPLL18B7NMhK9ZiRT9y6TANlSWrMYieCHlDTr0dlAIhQ/61uAwEjDHQFpaTKjnHRhBEYaGtyGQlpIC2lNZwCP4BE8gkfeGSh+fODQ2NgrbL9sv40lpeGQFtJCWget7A+H+5TrIdodImpl18ZnjsdPVxcgCxk9hfV1ZDeM+NbbVw71Fw4vrQUTXR261OgpAqleacUHc40egKxIwM9SRUZeitrlRsqA6vIAAAAASUVORK5CYII=");
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+
             }
             >.JDialog-menu{
                 padding: 3px 5px;
