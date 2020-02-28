@@ -2,7 +2,7 @@
  * @Author: JohnnyLi 
  * @Date: 2019-07-01 17:24:54 
  * @Last Modified by: JohnnyLi
- * @Last Modified time: 2020-02-28 11:59:05
+ * @Last Modified time: 2020-02-28 15:40:07
  */
 (function ($) {
     'use strict';
@@ -441,7 +441,7 @@
                     options.draggable=false;
                 var area=DialogRecord(_this);
                 $JDialog_scaling.attr("data-area",area);
-                _this.currentDialog.offset({left:0, top:0}); 
+                _this.currentDialog.offset({left:$win.scrollLeft(), top: $win.scrollTop()}); 
                 _this.currentDialog.children(".JDialog-dialog").width($win.width()).height($win.height()-3);
                 CalcModalDialogHeight(_this);
                 Interactions(_this);
