@@ -40,7 +40,7 @@
             if (options.delay && typeof options.delay == 'number') {
                 options.delay = {
                     show: options.delay,
-                    hide: options.delay
+					hide: options.delay
                 }
             }
             if (typeof options.offset == 'number') {
@@ -119,9 +119,9 @@
 			this.display();
 			this.$elm.trigger($.Event('shown.jPopBox'));
 		},
-		showDelayed: function() {
+		showDelayed: function(timeout) {
 			this.clearTimeouts();
-			this.showTimeout = setTimeout($.proxy(this.show, this), this.opts.delay.show);
+			this.showTimeout = setTimeout($.proxy(this.show, this), typeof timeout == 'number' ? timeout:this.opts.delay.show);
 		},
 		hide: function() {
 			this.$elm.trigger($.Event('hide.jPopBox'));
@@ -130,9 +130,9 @@
 			this.display(true);
 			this.$elm.trigger($.Event('hidden.jPopBox'));
 		},
-		hideDelayed: function() {
+		hideDelayed: function(timeout) {
 			this.clearTimeouts();
-			this.hideTimeout = setTimeout($.proxy(this.hide, this),this.opts.delay.hide);
+			this.hideTimeout = setTimeout($.proxy(this.hide, this),typeof timeout == 'number' ? timeout :this.opts.delay.hide);
 		},
 		reset: function() {
 			this.$tip.queue([]).detach().css('visibility', 'hidden').data('active', false);

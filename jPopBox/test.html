@@ -17,9 +17,11 @@
     </div>
     <div style="margin-left: 300px;margin-top: 150px">
         <button id="btck">下弹出框</button>
+        <!-- <button id="xhbtck">销毁下弹出框</button> -->
     </div>
     <div style="margin-left: 300px;margin-top: 170px">
         <button id="ltck">左弹出框</button>
+        <button id="ycbtck">隐藏下弹出框</button>
     </div>
     <div style="margin-left: 300px;margin-top: 175px">
         <button id="rtck">右弹出框</button>
@@ -81,6 +83,10 @@
         $('#btck').click(function () {
             $('#btck').jPopBox('show');
         });
+        /*
+        $('#xhbtck').click(function () {
+            $('#btck').jPopBox('destroyDelayed',1000);
+        });*/
         $('#ltck').jPopBox({
             title: "Popover title",
             className: 'JPopBox-tip-white',
@@ -95,6 +101,9 @@
         });
         $('#ltck').click(function () {
             $('#ltck').jPopBox('show');
+        });
+        $('#ycbtck').click(function () {
+            $('#ltck').jPopBox('hideDelayed');
         });
         $('#rtck').jPopBox({
             className: 'JPopBox-tip-white',
